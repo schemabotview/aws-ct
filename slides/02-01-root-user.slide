@@ -11,15 +11,10 @@ Owns the account, has **full access**, and **no policy can take it away** — no
 - Change account **email** / root password
 - **Close** the account
 - Restore admin access after a lockout
-- Reserved Instance Marketplace seller sign-up
-- A few **billing** settings
+- A few **billing** + Marketplace seller tasks
 
 ## Root hygiene — non-negotiable
 
-- Long, unique **password**
-- **Hardware MFA** on
-- **Never** issue root access keys
-- Store credentials physically safe
+- **Hardware MFA** on; **never** issue root access keys
+- Long, unique password, stored physically safe
 - Then **leave it alone**
-
-Everything else in this module exists so you never *need* root again.

@@ -51,7 +51,7 @@ Structure drafted — `README.md` holds the full **14-module / 148-section spine
 - **01 — Cloud & AWS Foundations (10)** → `aws-global` scene.
 - **02 — IAM, Organizations & Account Security (11)** → `aws-iam` scene.
 
-Sections were authored **one trio at a time** (notebook → slide → tts), not batch-generated, so each gets full depth and the slide fills the right pane (see the `slide-authoring-depth` preference). Not pushed.
+Sections were authored **one trio at a time** (notebook → slide → tts), not batch-generated, so each gets full depth and the slide fills the right pane (see the `slide-authoring-depth` preference). **Pushed** to `github.com/schemabotview/aws-ct` (public).
 
 **Pending:** (1) generate `audio/NN-*.wav` from the `.tts` via Colab; (2) **port the `aws-global` + `aws-iam` scenes into the graphl-movie app** (`src/scenes/`, register in `scenes/index.ts`) — they currently live only in `../graphl-ux/src/scenes/`, so the app can't render these modules until they're ported.
 
