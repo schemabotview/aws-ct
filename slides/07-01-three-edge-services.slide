@@ -1,0 +1,17 @@
+# Three edge services, one job
+
+Every request starts with a **DNS lookup**, then bytes travel to your origin over a fixed speed of light. Three edge services attack **three layers** — all "get the user to the right endpoint, **fast**."
+
+## Route 53 — DNS
+
+Authoritative **DNS**: answers lookups, decides **which endpoint** (routing policies + health checks).
+
+## CloudFront — CDN
+
+Hundreds of edges **cache** content close to users, absorb origin load, terminate **TLS** at the edge. HTTP(S) only.
+
+## Global Accelerator — backbone
+
+**No cache** — gets **TCP/UDP** traffic onto **AWS's backbone** at the nearest edge. **Static IPs**, network-speed failover.
+
+**Layers:** DNS · caching · backbone → then a decision matrix.

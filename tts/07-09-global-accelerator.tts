@@ -1,0 +1,7 @@
+Global Accelerator.
+
+Global Accelerator is the third leg of the edge story. It caches nothing. Instead, it gets user traffic onto AWS's private backbone at the nearest edge location and carries it across AWS infrastructure to the application, giving less variability, fewer hops, and more predictable latency than the public-internet path.
+
+The user-facing surface is two static Anycast I-P-v-four addresses, or you can bring your own. Anycast means the same I-P is announced from many edge locations, so a user's request lands at whichever edge is closest; from there, AWS routes the traffic across its backbone to the healthy endpoint with the lowest latency. Two static I-Ps that never change is a powerful property: clients can hardcode them, firewalls can allowlist them, and failover happens at the network layer, without waiting on any D-N-S T-T-L.
+
+It routes to A-L-Bs, N-L-Bs, E-C-2 instances, and Elastic I-Ps, organised into endpoint groups, one per region, each with a traffic dial from zero to a hundred percent that controls its share of traffic; turn it to zero to drain a region during a deployment or incident. Within a group, endpoint weights distribute traffic and built-in health checks remove unhealthy endpoints. Client I-P preservation keeps the original client I-P for A-L-B and E-C-2 endpoints. The whole point is static I-Ps, second-scale failover, and a private backbone path for any T-C-P or U-D-P workload: gaming, VoIP, I-o-T, and non-H-T-T-P A-P-Is.

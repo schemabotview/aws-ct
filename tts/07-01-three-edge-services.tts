@@ -1,0 +1,7 @@
+Three edge services, one job.
+
+Every request starts with a D-N-S lookup. The browser turns a hostname into an I-P before it can connect. And the bytes then have to travel from the user to your origin and back, over a fixed speed of light. AWS's three edge services each attack a different layer of that path, all answering some version of "get the user to the right endpoint, fast".
+
+Route 53 is AWS's authoritative D-N-S. It answers name lookups for the domains you host and decides which endpoint a request lands on, using routing policies and health checks. CloudFront is the C-D-N. It runs hundreds of edge locations that cache content close to users, absorb load off the origin, and terminate T-L-S at the edge. And Global Accelerator is the third leg. It caches nothing; instead, it gets non-H-T-T-P traffic, meaning any T-C-P or U-D-P, onto AWS's private backbone at the nearest edge, and carries it across AWS infrastructure, with static I-Ps and network-speed failover.
+
+So there are three services for three layers of the user-to-app path: D-N-S resolution with Route 53, application-layer caching with CloudFront, and network-layer backbone routing with Global Accelerator. This module walks each one, and then closes with a decision matrix.

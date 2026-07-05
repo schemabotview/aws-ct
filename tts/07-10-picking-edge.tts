@@ -1,0 +1,7 @@
+Picking the right edge service.
+
+All three services sit at the edge, but they answer different questions. Sort them by layer: D-N-S resolution, application-layer caching, or network-layer backbone routing. To resolve a hostname and control which endpoint receives traffic by weight, geography, latency, or health, that's Route 53. To cache H-T-T-P and H-T-T-P-S content close to users, for static sites, media, and websites with a high cache-hit ratio, that's CloudFront. And to get non-H-T-T-P traffic, meaning any T-C-P or U-D-P, onto AWS's backbone fast, with static I-Ps and near-instant failover, that's Global Accelerator.
+
+Two sharper splits are worth internalising. CloudFront versus Global Accelerator: CloudFront caches and is H-T-T-P-only, with D-N-S-speed failover in minutes and changing I-Ps; Global Accelerator doesn't cache, handles any T-C-P or U-D-P, fails over at network-speed in seconds, and gives you static I-Ps, which is why it's the standard answer for gaming, VoIP, and I-o-T. And Route 53 latency routing versus Global Accelerator: both send users to the lowest-latency region, but Route 53 does it via D-N-S, after which the user rides the public internet, while Global Accelerator does it via Anycast at the network layer, so the user lands on the AWS backbone at the nearest edge and fails over faster.
+
+Framed by D-N-S versus cache versus backbone, and H-T-T-P versus any protocol, the right edge service is usually obvious.

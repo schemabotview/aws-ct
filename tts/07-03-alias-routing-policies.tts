@@ -1,0 +1,7 @@
+Alias records and routing policies.
+
+An Alias record is a Route 53 extension that points a hostname directly at an AWS resource, rather than at another hostname. To the client, it looks like an A record returning an I-P; to you, there's no hard-coded I-P to break. It beats a C-NAME in four ways: it's allowed at the zone apex, where a C-NAME isn't; it's free to query; its T-T-L is AWS-managed; and it integrates with health checks. The valid targets to memorise are E-L-Bs, CloudFront, A-P-I Gateway, S3 website endpoints, Elastic Beanstalk, V-P-C interface endpoints, Global Accelerator, and same-zone records. E-C-2 and R-D-S endpoints are not aliasable; those still need C-NAMEs, so they can't sit at the apex.
+
+Routing policies decide which value Route 53 returns when multiple records share a name. There are eight. Simple is one record with no health awareness. Weighted splits traffic in proportion to a weight from zero to two fifty-five, is health-aware, and is the canary and A-B tool. Latency returns the region with the lowest measured latency from the resolver. Failover is active-passive, health-gated to a standby. Geolocation routes by the user's continent or country, for compliance or localized content. Geoproximity routes by geographic distance with an adjustable bias. Multivalue answer returns several health-checked records and lets the client pick, a poor-man's load balancer. And I-P-based routes by the client's C-I-D-R.
+
+Most non-trivial designs combine two or three: for example, latency to pick a region, then weighted for a canary within it.

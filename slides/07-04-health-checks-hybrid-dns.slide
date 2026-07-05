@@ -1,0 +1,20 @@
+# Health checks & hybrid DNS
+
+## Health checks — a public-internet prober fleet
+
+Probe from many locations, **majority decides** (~3 of 18+). Three types:
+
+- **Endpoint** — HTTP/TCP probe on a path (2xx/3xx in 4 s); optional **string match**
+- **Calculated** — AND/OR/NOT of other checks
+- **CloudWatch alarm** — the **only way to check a private resource**
+
+Feed failover / weighted / latency / multivalue → **unhealthy records dropped**.
+
+## Hybrid DNS — Route 53 Resolver
+
+Built-in resolver at **base+2**. Two endpoints bridge on-prem:
+
+- **Inbound** — on-prem resolves AWS private-zone names
+- **Outbound** + **Resolver Rules** — EC2 resolves on-prem names (`corp.internal` → on-prem DNS)
+
+ENIs per AZ; rules **shareable via RAM**.

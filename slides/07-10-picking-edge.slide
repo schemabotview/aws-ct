@@ -1,0 +1,14 @@
+# Picking the edge service
+
+Sort by **layer**: DNS · caching · backbone.
+
+- Resolve a hostname; steer by **weight/geo/latency/health** → **Route 53**
+- **Cache HTTP(S)** close to users; static sites, media → **CloudFront**
+- **Non-HTTP (TCP/UDP)** onto the backbone, **static IPs**, fast failover → **Global Accelerator**
+
+## Two sharper splits
+
+- **CloudFront vs. GA** — CF caches, HTTP-only, DNS-speed failover, changing IPs · GA no cache, **any TCP/UDP**, second-scale failover, **static IPs**
+- **Route 53 latency vs. GA** — both pick the nearest region; R53 via **DNS** (then public internet), GA via **Anycast** (onto the backbone, faster failover)
+
+Framed by *DNS vs cache vs backbone* + *HTTP vs any protocol* → obvious.

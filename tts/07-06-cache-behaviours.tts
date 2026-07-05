@@ -1,0 +1,7 @@
+Cache behaviours, T-T-L, and cache keys.
+
+A cache behaviour is a routing rule on a distribution: a path pattern, the origin it maps to, and the caching settings for that path. A distribution has a default behaviour, matching star, plus any number of more specific ones, evaluated in precedence order. The classic split: slash-a-p-i-star goes to an A-L-B with a T-T-L of zero, because it's dynamic and shouldn't be cached; slash-images-star goes to S3 with a one-day T-T-L; and star, the default, goes to S3 with a one-hour default. Per behaviour, you also set the viewer protocol policy, the allowed H-T-T-P methods, any attached edge functions, and the cache policy.
+
+T-T-L governs freshness. CloudFront honours the origin's cache-control and expires headers, falling back to the behaviour's defaults: a twenty-four-hour default, a minimum of zero, and an effectively unbounded maximum. A minimum T-T-L of zero still caches at the edge; it just forces a revalidation with the origin on each request.
+
+The cache key is what CloudFront hashes to decide whether it's the same object or not. By default it's just the host plus path, but you can add specific query strings, headers, and cookies. This is the subtle cost lever. Narrow the key, by stripping irrelevant query parameters, and your hit ratio climbs. Widen it carelessly, by including a per-user cookie, and every request becomes a unique object: a cache that never hits. Invalidations force-expire cached objects, for example slash-star after a deploy; the first one thousand paths per month are free.

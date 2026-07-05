@@ -1,0 +1,18 @@
+# DNS & record types
+
+## How resolution works
+
+Browser → **recursive resolver** → root → TLD → **authoritative** (Route 53). Answer cached for the record's **TTL**.
+
+**TTL = failover lever:** low (60 s) = fast change, more queries; high = cheaper, slower cutover.
+
+## Records to know
+
+**A** (→IPv4) · **AAAA** (→IPv6) · **CNAME** (→hostname) · **NS** (zone → name servers) · **MX** (mail) · **TXT** (verification, SPF/DKIM) · **SRV** (service + port)
+
+## Hosted zones
+
+- **Public** — answers the internet
+- **Private** — only associated VPCs (`db.internal` → private IP; needs the DNS toggles)
+
+Route 53 is also a **registrar** (or paste its 4 NS records into any registrar).

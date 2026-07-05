@@ -1,0 +1,17 @@
+# Global Accelerator
+
+**Caches nothing** — gets traffic onto **AWS's private backbone** at the nearest edge → fewer hops, predictable latency. For **any TCP/UDP** workload.
+
+## Two static Anycast IPs
+
+Same IP announced from many edges → user lands at the **closest**; AWS routes over the backbone to the healthy, lowest-latency endpoint.
+
+**Never-changing IPs** → clients hardcode, firewalls allowlist, **failover at the network layer** (no DNS TTL).
+
+## Endpoints & control
+
+- Targets: **ALB · NLB · EC2 · Elastic IP**
+- **Endpoint groups** (per region) + **traffic dial** (0–100%, → **drain a region**)
+- Weights + health checks · **client IP preserved** (ALB/EC2)
+
+**Point:** static IPs · second-scale failover · private path. Gaming, VoIP, IoT.

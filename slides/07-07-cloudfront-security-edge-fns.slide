@@ -1,0 +1,15 @@
+# CloudFront security & edge functions
+
+## Security knobs
+
+- **ACM cert** for a custom domain — **must be in `us-east-1`** (classic gotcha)
+- **Viewer** vs **origin protocol policy** — independent; encrypt ≥ the viewer leg
+- **Geo restriction** — allow/blocklist by country (403), before cache
+- **Signed URLs / cookies** — time-bounded private content
+
+## Edge functions
+
+- **CloudFront Functions** — JS, **viewer only**, **sub-1 ms**, no network, ~6× cheaper, **millions/sec** → URL rewrites, cache-key normalization, headers
+- **Lambda@Edge** — Node/Python, **all 4 triggers**, 5–30 s, **network access**, thousands/sec → auth calls, origin rewrites
+
+**Rule:** Functions for cheap viewer-edge work; Lambda@Edge when it needs the network / origin side.

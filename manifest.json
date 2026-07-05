@@ -840,6 +840,132 @@
           "spine": true
         }
       ]
+    },
+    {
+      "id": "07-dns-cdn-and-edge",
+      "title": "DNS, CDN & Edge",
+      "sections": [
+        {
+          "heading": "Three edge services, one job",
+          "notebook": "notebooks/07-01-three-edge-services.ipynb",
+          "slide": "slides/07-01-three-edge-services.slide",
+          "audio": "audio/07-01-three-edge-services.wav",
+          "scene": "aws-cloud",
+          "spine": true,
+          "role": "hook"
+        },
+        {
+          "heading": "DNS & record types",
+          "notebook": "notebooks/07-02-dns-record-types.ipynb",
+          "slide": "slides/07-02-dns-record-types.slide",
+          "audio": "audio/07-02-dns-record-types.wav",
+          "scene": "aws-cloud",
+          "focus": "edge",
+          "highlight": [
+            "route53"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Alias records & routing policies",
+          "notebook": "notebooks/07-03-alias-routing-policies.ipynb",
+          "slide": "slides/07-03-alias-routing-policies.slide",
+          "audio": "audio/07-03-alias-routing-policies.wav",
+          "scene": "aws-cloud",
+          "focus": "edge",
+          "highlight": [
+            "route53"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Route 53 health checks & hybrid DNS",
+          "notebook": "notebooks/07-04-health-checks-hybrid-dns.ipynb",
+          "slide": "slides/07-04-health-checks-hybrid-dns.slide",
+          "audio": "audio/07-04-health-checks-hybrid-dns.wav",
+          "scene": "aws-cloud",
+          "focus": "edge",
+          "highlight": [
+            "route53"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "CloudFront — caching close to users",
+          "notebook": "notebooks/07-05-cloudfront-origins-oac.ipynb",
+          "slide": "slides/07-05-cloudfront-origins-oac.slide",
+          "audio": "audio/07-05-cloudfront-origins-oac.wav",
+          "scene": "aws-cloud",
+          "focus": "edge",
+          "highlight": [
+            "cloudfront"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Cache behaviours, TTL & cache keys",
+          "notebook": "notebooks/07-06-cache-behaviours.ipynb",
+          "slide": "slides/07-06-cache-behaviours.slide",
+          "audio": "audio/07-06-cache-behaviours.wav",
+          "scene": "aws-cloud",
+          "focus": "edge",
+          "highlight": [
+            "cloudfront"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "CloudFront security & edge functions",
+          "notebook": "notebooks/07-07-cloudfront-security-edge-fns.ipynb",
+          "slide": "slides/07-07-cloudfront-security-edge-fns.slide",
+          "audio": "audio/07-07-cloudfront-security-edge-fns.wav",
+          "scene": "aws-cloud",
+          "focus": "edge",
+          "highlight": [
+            "cloudfront",
+            "waf"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Price classes & CloudFront vs. S3 Cross-Region Replication",
+          "notebook": "notebooks/07-08-price-classes-vs-crr.ipynb",
+          "slide": "slides/07-08-price-classes-vs-crr.slide",
+          "audio": "audio/07-08-price-classes-vs-crr.wav",
+          "scene": "aws-cloud",
+          "focus": "edge",
+          "highlight": [
+            "cloudfront"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Global Accelerator",
+          "notebook": "notebooks/07-09-global-accelerator.ipynb",
+          "slide": "slides/07-09-global-accelerator.slide",
+          "audio": "audio/07-09-global-accelerator.wav",
+          "scene": "aws-cloud",
+          "focus": "edge",
+          "highlight": [
+            "ga"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Picking the right edge service",
+          "notebook": "notebooks/07-10-picking-edge.ipynb",
+          "slide": "slides/07-10-picking-edge.slide",
+          "audio": "audio/07-10-picking-edge.wav",
+          "scene": "aws-cloud",
+          "focus": "edge",
+          "highlight": [
+            "route53",
+            "cloudfront",
+            "ga"
+          ],
+          "spine": true
+        }
+      ]
     }
   ]
 }

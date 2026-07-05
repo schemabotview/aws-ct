@@ -1,0 +1,18 @@
+# Price classes & vs. S3 CRR
+
+## Price classes (cost vs. coverage)
+
+Per-GB cost varies by region. Opt out of pricey edges:
+
+- **All** — every edge worldwide → global low-latency
+- **200** — all except South America / AU / NZ
+- **100** — North America + Europe only → cost-sensitive NA/EU
+
+Doesn't change **who can reach** it — just which edge serves them.
+
+## CloudFront vs. S3 CRR
+
+- **CloudFront** — **caches** at 600+ edges, TTL (stale), read-only, auto-global
+- **S3 CRR** — **copies** to another region, near real-time, writable, chosen regions
+
+**CloudFront** = same content cached everywhere. **CRR** = the **data** in another region (DR, residency). Combine: CRR + CloudFront **origin group** failover.

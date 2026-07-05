@@ -1,0 +1,15 @@
+# CloudFront — the CDN
+
+Cache content close to users → most requests answered at the **edge**, not the origin.
+
+## The network
+
+**600+ edge locations** + **regional edge caches** (absorb misses). Request: DNS → nearest edge → **hit** returns / **miss** fetches (regional cache → origin over backbone), caches on the way back.
+
+Also: **TLS at the edge** · free **Shield Standard** · **WAF** · HTTP/2 & 3.
+
+## Origins & OAC
+
+**Origin** = where CloudFront fetches on a miss (S3, ALB, EC2, any HTTP). Multiple per distribution.
+
+**S3 origin → Origin Access Control (OAC):** bucket stays **private**, only CloudFront (SigV4) reads it. OAC replaced OAI — **default to OAC**.

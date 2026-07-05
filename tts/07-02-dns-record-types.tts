@@ -1,0 +1,7 @@
+D-N-S and record types.
+
+D-N-S resolves a hostname to an address. The browser asks a recursive resolver, its I-S-P's or a public one like one-dot-one-dot-one-dot-one, which walks the hierarchy: the root, then the top-level domain, then the domain's authoritative name servers. Route 53 is the authoritative tier for any hosted zone it manages. The resolver caches the answer for the record's T-T-L, its time-to-live, and re-asks when it expires. So T-T-L is your failover lever: a low T-T-L, say sixty seconds, propagates changes fast; a high T-T-L means fewer queries, which is cheaper, but a slower cutover.
+
+The record types to know are these. A maps a host to an I-P-v-four. Quad-A maps a host to an I-P-v-six. C-NAME maps a host to another hostname. N-S maps a zone to its authoritative name servers. M-X handles mail routing with a priority. T-X-T holds arbitrary text, for domain verification, S-P-F, and D-K-I-M. And S-R-V gives a service location with a priority and port.
+
+A hosted zone is the container for a domain's records. Public zones answer the internet; private zones answer only from associated V-P-Cs, so a name like d-b-dot-internal resolves to a private I-P, and they need the V-P-C's enable-D-N-S-support and enable-D-N-S-hostnames toggles on. Route 53 is also a registrar: register a domain there and it auto-creates the zone and wires the N-S records; register elsewhere, and you just paste Route 53's four N-S records into that registrar's settings.

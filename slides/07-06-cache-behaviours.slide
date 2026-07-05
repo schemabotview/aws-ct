@@ -1,0 +1,19 @@
+# Cache behaviours, TTL & keys
+
+## Cache behaviour = a routing rule
+
+**Path pattern → origin + caching settings**. Default `*` + specific ones by **precedence**:
+
+- `/api/*` → ALB, **TTL 0** (dynamic)
+- `/images/*` → S3, **1 day**
+- `*` → S3, **1 hour**
+
+Per behaviour: viewer protocol, HTTP methods, edge functions, cache policy.
+
+## TTL
+
+Honours origin `Cache-Control` / `Expires`, else defaults: **24 h default, min 0** (revalidate each request), max unbounded.
+
+## Cache key — the cost lever
+
+Default = host + path; can add **query strings / headers / cookies**. **Narrow it** → hit ratio ↑; a **per-user cookie** → every request unique = never hits. **Invalidations** (`/*`) force-expire; 1,000/mo free.

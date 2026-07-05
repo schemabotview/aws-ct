@@ -1,0 +1,20 @@
+# Alias records & routing policies
+
+## Alias — Route 53's CNAME upgrade
+
+Points a hostname at an **AWS resource**. Beats CNAME: **zone apex OK**, **free**, **AWS-managed TTL**, **health-check aware**.
+
+Targets: **ELB · CloudFront · API GW · S3 website · Beanstalk · GA**. **Not** EC2 / RDS (→ CNAME).
+
+## The 8 routing policies
+
+- **Simple** — one record
+- **Weighted** — proportional split → canary / A-B
+- **Latency** — lowest-latency region
+- **Failover** — active/passive standby
+- **Geolocation** — by user's country
+- **Geoproximity** — by distance (+ bias)
+- **Multivalue** — health-checked, client picks
+- **IP-based** — by client CIDR
+
+**Combine 2–3** (latency → region, then weighted canary).
