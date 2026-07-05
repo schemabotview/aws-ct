@@ -1,0 +1,19 @@
+# AWS Config — what changed & compliant?
+
+Records every resource's **configuration over time** → S3, and evaluates it against **rules**. *"What did this SG look like last Tuesday, was it compliant?"*
+
+## The flow
+
+1. **Records** config of EC2, S3, RDS, IAM, SGs, VPCs on every change
+2. **History** → S3 bucket; **snapshots** = point-in-time
+3. **Evaluates** each resource vs. your rules
+4. **Notifies** on compliance change → SNS / EventBridge
+5. **Remediates** non-compliant → **SSM Automation**
+
+## Rules
+
+- **AWS managed** — 200+ pre-built (`encrypted-volumes`, `s3-bucket-public-read-prohibited`)
+- **Custom** — a Lambda you write
+- **Conformance packs** — rules + remediation as one YAML, org-wide
+
+**vs. CloudTrail:** CloudTrail = *who changed it*; Config = *what it looks like + is it compliant*. They **pair**.

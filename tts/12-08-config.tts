@@ -1,0 +1,9 @@
+A-W-S Config, what changed, and is it compliant.
+
+Config records the configuration of every supported A-W-S resource as it changes, stores that history in S3, and evaluates each resource against rules. The output is a per-resource timeline, answering questions like: what did this security group look like at fourteen thirty-two last Tuesday, and was it compliant?
+
+The flow has five steps. One, Config records the configuration of E-C-2 instances, S3 buckets, R-D-S instances, I-A-M resources, security groups, V-P-Cs, every supported type, every time something changes. Two, the configuration history lands in your S3 bucket, and configuration snapshots capture point-in-time state. Three, Config evaluates each resource against the rules attached to your account. Four, notifications fire on compliance-state changes through S-N-S or EventBridge. And five, optional remediation auto-fixes non-compliant resources through S-S-M Automation.
+
+On rules, there are two kinds. A-W-S managed rules are more than two hundred pre-built checks, like encrypted-volumes, s3-bucket-public-read-prohibited, and restricted-s-s-h. Custom rules are Lambda functions you write for any organisation-specific policy. And conformance packs bundle rules plus remediation into one deployable YAML template, so an entire compliance baseline, like P-C-I or C-I-S, ships as a single unit, and through Organizations across every account.
+
+The key distinction from CloudTrail: CloudTrail tells you who made the change, while Config tells you what the resource looks like now, what it looked like before, and whether that's compliant. They pair up.

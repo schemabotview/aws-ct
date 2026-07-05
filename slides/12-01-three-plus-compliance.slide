@@ -1,0 +1,14 @@
+# Three services + a compliance layer
+
+Three questions about a running AWS environment — one model under all of them.
+
+- **CloudWatch** — *how is it performing?* → metrics · logs · alarms · dashboards
+- **CloudTrail** — *who did what?* → every API call, recorded & queryable
+- **AWS Config** — *what changed, is it compliant?* → per-resource timeline + rules
+
+## Under & over
+
+- **Under:** the **Shared Responsibility Model** — AWS secures *of* the cloud, you secure *in* it
+- **Over:** **Artifact** (AWS's audit reports) + **Audit Manager** (evidence for *your* audits)
+
+**Mnemonic:** CloudWatch = **how is it doing** · CloudTrail = **who did what** · Config = **what changed / compliant**.

@@ -1,0 +1,9 @@
+Three observability services, plus a compliance layer.
+
+Three services answer three different questions about a running A-W-S environment, and one model underpins all of them.
+
+CloudWatch answers, how is it performing? That's metrics, logs, alarms, and dashboards. CloudTrail answers, who did what? Every A-P-I call across the account, recorded and queryable. And A-W-S Config answers, what changed, and is it compliant? A timeline of every resource's configuration, with rules that fire when something drifts.
+
+Underneath those three sits the Shared Responsibility Model, the line between what A-W-S secures and what the customer configures. And on top of them sits the compliance layer: A-W-S Artifact, the self-serve portal for A-W-S's own audit reports, and Audit Manager, which collects evidence for your audits.
+
+One mnemonic carries this whole module. CloudWatch is how is it doing. CloudTrail is who did what. Config is what changed, and is it compliant. Everything else in this module is either a variant of one of those three, or a comparison between them.

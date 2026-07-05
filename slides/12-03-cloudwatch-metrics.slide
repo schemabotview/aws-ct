@@ -1,0 +1,16 @@
+# CloudWatch Metrics
+
+A **metric** = a time-series of numbers (CPU %, requests, errors, latency). The **foundation** — alarms & dashboards build on it.
+
+## Every metric has
+
+- **Namespace** — `AWS/EC2`, `AWS/Lambda`, or your own
+- **Metric name** — `CPUUtilization`, `Invocations`, `Duration`
+- **Dimensions** — `{InstanceId: i-abc123}`; each combo = a **separate stream**
+- **Resolution** — standard **1 min** · high-res **1 sec**
+
+## Standard vs. custom
+
+- AWS pushes **standard metrics free** — EC2 CPU/net/disk, S3 size, Lambda, ALB
+- **Catch:** EC2 metrics come from the **hypervisor** → **memory & in-OS disk NOT collected** (needs the Agent)
+- **Custom** — `PutMetricData` for app counters / KPIs; high-res for fast reactions

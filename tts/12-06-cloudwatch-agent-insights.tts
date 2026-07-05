@@ -1,0 +1,9 @@
+The CloudWatch Agent and the Insights variants.
+
+The CloudWatch Agent runs inside an E-C-2 instance, or an on-premises host, and ships exactly what the hypervisor cannot see, in-operating-system memory utilisation, swap, disk space, and filesystem-level disk I-O, plus the log files the operating system or applications write. Its configuration is J-SON, often stored in S-S-M Parameter Store and pulled by the agent at startup, and the instance's I-A-M role needs the CloudWatchAgentServerPolicy managed policy.
+
+The agent is the answer to two classic scenarios. First, E-C-2 ran out of memory and nobody noticed, because memory isn't a default metric; install the agent, push memory metrics, and alarm on them. Second, we need application logs in CloudWatch; point the agent at the log files and it streams them into log groups.
+
+Two Insights variants go deeper. Container Insights gives enhanced metrics and logs for E-C-S and E-K-S, per-container C-P-U, memory, network, and disk, plus container standard-out and standard-error; enable it once per cluster and the data appears in dedicated dashboards. Lambda Insights gives function-level diagnostics, cold-start counts, init duration, memory-utilisation curves, C-P-U time, and network I-O per invocation, the deeper layer beneath the standard Lambda metrics.
+
+The through-line: standard metrics come from outside the instance, from the hypervisor. The agent and the Insights variants get you inside, memory, containers, and function internals that the hypervisor never sees.

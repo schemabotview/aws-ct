@@ -1491,6 +1491,134 @@
           "spine": true
         }
       ]
+    },
+    {
+      "id": "12-observability-and-governance",
+      "title": "Observability & Governance",
+      "sections": [
+        {
+          "heading": "Three observability services, plus a compliance layer",
+          "notebook": "notebooks/12-01-three-plus-compliance.ipynb",
+          "slide": "slides/12-01-three-plus-compliance.slide",
+          "audio": "audio/12-01-three-plus-compliance.wav",
+          "scene": "aws-cloud",
+          "spine": true,
+          "role": "hook"
+        },
+        {
+          "heading": "The shared responsibility model",
+          "notebook": "notebooks/12-02-shared-responsibility.ipynb",
+          "slide": "slides/12-02-shared-responsibility.slide",
+          "audio": "audio/12-02-shared-responsibility.wav",
+          "scene": "aws-cloud",
+          "focus": "global-plane",
+          "highlight": [
+            "cloudwatch",
+            "cloudtrail",
+            "config"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "CloudWatch metrics",
+          "notebook": "notebooks/12-03-cloudwatch-metrics.ipynb",
+          "slide": "slides/12-03-cloudwatch-metrics.slide",
+          "audio": "audio/12-03-cloudwatch-metrics.wav",
+          "scene": "aws-cloud",
+          "focus": "global-plane",
+          "highlight": [
+            "cloudwatch"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "CloudWatch logs",
+          "notebook": "notebooks/12-04-cloudwatch-logs.ipynb",
+          "slide": "slides/12-04-cloudwatch-logs.slide",
+          "audio": "audio/12-04-cloudwatch-logs.wav",
+          "scene": "aws-cloud",
+          "focus": "global-plane",
+          "highlight": [
+            "cloudwatch"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "CloudWatch alarms",
+          "notebook": "notebooks/12-05-cloudwatch-alarms.ipynb",
+          "slide": "slides/12-05-cloudwatch-alarms.slide",
+          "audio": "audio/12-05-cloudwatch-alarms.wav",
+          "scene": "aws-cloud",
+          "focus": "global-plane",
+          "highlight": [
+            "cloudwatch"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "CloudWatch agent & Insights variants",
+          "notebook": "notebooks/12-06-cloudwatch-agent-insights.ipynb",
+          "slide": "slides/12-06-cloudwatch-agent-insights.slide",
+          "audio": "audio/12-06-cloudwatch-agent-insights.wav",
+          "scene": "aws-cloud",
+          "focus": "global-plane",
+          "highlight": [
+            "cloudwatch"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "CloudTrail — who did what",
+          "notebook": "notebooks/12-07-cloudtrail.ipynb",
+          "slide": "slides/12-07-cloudtrail.slide",
+          "audio": "audio/12-07-cloudtrail.wav",
+          "scene": "aws-cloud",
+          "focus": "global-plane",
+          "highlight": [
+            "cloudtrail"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "AWS Config — what changed, and is it compliant",
+          "notebook": "notebooks/12-08-config.ipynb",
+          "slide": "slides/12-08-config.slide",
+          "audio": "audio/12-08-config.wav",
+          "scene": "aws-cloud",
+          "focus": "global-plane",
+          "highlight": [
+            "config"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Compliance — Artifact, Audit Manager, programmes",
+          "notebook": "notebooks/12-09-compliance.ipynb",
+          "slide": "slides/12-09-compliance.slide",
+          "audio": "audio/12-09-compliance.wav",
+          "scene": "aws-cloud",
+          "focus": "global-plane",
+          "highlight": [
+            "config",
+            "trusted-advisor"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "CloudWatch vs. CloudTrail vs. Config — picking the right tool",
+          "notebook": "notebooks/12-10-picking-tool.ipynb",
+          "slide": "slides/12-10-picking-tool.slide",
+          "audio": "audio/12-10-picking-tool.wav",
+          "scene": "aws-cloud",
+          "focus": "global-plane",
+          "highlight": [
+            "cloudwatch",
+            "cloudtrail",
+            "config"
+          ],
+          "spine": true
+        }
+      ]
     }
   ]
 }

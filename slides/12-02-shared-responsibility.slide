@@ -1,0 +1,18 @@
+# The Shared Responsibility Model
+
+The most-quoted framing on AWS — most architecture decisions sit on it.
+
+- **AWS** → security **of** the cloud: data centres, hardware, hypervisor, network, control planes
+- **You** → security **in** the cloud: data, identity, app code, service configuration
+
+## The line shifts by service (IaaS → serverless)
+
+| | EC2 | RDS | S3 / Lambda |
+|---|---|---|---|
+| Physical / hypervisor | AWS | AWS | AWS |
+| **OS patching** | **you** | AWS | AWS |
+| DB / runtime patching | **you** | AWS | AWS |
+| Security Group | **you** | **you** | n/a |
+| **Data · IAM · config** | **you** | **you** | **you** |
+
+**The last row never moves** — you *always* own your **data, IAM, and access**, however managed the service.

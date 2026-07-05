@@ -1,0 +1,18 @@
+# Compliance — Artifact & Audit Manager
+
+Compliance = periodic **audits, certs, evidence**. Two services, two questions.
+
+## AWS Artifact — *AWS's* posture
+
+- Self-serve portal, no ticket
+- **Reports** — SOC 1/2/3, PCI DSS, ISO 27001, FedRAMP, GDPR → hand to your auditors
+- **Agreements** — HIPAA **BAA**, GDPR DPA; per-account or org-wide
+- **Cue:** *download AWS's SOC 2*, *sign the BAA* → **Artifact**
+
+## AWS Audit Manager — *your* evidence
+
+- **Continuously collects evidence** → maps to framework controls (SOC 2, PCI, HIPAA)
+- Pulls **CloudTrail + Config + Security Hub** → audit-ready report
+- No more console-screenshotting the week before an audit
+
+**Split:** Artifact = AWS proves *its* compliance to you · Audit Manager = you prove *yours* to an auditor.

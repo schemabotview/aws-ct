@@ -59,6 +59,7 @@ Structure drafted — `README.md` holds the full **14-module / 148-section spine
 - **09 — NoSQL & Analytics (11)** → `aws-cloud` scene (DynamoDB §2–6 → `dynamodb` (Integration row); Redshift §7–8 → `redshift`; analytics §9/§11 → Region B `athena`/`glue`/`emr`/`opensearch`; §10 purpose-built rides `dynamodb`).
 - **10 — Integration & Streaming (10)** → `aws-cloud` scene (Integration row: SQS/SNS/EventBridge §2–5/§9 → `sqs`/`sns`/`eventbridge`, Step Functions §8 → `stepfunctions`; streaming §6–7 → Region B ingest `kinesis-streams`/`firehose`/`msk`).
 - **11 — Security Services (10)** → `aws-cloud` scene (Security & Crypto column `cross-cut`: KMS §2–4 → `kms`, Secrets §5 → `secrets`, detective §9 → `guardduty`/`inspector`/`macie`; edge §6–7 → `shield`/`waf`; Cognito §8 → `cognito` in `auth-eng`).
+- **12 — Observability & Governance (10)** → `aws-cloud` scene (Account/Management plane `global-plane`: CloudWatch §3–6 → `cloudwatch`, CloudTrail §7 → `cloudtrail`, Config §8 → `config`, compliance §9 → `config`/`trusted-advisor`; §2 shared-responsibility + §10 picking frame all three governance tiles).
 
 The 3-scene AWS set is settled: `aws-global` (mod 01), `aws-iam` (mod 02), `aws-cloud` (mod 03+, framed per section). All three are ported into graphl-movie (`src/scenes/`).
 

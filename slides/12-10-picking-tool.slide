@@ -1,0 +1,18 @@
+# CloudWatch vs. CloudTrail vs. Config
+
+Three overlapping names, **distinct** questions:
+
+- **CloudWatch** — *how is it doing?* (perf & health) — CPU, errors, latency
+- **CloudTrail** — *who did what?* (API audit) — who deleted the bucket?
+- **Config** — *what changed / compliant?* (config timeline + rules)
+
+## Composed patterns
+
+- RDS CPU > 80% / 10 min → **CloudWatch alarm**
+- someone calls `DeleteTrail` → **CloudTrail → metric filter → alarm**
+- S3 bucket goes public → **Config rule** → SNS
+- auto-fix a bad SG → **Config + SSM Automation**
+- in-OS memory / app logs → **CloudWatch Agent**
+- watch the bill → **billing alarm** (`EstimatedCharges`, us-east-1)
+
+**They compose:** CloudTrail records → CloudWatch alarms; Config finds drift → SSM fixes it.

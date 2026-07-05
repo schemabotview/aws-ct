@@ -1,0 +1,9 @@
+The Shared Responsibility Model.
+
+The boundary between A-W-S's responsibility and the customer's is the most-quoted security framing on the platform, and most architecture decisions live on top of it.
+
+A-W-S is responsible for security of the cloud, the physical data centres, the hardware, the hypervisor, the global network, and the managed-service control planes. The customer is responsible for security in the cloud, the data, identity, application code, and however they configure the services they use.
+
+The line shifts depending on the service type. As you move from infrastructure-as-a-service toward serverless, A-W-S takes on more of the stack. On E-C-2 you own the operating-system patching, the runtime, the security group, and your data and I-A-M. On R-D-S, A-W-S takes over the operating system and database patching, but you still own the security group, the data, and the I-A-M. On S3 and Lambda, A-W-S handles almost everything up to the runtime, and you're left with your data, your policies, and your configuration.
+
+Here's the key: the last row never moves. The customer is always responsible for their data, their I-A-M configuration, and their access controls, no matter how managed the service is. That's exactly why every service in this module is something you configure and you watch.

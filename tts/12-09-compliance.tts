@@ -1,0 +1,9 @@
+Compliance, Artifact, Audit Manager, and the programmes.
+
+The three observability services answer day-to-day operational questions. Compliance is a different beast, periodic audits, certifications, and evidence packages. Two services handle the paperwork, and they answer different questions.
+
+A-W-S Artifact is the self-service portal for A-W-S's own compliance documentation, with no support ticket required. It has two pieces. Reports are downloadable, S-O-C one, two, and three, the P-C-I D-S-S Attestation of Compliance, the I-S-O two-seven-thousand-one certificate, FedRAMP authorisation packages, G-D-P-R documentation, and penetration-testing summaries; you hand these to your auditors as evidence of A-W-S's posture. Agreements are legal documents you accept on behalf of your account or Organisation, like the HIPAA Business Associate Agreement, the B-A-A, and the G-D-P-R Data Processing Addendum. The cue: download A-W-S's S-O-C two, or sign the B-A-A for HIPAA, means Artifact.
+
+A-W-S Audit Manager helps prepare for your own audits by continuously collecting evidence from your environment and mapping it to compliance-framework controls, like S-O-C two, P-C-I, HIPAA, and G-D-P-R. It pulls in CloudTrail events, Config snapshots, and Security Hub findings, and assembles an audit-ready report, so you're not screenshotting consoles the week before an audit.
+
+The split to remember: Artifact is A-W-S proving its compliance to you; Audit Manager is you proving your compliance to an auditor. And Config and CloudTrail are the evidence sources underneath both.

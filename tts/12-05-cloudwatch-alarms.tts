@@ -1,0 +1,7 @@
+CloudWatch Alarms.
+
+An alarm watches a single metric, or a metric-math expression, and transitions between three states based on how the metric compares to a threshold. O-K means within threshold. ALARM means it breached the threshold per the evaluation rules. And INSUFFICIENT-DATA means there aren't enough data points to evaluate, which happens at startup, during gaps, or when a service is paused.
+
+The evaluation parameters matter and trip people up. A five-minute period, three evaluation periods, and two-out-of-three datapoints to alarm means: go into ALARM when the metric breached the threshold in at least two of the most recent three five-minute windows. Set these tighter than necessary and the alarm flaps; set them looser and you delay the response.
+
+An alarm can take three kinds of action. An S-N-S notification is the universal output, fanning out to email, S-M-S, or Lambda. An Auto Scaling action scales an A-S-G in or out, and this is the backend behind target-tracking and step scaling. And an E-C-2 action can stop, terminate, reboot, or recover the instance, where recover replaces the underlying host on hardware failure while preserving the instance I-D and the E-B-S volumes. Two variants are worth knowing. A composite alarm combines several alarms with AND or OR logic, so you only page when multiple conditions hold at once, which kills alert-storm flapping. And a billing alarm watches the EstimatedCharges metric, which only exists in the us-east-one region, to keep an eye on your A-W-S bill.

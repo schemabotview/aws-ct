@@ -1,0 +1,7 @@
+CloudWatch Metrics.
+
+A metric is a time-series of numeric data points, C-P-U percent, request count, error rate, latency. Metrics are the foundation of CloudWatch, and most of what follows, alarms and dashboards, is built on them.
+
+Every metric has four properties. A namespace, which is a logical grouping; A-W-S services emit into namespaces like A-W-S-slash-E-C-2, A-W-S-slash-R-D-S, and A-W-S-slash-Lambda, while custom metrics use any namespace you like. A metric name, like C-P-U-Utilization, Invocations, Duration, or your own OrdersProcessed. Dimensions, which are key-value pairs identifying the specific resource, like InstanceId equals i-abc-one-two-three, and each unique combination of dimensions is a separate metric stream. And resolution: standard is one-minute granularity, while high-resolution custom metrics go down to one second.
+
+On standard versus custom metrics. A-W-S services push standard metrics for free, E-C-2 C-P-U, network, and disk I-O, S3 bucket size, Lambda invocation count and duration, A-L-B request counts. The catch worth memorising on E-C-2 is that standard metrics come from the hypervisor, so memory utilisation and in-operating-system disk space are not collected by default; those require the CloudWatch Agent, which we'll cover shortly. Custom metrics are anything you push with PutMetricData, application counters and business K-P-Is; use dimensions to slice them, and high resolution when one-second granularity matters, for example to drive fast auto-scaling reactions.

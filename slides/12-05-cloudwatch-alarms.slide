@@ -1,0 +1,22 @@
+# CloudWatch Alarms
+
+Watches one metric (or metric-math) → **three states**:
+
+- **OK** — within threshold
+- **ALARM** — breached per the rules
+- **INSUFFICIENT_DATA** — startup, gaps, paused
+
+## Evaluation (the tricky bit)
+
+period **5 min** · **3** eval periods · **2 of 3** datapoints → *ALARM when breached in ≥2 of the last 3 windows*. Too tight → **flaps**; too loose → slow.
+
+## Actions
+
+- **SNS** — email / SMS / Lambda / fan-out (universal)
+- **Auto Scaling** — scale an ASG in/out
+- **EC2** — stop / terminate / reboot / **recover** (new host, same ID + EBS)
+
+## Variants
+
+- **Composite alarm** — AND/OR of alarms → no alert storms
+- **Billing alarm** — `EstimatedCharges`, **us-east-1 only**

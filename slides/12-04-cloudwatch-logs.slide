@@ -1,0 +1,17 @@
+# CloudWatch Logs
+
+The **unstructured cousin of metrics** — text lines, collected & queryable.
+
+## Hierarchy
+
+- **Log Group** — container per source; **retention** 1 day → 10 yr (or never)
+- **Log Stream** — one emitter (a Lambda env, an instance, a container)
+- **Log Events** — the timestamped lines
+
+Sources: Lambda (`/aws/lambda/…`), ECS stdout, API GW, VPC Flow Logs, CloudTrail, the Agent.
+
+## Turning logs into signals
+
+- **Metric filter** — pattern (`?ERROR ?Exception`) → increments a metric → **alarm pages you**
+- **Logs Insights** — SQL-like ad-hoc query across groups (`fields` / `filter` / `stats by`)
+- **Subscription filter** — **real-time** stream → OpenSearch / Lambda / Kinesis / SIEM
