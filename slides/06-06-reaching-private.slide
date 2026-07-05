@@ -1,0 +1,17 @@
+# Reaching private instances
+
+## Elastic IP
+
+Static IPv4 you own; **survives stops**, **remaps** in minutes (failover). For **fixed-IP** needs (NAT, VPN, on-prem allowlist) — not app servers (use an LB).
+
+## VPC DNS — two toggles
+
+**enableDnsSupport** (AWS resolver → Route 53 private zones) · **enableDnsHostnames** (public DNS names). Both **on** in default VPC, **off** in custom. Route 53 Resolver bridges on-prem DNS.
+
+## Flow Logs
+
+Packet **metadata** (src/dst, port, **ACCEPT/REJECT**) → S3 / CloudWatch. Ground truth for a **silently-dropping** SG/NACL.
+
+## Getting a shell
+
+Old: **bastion host**. Modern default: **SSM Session Manager** — no SSH port, no public subnet, no key, audited.

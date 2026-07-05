@@ -1,0 +1,18 @@
+# Transit Gateway
+
+Past a handful of VPCs, peering's **full mesh** collapses. **TGW = hub-and-spoke**: each VPC attaches **once**; the TGW routes between them.
+
+**10 VPCs:** 45 peerings → **10 attachments**.
+
+## Rich attachments (regional)
+
+VPCs · **Site-to-Site VPN** · **Direct Connect Gateways** · **other TGWs** (inter-region). Routing is **transitive by default**.
+
+## Segmentation — TGW route tables
+
+Multiple route tables, each attachment associates with one:
+
+- **dev** table → dev VPCs, not prod
+- **prod** table → prod VPCs + on-prem, not dev
+
+→ one **global network with enforced separation**. The backbone of multi-VPC / hybrid at scale.

@@ -1,0 +1,7 @@
+Picking a connectivity option.
+
+The connectivity layer has the most options in all of AWS networking, and the question is rarely "is this possible" but "which one fits". Frame it by a few dimensions: how many V-P-Cs, private or internet, an AWS service or on-prem, how much bandwidth, and how soon you need it. Once you frame it, the answer is usually one specific service.
+
+Here's the decision table. To connect two to four V-P-Cs, same or different region, reach for V-P-C Peering. To connect many V-P-Cs with transitive routing and central control, Transit Gateway. To reach S3 or DynamoDB privately from a V-P-C, a Gateway Endpoint, which is free. To reach other AWS services privately, an Interface Endpoint, which is PrivateLink. To expose your own service to many consumer V-P-Cs, PrivateLink, with an N-L-B and an endpoint service. For a quick, encrypted, low-bandwidth link to on-prem, a Site-to-Site V-P-N. For high bandwidth with low jitter and no internet path, Direct Connect. For multiple on-prem sites talking through AWS, V-P-N CloudHub with B-G-P. For Direct Connect to V-P-Cs in multiple regions, a Direct Connect Gateway with a Transit V-I-F. And for production-grade hybrid resiliency, Direct Connect as primary with a V-P-N as failover, ideally across two D-X locations.
+
+Networking on AWS is mostly about asking those framing questions in the right order. Once framed, the service is usually obvious.

@@ -1,0 +1,21 @@
+# Security groups vs. NACLs
+
+## Security group — at the ENI
+
+- **Stateful** — reply auto-allowed
+- **Allow-only** — no deny
+- **Multiple per ENI**, combine **additively**
+- Rules can **reference another SG** (tracks scaling)
+
+## NACL — at the subnet (inverted)
+
+- **Stateless** — reply **not** auto-allowed
+- **Allow *and* deny**
+- **Ordered**, first match wins
+- Default NACL = allow all; custom = deny all
+
+## The stateless trap
+
+Responses use an **ephemeral port** (1024–65535). Allow inbound 443 but forget **outbound ephemeral** → handshake completes, then hangs.
+
+**Rule:** SGs do 99%; use a NACL only to **deny** an IP at the subnet edge.

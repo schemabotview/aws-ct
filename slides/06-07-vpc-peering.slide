@@ -1,0 +1,15 @@
+# VPC peering
+
+**Point-to-point** link between **two VPCs** — reach each other by **private IP**, like one network. **Same/cross account, same/cross region**, backbone, no cap.
+
+## The sharp constraints
+
+- **CIDRs cannot overlap** — else peering won't establish
+- **Non-transitive** — A↔B and B↔C does **not** give A↔C (need a direct peering)
+- Must **update route tables both sides** or no traffic flows
+
+## Nice property
+
+Same region → an SG rule can **reference an SG in the peered VPC**.
+
+**Fit:** 2 to a few VPCs. Past a handful the **full mesh** (N×(N−1)/2) collapses → **Transit Gateway**.

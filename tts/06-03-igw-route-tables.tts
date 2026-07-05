@@ -1,0 +1,7 @@
+Internet Gateway and route tables.
+
+An Internet Gateway, or I-G-W, is a horizontally-scaled, redundant component that lets V-P-C traffic reach the internet and come back. There's one per V-P-C, attached to the V-P-C and then referenced from route tables. It also performs the N-A-T step that maps an instance's private I-P to its public or Elastic I-P on outbound traffic.
+
+For an instance to be reachable from the internet, it needs three things together. A public or Elastic I-P. A route to the I-G-W in its subnet's route table. And a security group rule allowing the inbound port. Miss any one of the three, and the traffic is dropped, often invisibly.
+
+A route table is a list of destination-C-I-D-R-to-target mappings, and every subnet is associated with exactly one, the main table by default. The canonical public-private split works like this: both tables keep the local route for the V-P-C's own C-I-D-R; the public table adds a default route, zero-dot-zero-dot-zero-dot-zero-slash-zero, pointing to the I-G-W; and the private table adds the same default route pointing to a N-A-T Gateway. When several routes match, the most-specific one wins. That single difference, where the default route points, is the entire public-versus-private distinction.

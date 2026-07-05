@@ -1,0 +1,16 @@
+# Picking a connectivity option
+
+Frame it: **how many VPCs · private or internet · AWS or on-prem · how fast · how soon** → one service.
+
+## The decision table
+
+- **2–4 VPCs** → **VPC Peering**
+- **Many VPCs** + central control → **Transit Gateway**
+- **S3 / DynamoDB** privately → **Gateway Endpoint** (free)
+- **Other AWS services** privately → **Interface Endpoint**
+- Expose **your service** to many VPCs → **PrivateLink**
+- Quick, encrypted on-prem → **Site-to-Site VPN**
+- High bandwidth, no internet → **Direct Connect**
+- **Production hybrid** → **DX primary + VPN failover**
+
+Once framed, the service is usually obvious.

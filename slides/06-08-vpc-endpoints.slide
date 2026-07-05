@@ -1,0 +1,14 @@
+# VPC endpoints & PrivateLink
+
+Reach AWS services **privately** — no IGW / NAT / VPN. (NAT costs + regulated traffic can't leave AWS.)
+
+## Two endpoint types
+
+- **Gateway Endpoint** — **S3 & DynamoDB only**, **free**, adds a **route** (prefix list)
+- **Interface Endpoint** (PrivateLink) — **most services**, an **ENI + private IP**, per-hr + per-GB, optional **private DNS**
+
+**Rule:** Gateway for S3/DynamoDB (free) · Interface for everything else.
+
+## PrivateLink — expose *your* service
+
+Provider puts an **NLB** + **Endpoint Service**; consumers make an Interface Endpoint → private backbone traffic. For **SaaS vendors** + **cross-account microservices** (no peering, no CIDR clash).

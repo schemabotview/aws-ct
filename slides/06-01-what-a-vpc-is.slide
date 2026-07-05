@@ -1,0 +1,20 @@
+# What a VPC is
+
+A **Virtual Private Cloud** — your own **logically isolated network** inside AWS.
+
+## Everything network lives in one
+
+EC2, RDS, VPC-attached Lambda, ECS tasks, load balancers. The VPC defines:
+
+- an **IP address space** (CIDR)
+- how it's sliced into **subnets** (per AZ)
+- what traffic can **enter / leave**
+- how to reach the **outside** — other VPCs, AWS services, on-prem, internet
+
+## Three problems this module solves
+
+1. **Inside one VPC** — CIDR, subnets, routes, SG/NACL, NAT, private access
+2. **Connect VPCs + services privately** — peering, endpoints, PrivateLink, TGW
+3. **Reach on-prem** — Site-to-Site VPN, Direct Connect
+
+→ then a decision table to pick the tool.

@@ -1,0 +1,18 @@
+# NAT Gateway
+
+Private subnets need **outbound** internet (updates, mirrors) but **no inbound**. A **NAT Gateway** delivers exactly that.
+
+## What it is
+
+- Managed, **sits in a public subnet**, holds an **Elastic IP**
+- **Stateful** — outbound only; responses auto-allowed
+- Auto-scales to **100 Gbps**; **hourly + per-GB** cost
+- **No security group** can attach
+
+## The HA caveat (exam favourite)
+
+A NAT GW lives in **one AZ**. One NAT in AZ-a → if AZ-a fails, **all** private subnets lose internet, even in healthy AZs.
+
+**Pattern: one NAT Gateway per AZ**, each private route table → its own.
+
+*(NAT Instance = legacy; use the Gateway.)*

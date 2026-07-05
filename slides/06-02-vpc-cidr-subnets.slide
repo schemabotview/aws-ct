@@ -1,0 +1,16 @@
+# VPC, CIDR & subnets
+
+## Scope & addressing
+
+- VPC is **region-scoped**; **subnets are AZ-scoped**
+- Pick an IPv4 **CIDR** `/16` (65,536) → `/28` (16); add **secondary CIDRs** later
+- **No overlap** with anything you'll peer (`10.0/16`, `10.1/16`, `10.2/16`)
+- **Default VPC** (`172.31.0.0/16`, IGW) — experiments only, not prod
+
+## Public vs. private = the route table
+
+A subnet is **public** because its route table routes to an **IGW**; **private** because it doesn't. Re-associate → identity flips.
+
+## The 5 reserved IPs
+
+AWS reserves **first 4 + last** per subnet → a `/24` gives **251 usable**, not 256. Bites on small subnets (Lambda, endpoints).

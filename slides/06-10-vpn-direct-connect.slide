@@ -1,0 +1,17 @@
+# Reaching on-prem
+
+## Site-to-Site VPN
+
+**IPsec tunnel over the public internet** — up in minutes, encrypted, but throughput-limited + jittery.
+
+- **VGW** (on VPC) · **CGW** (your device's IP) · **VPN Connection**
+- **Two tunnels** → auto-failover · static or **BGP** (CloudHub needs BGP)
+
+## Direct Connect (DX)
+
+**Dedicated fibre** to a DX location — no internet, **consistent bandwidth + latency**, but **weeks** to provision.
+
+- **VIFs:** Private (VPC) · Public (AWS endpoints) · Transit (TGW via DX Gateway)
+- **DX Gateway** → VPCs in **multiple regions**
+
+**Production:** run **both** — **DX primary + VPN failover**.

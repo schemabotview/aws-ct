@@ -1,0 +1,7 @@
+What a V-P-C is.
+
+A V-P-C, a Virtual Private Cloud, is your own logically isolated network inside AWS. Every resource that touches the network lives in one: E-C-2 instances, R-D-S databases, V-P-C-attached Lambda functions, E-C-S tasks, and load balancers. The V-P-C defines an I-P address space, how that space is sliced into subnets, what traffic can enter or leave, and how to reach the rest of the world: other V-P-Cs, AWS services, on-premises data centres, and the public internet.
+
+This module splits into three problems. First, inside one V-P-C: the fixed set of decisions you make when standing up a fresh network. The C-I-D-R block, subnets across availability zones, route tables, what's allowed in and out with security groups and N-A-C-Ls, how a private instance reaches the internet with N-A-T, and how you get a shell on something with no public I-P. Second, connecting V-P-Cs and AWS services privately: peering, endpoints, PrivateLink, and Transit Gateway. And third, reaching on-premises: Site-to-Site V-P-N and Direct Connect.
+
+Everything downstream is one of those three: build the network, connect it to other networks and services, or bridge it to your data centre. Then, at the end, a decision table for picking the right tool.

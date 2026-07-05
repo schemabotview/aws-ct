@@ -1,0 +1,9 @@
+Reaching private instances: Elastic I-Ps, V-P-C D-N-S, and Flow Logs.
+
+Three supporting pieces round out one V-P-C. An Elastic I-P is a static I-P-v-four address you own at the account level and attach to any E-N-I. It survives instance stops, whereas a regular auto-assigned public I-P is released on stop, and it can remap to another instance in minutes, which is the textbook failover pattern. It's free while attached to a running instance, has a small hourly charge when idle, and is capped at five per region by default. Use them where external clients need a fixed I-P, like a N-A-T Gateway, a V-P-N endpoint, or an on-prem allowlist, and not on application servers; that's what load balancers are for.
+
+V-P-C D-N-S has two toggles. Enable-D-N-S-support turns on the AWS resolver, at the V-P-C base plus two, which resolves AWS endpoints and Route 53 private hosted zones. Enable-D-N-S-hostnames gives public-I-P instances public D-N-S names. Both are on in the default V-P-C and off in custom ones, so flip both on if you want Route 53 private hosted zones. The Route 53 Resolver endpoints forward queries to and from on-premises D-N-S for hybrid networks.
+
+V-P-C Flow Logs capture packet metadata, the source and destination I-P, port, protocol, byte count, and accept-or-reject status, but not the packet contents, sent to S3, CloudWatch Logs, or Firehose. They're the ground truth when traffic misbehaves: a silently-dropping security group or N-A-C-L shows up as reject entries that pinpoint the offending rule.
+
+Finally, getting a shell on a private instance. The old way was a bastion host, a hardened public E-C-2 jump box. The modern default is Systems Manager Session Manager, which opens a shell to any instance running the S-S-M agent, with no open S-S-H port, no public subnet, and no key pair, and every session audited. E-C-2 Instance Connect is the S-S-H-style equivalent. New infrastructure defaults to Session Manager; bastions are now the fallback.

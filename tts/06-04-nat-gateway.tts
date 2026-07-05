@@ -1,0 +1,7 @@
+N-A-T Gateway: outbound for private subnets.
+
+Private subnets often need outbound internet access, to call package mirrors, pull software updates, or hit AWS service endpoints that aren't reached privately. But they should not be reachable from the internet inbound. A N-A-T Gateway is the standard answer. It's a managed component that sits in a public subnet, holds an Elastic I-P, and translates outbound traffic from private subnets so it appears to come from that Elastic I-P. It's stateful, meaning outbound only, with inbound responses allowed automatically. It auto-scales up to a hundred gigabits per second. It costs an hourly rate plus per-gigabyte data processing. And it cannot have a security group attached.
+
+The high-availability caveat is an exam favourite. A N-A-T Gateway lives in a single availability zone. If you put one N-A-T Gateway in A-Z-a, and that zone fails, every private subnet routed through it loses internet access, even private subnets in healthy zones. The correct pattern is one N-A-T Gateway per availability zone, with each zone's private route table pointing at its own N-A-T Gateway, so an availability-zone failure is contained.
+
+There's also the older N-A-T Instance, a NAT-configured E-C-2 you manage yourself. It's legacy: you patch it, it's a single point of failure, and its throughput is limited to the instance's. Use a N-A-T Gateway.

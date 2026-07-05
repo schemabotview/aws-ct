@@ -698,6 +698,148 @@
           "spine": true
         }
       ]
+    },
+    {
+      "id": "06-vpc-and-connectivity",
+      "title": "VPC & Connectivity",
+      "sections": [
+        {
+          "heading": "What a VPC is",
+          "notebook": "notebooks/06-01-what-a-vpc-is.ipynb",
+          "slide": "slides/06-01-what-a-vpc-is.slide",
+          "audio": "audio/06-01-what-a-vpc-is.wav",
+          "scene": "aws-cloud",
+          "spine": true,
+          "role": "hook"
+        },
+        {
+          "heading": "VPC, CIDR & subnets",
+          "notebook": "notebooks/06-02-vpc-cidr-subnets.ipynb",
+          "slide": "slides/06-02-vpc-cidr-subnets.slide",
+          "audio": "audio/06-02-vpc-cidr-subnets.wav",
+          "scene": "aws-cloud",
+          "focus": "vpc-a",
+          "highlight": [
+            "public-a",
+            "app-a",
+            "data-a"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Internet Gateway & route tables",
+          "notebook": "notebooks/06-03-igw-route-tables.ipynb",
+          "slide": "slides/06-03-igw-route-tables.slide",
+          "audio": "audio/06-03-igw-route-tables.wav",
+          "scene": "aws-cloud",
+          "focus": "vpc-edge",
+          "highlight": [
+            "igw"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "NAT Gateway — outbound for private subnets",
+          "notebook": "notebooks/06-04-nat-gateway.ipynb",
+          "slide": "slides/06-04-nat-gateway.slide",
+          "audio": "audio/06-04-nat-gateway.wav",
+          "scene": "aws-cloud",
+          "focus": "az-a",
+          "highlight": [
+            "nat-a"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Security groups vs. network ACLs",
+          "notebook": "notebooks/06-05-sg-vs-nacl.ipynb",
+          "slide": "slides/06-05-sg-vs-nacl.slide",
+          "audio": "audio/06-05-sg-vs-nacl.wav",
+          "scene": "aws-cloud",
+          "focus": "app-a",
+          "highlight": [
+            "sg-app-a",
+            "nacl-app-a"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Reaching private instances — EIPs, VPC DNS, Flow Logs",
+          "notebook": "notebooks/06-06-reaching-private.ipynb",
+          "slide": "slides/06-06-reaching-private.slide",
+          "audio": "audio/06-06-reaching-private.wav",
+          "scene": "aws-cloud",
+          "focus": "vpc-a",
+          "highlight": [
+            "nat-a"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "VPC peering",
+          "notebook": "notebooks/06-07-vpc-peering.ipynb",
+          "slide": "slides/06-07-vpc-peering.slide",
+          "audio": "audio/06-07-vpc-peering.wav",
+          "scene": "aws-cloud",
+          "focus": "vpc-a",
+          "highlight": [
+            "vpc-a"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "VPC endpoints & PrivateLink",
+          "notebook": "notebooks/06-08-vpc-endpoints.ipynb",
+          "slide": "slides/06-08-vpc-endpoints.slide",
+          "audio": "audio/06-08-vpc-endpoints.wav",
+          "scene": "aws-cloud",
+          "focus": "vpc-edge",
+          "highlight": [
+            "vpc-endpoint",
+            "privatelink"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Transit Gateway",
+          "notebook": "notebooks/06-09-transit-gateway.ipynb",
+          "slide": "slides/06-09-transit-gateway.slide",
+          "audio": "audio/06-09-transit-gateway.wav",
+          "scene": "aws-cloud",
+          "focus": "vpc-edge",
+          "highlight": [
+            "tgw"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Reaching on-prem — Site-to-Site VPN & Direct Connect",
+          "notebook": "notebooks/06-10-vpn-direct-connect.ipynb",
+          "slide": "slides/06-10-vpn-direct-connect.slide",
+          "audio": "audio/06-10-vpn-direct-connect.wav",
+          "scene": "aws-cloud",
+          "focus": "vpc-edge",
+          "highlight": [
+            "tgw"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Picking a connectivity option",
+          "notebook": "notebooks/06-11-picking-connectivity.ipynb",
+          "slide": "slides/06-11-picking-connectivity.slide",
+          "audio": "audio/06-11-picking-connectivity.wav",
+          "scene": "aws-cloud",
+          "focus": "vpc-edge",
+          "highlight": [
+            "igw",
+            "tgw",
+            "vpc-endpoint",
+            "privatelink"
+          ],
+          "spine": true
+        }
+      ]
     }
   ]
 }

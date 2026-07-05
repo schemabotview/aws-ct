@@ -1,0 +1,21 @@
+# Internet Gateway & routes
+
+## Internet Gateway (IGW)
+
+Horizontally-scaled, redundant, **one per VPC**, attached + referenced from route tables. Also does the **NAT step** (private IP → public/Elastic IP outbound).
+
+## Reachable from the internet = 3 things together
+
+1. a **public / Elastic IP**
+2. a **route to the IGW** in the subnet's route table
+3. a **security-group rule** for the inbound port
+
+Miss any one → **dropped, often invisibly**.
+
+## Route tables
+
+*Destination CIDR → target*; one per subnet.
+
+- **Public** — `0.0.0.0/0 → igw`
+- **Private** — `0.0.0.0/0 → nat`
+- Both keep `local`; **most-specific route wins**

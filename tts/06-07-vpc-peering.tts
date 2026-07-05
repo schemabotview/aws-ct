@@ -1,0 +1,7 @@
+V-P-C peering.
+
+V-P-C Peering is a direct, point-to-point connection between two V-P-Cs that lets instances in each reach the other by private I-P, as if they were on the same network. It works same account or cross-account, same region or cross-region, using AWS's backbone with no bandwidth cap.
+
+The constraints are sharper than people expect. C-I-D-R blocks cannot overlap: if both V-P-Cs use ten-dot-zero-dot-zero-dot-zero-slash-sixteen, peering simply won't establish. Peering is non-transitive: if A peers with B, and B peers with C, traffic from A still cannot reach C through B; you need a direct A-to-C peering. And after accepting the request, you have to update the route tables on both sides to point at the peering connection, or the connection exists but no traffic flows.
+
+One nice property: within the same region, a security group rule can reference a security group in the peered V-P-C. "Allow port five-four-three-two from the app-tier security group in the other V-P-C" works directly. Peering is the right tool for two to a few V-P-Cs. Past a handful, the full mesh, which needs N-times-N-minus-one-over-two connections, collapses, and you move to Transit Gateway.
