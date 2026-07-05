@@ -47,9 +47,12 @@ The course outline (module spine + per-module sections) lives in [`README.md`](.
 
 Structure drafted — `README.md` holds the full **14-module / 148-section spine** (agreed: keep all 14 modules; each normalized to ~10 sections).
 
-**Modules 01–02 authored** — every section has `notebooks/NN-SS-*.ipynb` (split from the matching `../aws-content/notebooks/NN-*.ipynb`), `slides/NN-SS-*.slide`, and `tts/NN-SS-*.tts`; `manifest.json` wires them per-section (`focus`/`highlight` on real scene node ids; §1 of each = `hook` on the full map):
+**Modules 01–03 authored** — every section has `notebooks/NN-SS-*.ipynb` (split from the matching `../aws-content/notebooks/NN-*.ipynb`), `slides/NN-SS-*.slide`, and `tts/NN-SS-*.tts`; `manifest.json` wires them per-section (`focus`/`highlight` on real scene node ids; §1 of each = `hook` on the full map):
 - **01 — Cloud & AWS Foundations (10)** → `aws-global` scene.
 - **02 — IAM, Organizations & Account Security (11)** → `aws-iam` scene.
+- **03 — Compute Core: EC2, ELB, Auto Scaling (12)** → `aws-cloud` scene (the "whole map"; compute lives in Region A's 3-tier — §2–7 frame `app-a`/`ec2-a`, §8–10 `public-a`/`alb`, §11–12 `asg`).
+
+The 3-scene AWS set is settled: `aws-global` (mod 01), `aws-iam` (mod 02), `aws-cloud` (mod 03+, framed per section). All three are ported into graphl-movie (`src/scenes/`).
 
 Sections were authored **one trio at a time** (notebook → slide → tts), not batch-generated, so each gets full depth and the slide fills the right pane (see the `slide-authoring-depth` preference). **Pushed** to `github.com/schemabotview/aws-ct` (public).
 

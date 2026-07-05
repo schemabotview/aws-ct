@@ -1,0 +1,7 @@
+A-S-G operations: refresh, hooks, and warm pools.
+
+Three operational features make an Auto Scaling Group production-grade. First, health checks. The default E-C-2 check only sees host-level failure. The E-L-B check goes further and also fails an instance that's running but returning five-hundred errors. Always enable E-L-B health checks on production A-S-Gs; otherwise a broken-but-running instance keeps serving traffic. A health check grace period delays checks on new instances so they can boot and pass first.
+
+Second, Instance Refresh. When the launch template changes, with a new A-M-I or new user data, Instance Refresh rolls the change across the fleet automatically. It's capped by a minimum healthy percentage, so only a slice of the fleet is out of service at once; it has a warm-up time before a new instance counts as in-service; and it supports optional checkpoints to pause and verify. This is the engine of immutable infrastructure: don't patch live boxes; bake a new A-M-I, point the launch template at it, and run a refresh.
+
+Third, lifecycle hooks and warm pools, for slow starts. A lifecycle hook pauses an instance in the Pending-Wait state, or Terminating-Wait on the way out, so you can bootstrap it, run smoke tests, or drain connections before it joins or leaves the fleet, up to a timeout. A warm pool keeps pre-initialised instances, stopped or hibernated, ready to activate in seconds instead of minutes. Pair it with a lifecycle hook so the slow warm-up work happens once, before the instance enters the pool, rather than on every scale-out.

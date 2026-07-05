@@ -1,0 +1,7 @@
+Auto Scaling Groups: launch templates and scaling.
+
+Behind a load balancer, the fleet size is still something you set by hand. Traffic triples at lunch and the site slows down, then it goes quiet overnight while you keep paying for idle servers. An Auto Scaling Group, or A-S-G, fixes that. It keeps a target number of instances running, replaces failed ones, and grows or shrinks the fleet on demand. Three numbers bound it: the minimum, which is the floor; the desired count, which it actively maintains; and the maximum, which is the ceiling. It spreads instances across the subnets you give it, one per availability zone for high availability, and it auto-registers each new instance with its target groups and deregisters terminated ones.
+
+An A-S-G launches instances from a launch template, which is the full recipe: the A-M-I, the instance types, the key pair, security groups, I-A-M role, user data, storage, and I-M-D-S options. Launch templates are versioned and support mixed instance types, combining On-Demand and Spot, which the legacy launch configuration can't do. Always use launch templates.
+
+Scaling is driven by policies. Target tracking is the go-to: you name a metric and a target, like average C-P-U at fifty percent, and the A-S-G adds or removes capacity to hold it there. Step scaling changes capacity by different amounts at different alarm breaches. Simple scaling is the older single-step form. And scheduled scaling changes capacity at known times, like scaling up just before business hours.

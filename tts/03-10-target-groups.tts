@@ -1,0 +1,7 @@
+Target groups, health checks, and draining.
+
+A target group is the unit of routing behind a load balancer. It holds the targets and their health configuration, and it can be reused across multiple listeners, and even multiple load balancers. Each group has a health check: a protocol and a path, like H-T-T-P slash-health, probed on an interval, which defaults to thirty seconds. It has a healthy threshold, the number of consecutive passes needed to bring a target into service, which is five for an A-L-B; and an unhealthy threshold, the number of failures needed to pull it out, which is two for an A-L-B. Only healthy targets receive traffic.
+
+When a target is removed, whether from a deploy, a scale-in, or a failure, the load balancer doesn't cut it off mid-request. Deregistration delay, also called connection draining, stops sending new requests but waits up to a set time, which defaults to three hundred seconds, for in-flight requests to finish. Lower it, to say thirty seconds, for stateless services; keep it high for long-lived or WebSocket connections.
+
+One more setting the exam tests is cross-zone load balancing. This spreads traffic evenly across targets in all availability zones, rather than only within the load-balancer node's own zone. It's on by default and free on an A-L-B, but off by default on N-L-B and G-W-L-B, where enabling it incurs cross-A-Z data-transfer charges.

@@ -1,0 +1,17 @@
+# Auto Scaling Groups
+
+Fleet size by hand wastes money + slows under spikes. An **ASG** keeps a target count, **replaces failures**, grows/shrinks on demand.
+
+## Capacity bounds
+
+**Min** (floor) · **Desired** (maintained) · **Max** (ceiling). Spread across subnets (one per AZ); auto-(de)registers with **target groups**.
+
+## Launch template
+
+The recipe: AMI, type(s), key, SG, IAM role, user data. **Versioned**, supports **mixed On-Demand + Spot**. (Launch *configuration* is legacy — don't use it.)
+
+## Scaling policies
+
+- **Target tracking** — hold a metric (CPU 50%) — the default
+- **Step** — different steps per alarm breach
+- **Scheduled** — change at known times

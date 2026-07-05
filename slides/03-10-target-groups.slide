@@ -1,0 +1,17 @@
+# Target groups & health
+
+## Target group
+
+The **unit of routing** — holds targets + health config, reusable across listeners / LBs. Only **healthy** targets get traffic.
+
+## Health check
+
+Protocol + path (e.g. `/health`) on an **interval** (30 s). **Healthy threshold** (passes → in) · **unhealthy threshold** (fails → out).
+
+## Deregistration delay (draining)
+
+On removal, stop **new** requests, wait for in-flight ones (default **300 s**). Lower for stateless; higher for WebSockets.
+
+## Cross-zone load balancing
+
+Spread evenly across **all AZs**. **ALB: on + free** · **NLB/GWLB: off** (cross-AZ transfer charges).

@@ -1,0 +1,13 @@
+# ASG operations
+
+## Health checks
+
+**EC2** (default) catches host failure; **ELB** also catches *running-but-broken* (500s). **Always enable ELB checks in prod.** A **grace period** delays checks on new instances.
+
+## Instance Refresh
+
+Rolls a launch-template change across the fleet: **min healthy %** caps disruption, **warm-up** before in-service, checkpoints to verify. The engine of **immutable infra** — bake AMI → point template → refresh.
+
+## Lifecycle hooks + warm pools
+
+**Hook** pauses at `Pending:Wait` / `Terminating:Wait` to bootstrap or drain. **Warm pool** keeps pre-baked instances ready in **seconds** — do warm-up **once** via a hook before pooling.

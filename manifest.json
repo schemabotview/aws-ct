@@ -266,6 +266,156 @@
           "spine": true
         }
       ]
+    },
+    {
+      "id": "03-compute-core-ec2-elb-autoscaling",
+      "title": "Compute Core — EC2, ELB, Auto Scaling",
+      "sections": [
+        {
+          "heading": "EC2 — the virtual server",
+          "notebook": "notebooks/03-01-ec2-the-virtual-server.ipynb",
+          "slide": "slides/03-01-ec2-the-virtual-server.slide",
+          "audio": "audio/03-01-ec2-the-virtual-server.wav",
+          "scene": "aws-cloud",
+          "spine": true,
+          "role": "hook"
+        },
+        {
+          "heading": "Launch configuration — what you choose",
+          "notebook": "notebooks/03-02-launch-configuration.ipynb",
+          "slide": "slides/03-02-launch-configuration.slide",
+          "audio": "audio/03-02-launch-configuration.wav",
+          "scene": "aws-cloud",
+          "focus": "app-a",
+          "highlight": [
+            "ec2-a"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Instance families, naming & T-series",
+          "notebook": "notebooks/03-03-instance-families.ipynb",
+          "slide": "slides/03-03-instance-families.slide",
+          "audio": "audio/03-03-instance-families.wav",
+          "scene": "aws-cloud",
+          "focus": "app-a",
+          "highlight": [
+            "ec2-a",
+            "ec2-b"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Purchasing options — the EC2 cost lever",
+          "notebook": "notebooks/03-04-purchasing-options.ipynb",
+          "slide": "slides/03-04-purchasing-options.slide",
+          "audio": "audio/03-04-purchasing-options.wav",
+          "scene": "aws-cloud",
+          "focus": "app-a",
+          "highlight": [
+            "ec2-a"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "AMIs & bootstrapping",
+          "notebook": "notebooks/03-05-amis-bootstrapping.ipynb",
+          "slide": "slides/03-05-amis-bootstrapping.slide",
+          "audio": "audio/03-05-amis-bootstrapping.wav",
+          "scene": "aws-cloud",
+          "focus": "app-a",
+          "highlight": [
+            "ec2-a"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Networking an instance — SGs, IPs, ENIs",
+          "notebook": "notebooks/03-06-networking-an-instance.ipynb",
+          "slide": "slides/03-06-networking-an-instance.slide",
+          "audio": "audio/03-06-networking-an-instance.wav",
+          "scene": "aws-cloud",
+          "focus": "app-a",
+          "highlight": [
+            "sg-app-a",
+            "ec2-a"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Instance internals — Nitro, tenancy, placement",
+          "notebook": "notebooks/03-07-instance-internals.ipynb",
+          "slide": "slides/03-07-instance-internals.slide",
+          "audio": "audio/03-07-instance-internals.wav",
+          "scene": "aws-cloud",
+          "focus": "app-a",
+          "highlight": [
+            "ec2-a"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Elastic Load Balancing — the four types",
+          "notebook": "notebooks/03-08-elastic-load-balancing.ipynb",
+          "slide": "slides/03-08-elastic-load-balancing.slide",
+          "audio": "audio/03-08-elastic-load-balancing.wav",
+          "scene": "aws-cloud",
+          "focus": "public-a",
+          "highlight": [
+            "alb"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "ALB, NLB & GWLB — picking the load balancer",
+          "notebook": "notebooks/03-09-alb-nlb-gwlb.ipynb",
+          "slide": "slides/03-09-alb-nlb-gwlb.slide",
+          "audio": "audio/03-09-alb-nlb-gwlb.wav",
+          "scene": "aws-cloud",
+          "focus": "public-a",
+          "highlight": [
+            "alb"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Target groups, health checks & draining",
+          "notebook": "notebooks/03-10-target-groups.ipynb",
+          "slide": "slides/03-10-target-groups.slide",
+          "audio": "audio/03-10-target-groups.wav",
+          "scene": "aws-cloud",
+          "focus": "region-a",
+          "highlight": [
+            "alb",
+            "ec2-a"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Auto Scaling Groups — launch templates & scaling",
+          "notebook": "notebooks/03-11-auto-scaling-groups.ipynb",
+          "slide": "slides/03-11-auto-scaling-groups.slide",
+          "audio": "audio/03-11-auto-scaling-groups.wav",
+          "scene": "aws-cloud",
+          "focus": "app-a",
+          "highlight": [
+            "asg"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "ASG operations — refresh, hooks, warm pools",
+          "notebook": "notebooks/03-12-asg-operations.ipynb",
+          "slide": "slides/03-12-asg-operations.slide",
+          "audio": "audio/03-12-asg-operations.wav",
+          "scene": "aws-cloud",
+          "focus": "app-a",
+          "highlight": [
+            "asg"
+          ],
+          "spine": true
+        }
+      ]
     }
   ]
 }
