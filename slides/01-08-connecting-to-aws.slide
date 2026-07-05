@@ -1,0 +1,17 @@
+# How you talk to AWS
+
+Every interaction hits the **same control plane** — three doors in, all doing the same thing underneath.
+
+## The three doors
+
+- **Console** — web UI. For **learning** a service, one-off exploration.
+- **CLI** — terminal commands. For **scripting**, automation glue, ad-hoc ops.
+- **SDKs** (`boto3`) — from your code. For **app logic**, IaC, repeatable workflows.
+
+## Underneath, all the same
+
+All three send **signed HTTPS requests** to a regional **API endpoint**. Console = web app, CLI = thin wrapper, SDK = typed wrapper in your language.
+
+## The habit
+
+**Learn a service in the console**, then move to the **CLI or an SDK** once you want it **scripted and repeatable**.

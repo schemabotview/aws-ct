@@ -1,0 +1,21 @@
+# Policies & the five slots
+
+## Every statement = 4 fields
+
+**Effect** (`Allow`/`Deny`) · **Action** (`s3:GetObject`) · **Resource** (ARN) · **Condition** (optional context)
+
+## Three flavors
+
+- **AWS managed** — prebuilt, not editable
+- **Customer managed** — yours, reusable — **the default**
+- **Inline** — one-off, dies with the identity
+
+## Five slots — broad → narrow
+
+1. **SCP** — org / OU / account *ceiling* (caps even member root)
+2. **Permission boundary** — per-identity *ceiling*
+3. **Identity-based** — the job description — **most `Allow`s**
+4. **Resource-based** — on the asset; has a `Principal` (cross-acct)
+5. **Session policy** — per-`AssumeRole` filter
+
+Caps = 1, 2, 5 · Grants = 3, 4. Effective = **intersection**; explicit **`Deny` wins**.

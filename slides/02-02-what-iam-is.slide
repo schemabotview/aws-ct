@@ -1,0 +1,17 @@
+# What IAM is
+
+**Identity & Access Management** — the engine that authorizes **every API call** on AWS.
+
+## One funnel for everything
+
+A console click, a **CLI** command, a `boto3` call — all pass through the **same** authorization check before anything runs.
+
+## Three defining properties
+
+- **Global** — no region selector; identities are **account-wide**
+- **Default-deny** — no explicit `Allow` → **denied**. Silence means no.
+- **Free** — pay only for what IAM *grants access to*, never for IAM itself
+
+## The question it answers
+
+*Who* may do *what*, on *which* resource, under *which* conditions — enforced on **every** request, sitting underneath every other service.

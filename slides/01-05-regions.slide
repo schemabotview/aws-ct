@@ -1,0 +1,16 @@
+# Regions
+
+A **physical geographic area** with a cluster of data centers — `us-east-1`, `eu-west-1`, `ap-south-1`. The number is an **identifier, not a count**.
+
+## Independence
+
+Regions share **no** power, networking, or control plane — a failure in one can't cascade. Most resources live **in** a region; you deploy elsewhere **explicitly**. **Global services** (IAM, Route 53, CloudFront, Organizations) are the exception.
+
+## Choosing one — in order
+
+1. **Compliance / residency** — often non-negotiable
+2. **Latency** — closest to users wins
+3. **Service availability** — verify what you need is there
+4. **Pricing** — a tiebreaker
+
+**`us-east-1` quirk:** new services land first; wider blast radius on outages.

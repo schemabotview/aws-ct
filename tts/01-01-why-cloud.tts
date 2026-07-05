@@ -1,0 +1,9 @@
+Why cloud at all.
+
+You want to run software for other people to use, and you have two options. You can buy servers, rack them in a building you cool and secure, and hire people to look after them. Or you can rent that same capacity by the hour from a company that already does all of that. Cloud is the second option, treated as the default. Almost everything else in this course falls out of that one choice.
+
+So what does cloud actually mean? It's the on-demand delivery of compute, storage, networking, and dozens of other services over the internet, paid for by what you actually consume. The provider owns the hardware, the buildings, the cooling, the security, and the network. You request resources through an A-P-I, they appear in seconds, and you pay only while they exist.
+
+That shift, from owning capacity to renting it, changes almost every architectural decision. Compared to traditional I-T: hardware goes from buy-and-own to rent-on-demand. Capacity goes from over-provisioning for peak to scaling up or down in minutes. Provisioning goes from weeks to seconds. And the cost model goes from a large upfront capital expense to pay-as-you-go operating expense. The racks, the power, and the cooling, the undifferentiated heavy lifting, become the provider's problem instead of your team's.
+
+That removes the classic pain points: paying for idle capacity, waiting weeks to procure hardware, guessing your capacity needs eighteen months in advance, and running a physical data center at all. What you give up is direct control of the metal. What you get is speed, elasticity, and global reach, in minutes.

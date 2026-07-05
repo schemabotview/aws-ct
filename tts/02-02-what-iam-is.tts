@@ -1,0 +1,7 @@
+What I-A-M is: the authorization engine.
+
+I-A-M, which stands for Identity and Access Management, is the service that decides, for every single A-P-I call, whether the caller is allowed to do what they're asking. A console click, a command line call, a boto-three call in your code: they all funnel through the same authorization engine before anything actually happens.
+
+Three properties define it. First, it's global. There's no region selector. Your users, groups, roles, and policies exist account-wide, not per region. Second, it's default-deny. If no policy explicitly allows an action, that action is denied. Silence means no. And third, it's free. You never pay for I-A-M itself, only for the resources it grants access to.
+
+I-A-M sits underneath every other AWS service. You don't turn it on; every request is already being evaluated by it. So the rest of this module is really about the vocabulary I-A-M gives you to answer one question precisely: who may do what, on which resource, and under which conditions.

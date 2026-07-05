@@ -1,0 +1,19 @@
+# Global infrastructure
+
+A set of **nested layers**, each trading **breadth for proximity to the user**.
+
+## Why so many "places" — three pressures
+
+- **Latency** — users are worldwide; the speed of light is fixed
+- **Sovereignty** — data has legal homes
+- **Failure isolation** — one building's outage can't take you down
+
+## The hierarchy — broad → close
+
+- **Region** — independent geographic area, own data centers. **30+**; runs **all services**
+- **Availability Zone** — discrete data centers in a region. **3–6 per region**
+- **Edge location** — terminates user connections nearby. **600+**; CloudFront, Route 53, WAF
+
+## Even closer than a Region
+
+**Local Zones** → a metro city · **Wavelength** → a 5G network · **Outposts** → your data center

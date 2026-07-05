@@ -1,0 +1,19 @@
+# Shared responsibility
+
+Security is **split**: AWS secures **of** the cloud, you secure **in** the cloud.
+
+## Always AWS
+
+Physical buildings, hypervisors, networking gear, host OS, the managed services themselves.
+
+## Always you
+
+Your **data**, **IAM** users/roles/policies, firewall rules, **encryption** choices.
+
+## The line moves with how managed the service is
+
+- **EC2** → you patch the **guest OS**, app, network rules
+- **RDS** → AWS patches OS + engine; you own users, queries, backups
+- **S3** → AWS ensures durability; you own **data + bucket policies**
+
+More managed = line moves **up** — but *what you put in* and *who sees it* stays yours.

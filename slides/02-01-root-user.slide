@@ -1,0 +1,25 @@
+# The root user
+
+Day one of an AWS account. You get **one identity for free** — and it's the most dangerous one you own.
+
+## Unlimited & un-restrictable
+
+Owns the account, has **full access**, and **no policy can take it away** — not even an SCP. Power you lock away, not use.
+
+## Only root can
+
+- Change account **email** / root password
+- **Close** the account
+- Restore admin access after a lockout
+- Reserved Instance Marketplace seller sign-up
+- A few **billing** settings
+
+## Root hygiene — non-negotiable
+
+- Long, unique **password**
+- **Hardware MFA** on
+- **Never** issue root access keys
+- Store credentials physically safe
+- Then **leave it alone**
+
+Everything else in this module exists so you never *need* root again.

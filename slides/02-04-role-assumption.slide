@@ -1,0 +1,22 @@
+# Role assumption
+
+A **two-sided handshake** turning on **three policies** that must all agree.
+
+## On the role (2)
+
+- **Trust policy** — *who* may assume it? (a service, an account, a user)
+- **Permissions policy** — *what* can it do once assumed?
+
+## On the caller (1)
+
+- **Identity policy** — may the caller even *call* `sts:AssumeRole`?
+
+Miss the caller's identity policy → `AccessDenied` on the assume call, **before** the trust policy is read.
+
+## Example — bot assumes `S3BackupRole`
+
+- **Bot:** only `Allow sts:AssumeRole` — *nothing about S3*
+- **Role trust:** names the bot as principal
+- **Role perms:** the real `s3:GetObject / PutObject`
+
+The bot can *become* the role, not do S3 itself. **Same- and cross-account look identical.**

@@ -1,0 +1,9 @@
+Policies: their shape, their types, and the five policy slots.
+
+Every I-A-M policy is a J-SON document, and every statement inside it boils down to four fields. Effect, which is either allow or deny. Action, the A-P-I operation, like S3 get-object. Resource, the A-R-N the action applies to. And an optional condition, for context checks like source I-P, M-F-A, region, or tags.
+
+Policies come in three managed flavors. A-W-S managed policies are prebuilt and not editable, like read-only-access. Customer managed policies are your own, reusable and version-controlled, and they're the default best practice. And inline policies are one-off, bound to a single identity, and deleted along with it.
+
+The subtle part is where a policy attaches. There are five slots, and I'll order them by blast radius, broadest first. Slot one is the service control policy, attached to an organization root, an O-U, or an account. It's an org-wide ceiling that caps every principal in scope, including the root user of member accounts. Slot two is the permission boundary, on a user or role. It's a per-identity ceiling that caps what identity policies can ever grant. Slot three is the identity-based policy, on a user, group, or role. This is the job description, and it's where most allows come from. Slot four is the resource-based policy, on the bucket, queue, key, or function. It's a lock on the asset itself, and it uniquely includes a principal field, which enables cross-account access without any role assumption. And slot five is the session policy, passed at assume-role time, a per-session filter that shrinks a role for one session.
+
+Slots one, two, and five only cap. Slots three and four grant. The effective permission is the intersection: every cap must allow the action, at least one grant must allow it, and an explicit deny anywhere kills it.

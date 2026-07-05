@@ -1,0 +1,14 @@
+# Well-Architected — six pillars
+
+Not a checklist — a **vocabulary for trade-offs**. Six pillars you weigh against each other.
+
+## The six
+
+1. **Operational Excellence** — IaC, observability, runbooks
+2. **Security** — IAM, encryption, detective controls
+3. **Reliability** — multi-AZ, Auto Scaling, DR
+4. **Performance Efficiency** — right-sizing, right DB for the job
+5. **Cost Optimization** — Reserved / Spot / Savings Plans, kill idle
+6. **Sustainability** — efficient regions, managed services
+
+You rarely maximize **all six** at once — cost trades against performance, security against speed. The value is **naming the trade-off** deliberately. *(Module 14 goes deep.)*

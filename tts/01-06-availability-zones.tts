@@ -1,0 +1,7 @@
+Availability zones.
+
+An availability zone, or A-Z, is one or more discrete data centers, each with its own power, cooling, and physical security. A region has three to six of them, named by a suffix: U-S-east-one-a, U-S-east-one-b, U-S-east-one-c, and so on.
+
+Two properties make them useful. First, they sit tens of miles apart, far enough that a single fire or flood can't take more than one of them. Second, they're joined by high-bandwidth, low-latency fiber, so the network between them is fast and effectively local. Far enough apart to fail independently, close enough to act as one.
+
+That combination is the foundation of high availability on AWS. Running across two or three availability zones inside a region means that a single data center failure doesn't take your service down. Anywhere you meet the term multi-A-Z in AWS, whether it's R-D-S Multi-A-Z, an auto scaling group spread across zones, or a load balancer balancing across zones, this is the principle at work.

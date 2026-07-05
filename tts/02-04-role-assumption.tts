@@ -1,0 +1,9 @@
+Role assumption: three policies, two sides.
+
+Assuming a role is a two-sided handshake, and it turns on three policies that all have to agree. Two of them live on the role, and one lives on the caller.
+
+On the role, there are two policies. The first is the trust policy, which answers the question: who is allowed to assume this role? That might be the E-C-2 service, or a particular account, or a specific I-A-M user. The second is the permissions policy, which answers: what can the role do once it's been assumed? For example, read objects from a specific S3 bucket. On the caller's side, there's a third policy: an identity policy that grants the action assume-role on that role. This is permission to make the call at all.
+
+All three must line up. If the caller's identity policy is missing, AWS returns access-denied on the assume-role call itself, before the trust policy is even read. So the trust policy on the role is necessary, but it is not sufficient.
+
+Let's make it concrete with a backup bot assuming an S3-backup-role. The bot carries only one permission: allow assume-role on that role, and nothing about S3 at all. The role's trust policy names the bot as an allowed principal. And the role's permissions policy carries the actual S3 get-object and put-object rights. The bot has no S3 power of its own; it only has the right to become the role. That's the whole point of role assumption: credentials with broad power exist only as short-lived sessions, never as long-lived keys sitting on the bot. And notice, same-account and cross-account look identical. Cross-account just means the trust policy names a principal in a different account.

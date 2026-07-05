@@ -1,0 +1,271 @@
+{
+  "concept": "AWS Solutions Architect Associate",
+  "modules": [
+    {
+      "id": "01-cloud-and-aws-foundations",
+      "title": "Cloud & AWS Foundations",
+      "sections": [
+        {
+          "heading": "Why cloud — traditional IT vs. cloud",
+          "notebook": "notebooks/01-01-why-cloud.ipynb",
+          "slide": "slides/01-01-why-cloud.slide",
+          "audio": "audio/01-01-why-cloud.wav",
+          "scene": "aws-global",
+          "spine": true,
+          "role": "hook"
+        },
+        {
+          "heading": "The three service models — IaaS, PaaS, SaaS",
+          "notebook": "notebooks/01-02-service-models.ipynb",
+          "slide": "slides/01-02-service-models.slide",
+          "audio": "audio/01-02-service-models.wav",
+          "scene": "aws-global",
+          "focus": "awsf-service-models",
+          "highlight": [
+            "awsf-service-models"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Deployment models — public, private, hybrid, multi-cloud",
+          "notebook": "notebooks/01-03-deployment-models.ipynb",
+          "slide": "slides/01-03-deployment-models.slide",
+          "audio": "audio/01-03-deployment-models.wav",
+          "scene": "aws-global",
+          "focus": "awsf-deployment-models",
+          "highlight": [
+            "awsf-deployment-models"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "AWS global infrastructure — the hierarchy",
+          "notebook": "notebooks/01-04-global-infrastructure.ipynb",
+          "slide": "slides/01-04-global-infrastructure.slide",
+          "audio": "audio/01-04-global-infrastructure.wav",
+          "scene": "aws-global",
+          "focus": "awsf-global-infra",
+          "highlight": [
+            "awsf-global-infra"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Regions — and how to choose one",
+          "notebook": "notebooks/01-05-regions.ipynb",
+          "slide": "slides/01-05-regions.slide",
+          "audio": "audio/01-05-regions.wav",
+          "scene": "aws-global",
+          "focus": "awsf-region",
+          "highlight": [
+            "awsf-region"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Availability Zones",
+          "notebook": "notebooks/01-06-availability-zones.ipynb",
+          "slide": "slides/01-06-availability-zones.slide",
+          "audio": "audio/01-06-availability-zones.wav",
+          "scene": "aws-global",
+          "focus": "awsf-region",
+          "highlight": [
+            "awsf-az-a",
+            "awsf-az-b",
+            "awsf-az-c"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Edge locations & beyond-Region options",
+          "notebook": "notebooks/01-07-edge-and-beyond.ipynb",
+          "slide": "slides/01-07-edge-and-beyond.slide",
+          "audio": "audio/01-07-edge-and-beyond.wav",
+          "scene": "aws-global",
+          "focus": "awsf-global-infra",
+          "highlight": [
+            "awsf-global-infra"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "How you talk to AWS",
+          "notebook": "notebooks/01-08-connecting-to-aws.ipynb",
+          "slide": "slides/01-08-connecting-to-aws.slide",
+          "audio": "audio/01-08-connecting-to-aws.wav",
+          "scene": "aws-global",
+          "focus": "awsf-connecting",
+          "highlight": [
+            "awsf-connecting"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "The shared responsibility model",
+          "notebook": "notebooks/01-09-shared-responsibility.ipynb",
+          "slide": "slides/01-09-shared-responsibility.slide",
+          "audio": "audio/01-09-shared-responsibility.wav",
+          "scene": "aws-global",
+          "focus": "awsf-service-models",
+          "highlight": [
+            "awsf-service-models"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "The Well-Architected Framework — six pillars",
+          "notebook": "notebooks/01-10-well-architected.ipynb",
+          "slide": "slides/01-10-well-architected.slide",
+          "audio": "audio/01-10-well-architected.wav",
+          "scene": "aws-global",
+          "spine": true
+        }
+      ]
+    },
+    {
+      "id": "02-iam-organizations-and-account-security",
+      "title": "IAM, Organizations & Account Security",
+      "sections": [
+        {
+          "heading": "The root user & account day one",
+          "notebook": "notebooks/02-01-root-user.ipynb",
+          "slide": "slides/02-01-root-user.slide",
+          "audio": "audio/02-01-root-user.wav",
+          "scene": "aws-iam",
+          "spine": true,
+          "role": "hook"
+        },
+        {
+          "heading": "What IAM is — the authorization engine",
+          "notebook": "notebooks/02-02-what-iam-is.ipynb",
+          "slide": "slides/02-02-what-iam-is.slide",
+          "audio": "audio/02-02-what-iam-is.wav",
+          "scene": "aws-iam",
+          "focus": "anatomy-banner",
+          "highlight": [
+            "anatomy-banner"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "The three identity types — users, groups, roles",
+          "notebook": "notebooks/02-03-identity-types.ipynb",
+          "slide": "slides/02-03-identity-types.slide",
+          "audio": "audio/02-03-identity-types.wav",
+          "scene": "aws-iam",
+          "focus": "anatomy-banner",
+          "highlight": [
+            "anat-users",
+            "anat-roles"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Role assumption — three policies, two sides",
+          "notebook": "notebooks/02-04-role-assumption.ipynb",
+          "slide": "slides/02-04-role-assumption.slide",
+          "audio": "audio/02-04-role-assumption.wav",
+          "scene": "aws-iam",
+          "focus": "handshake",
+          "highlight": [
+            "identity-policy",
+            "trust-policy",
+            "perm-policy"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Policies — shape, types & the five policy slots",
+          "notebook": "notebooks/02-05-policies-and-slots.ipynb",
+          "slide": "slides/02-05-policies-and-slots.slide",
+          "audio": "audio/02-05-policies-and-slots.wav",
+          "scene": "aws-iam",
+          "focus": "eval-col",
+          "highlight": [
+            "eval-col"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Policy evaluation — how AWS says yes or no",
+          "notebook": "notebooks/02-06-policy-evaluation.ipynb",
+          "slide": "slides/02-06-policy-evaluation.slide",
+          "audio": "audio/02-06-policy-evaluation.wav",
+          "scene": "aws-iam",
+          "focus": "eval-col",
+          "highlight": [
+            "eval-deny",
+            "eval-boundary"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "STS & cross-account access",
+          "notebook": "notebooks/02-07-sts-cross-account.ipynb",
+          "slide": "slides/02-07-sts-cross-account.slide",
+          "audio": "audio/02-07-sts-cross-account.wav",
+          "scene": "aws-iam",
+          "focus": "handshake",
+          "highlight": [
+            "sts",
+            "role-side"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Identity federation",
+          "notebook": "notebooks/02-08-identity-federation.ipynb",
+          "slide": "slides/02-08-identity-federation.slide",
+          "audio": "audio/02-08-identity-federation.wav",
+          "scene": "aws-iam",
+          "focus": "story",
+          "highlight": [
+            "corp-idp",
+            "idc"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "AWS Organizations & SCPs",
+          "notebook": "notebooks/02-09-organizations-scps.ipynb",
+          "slide": "slides/02-09-organizations-scps.slide",
+          "audio": "audio/02-09-organizations-scps.wav",
+          "scene": "aws-iam",
+          "focus": "org",
+          "highlight": [
+            "mgmt-acct",
+            "sec-ou",
+            "wl-ou",
+            "org-scps"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "ABAC — tag-based access & condition keys",
+          "notebook": "notebooks/02-10-abac-condition-keys.ipynb",
+          "slide": "slides/02-10-abac-condition-keys.slide",
+          "audio": "audio/02-10-abac-condition-keys.wav",
+          "scene": "aws-iam",
+          "focus": "eval-col",
+          "highlight": [
+            "eval-identity",
+            "eval-resource"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Account hygiene — Access Analyzer & MFA",
+          "notebook": "notebooks/02-11-account-hygiene.ipynb",
+          "slide": "slides/02-11-account-hygiene.slide",
+          "audio": "audio/02-11-account-hygiene.wav",
+          "scene": "aws-iam",
+          "focus": "sec-ou",
+          "highlight": [
+            "sec-ou"
+          ],
+          "spine": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+# ABAC & condition keys
+
+## Conditions make policies context-aware
+
+High-leverage keys:
+
+- **`aws:MultiFactorAuthPresent`** — force MFA (with `Deny`)
+- **`aws:SourceIp`** — office / VPN ranges
+- **`aws:RequestedRegion`** — region restriction
+- **`aws:PrincipalOrgID`** — only your org's principals
+- **`aws:SecureTransport`** — require HTTPS
+- **`sts:ExternalId` / `aws:SourceArn`** — confused-deputy
+
+## ABAC — tag-based access
+
+Built on **`aws:PrincipalTag`** + **`aws:ResourceTag`**. Effect depends on **tags**, not hard-coded ARNs.
+
+Tag principal `Project=Atlas`, tag resource `Project=Atlas` → **one** policy: allow when the tags **match**.
+
+**New project → no new policies.** Just tag the identities and resources; access flows. The scaling pattern when permission sets would otherwise explode.

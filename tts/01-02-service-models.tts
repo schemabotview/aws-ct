@@ -1,0 +1,11 @@
+The three service models: infrastructure, platform, and software as a service.
+
+The service model comes down to one question: after you rent from AWS, how much of the operational stack do you still own? There are three levels, and each one hands more of that stack to the provider.
+
+The first is infrastructure as a service, or I-a-a-S. AWS manages the virtualization, the networking, and the hardware. You manage the operating system, the runtime, the application, and the data. This gives you the most control, and the most work. Elastic Compute Cloud, E-B-S, and V-P-C are examples.
+
+The second is platform as a service, or P-a-a-S. Now AWS also manages the operating system and the runtime. You bring only the application and its data. There's less to run and less to tune. Elastic Beanstalk and R-D-S are examples.
+
+The third is software as a service, or S-a-a-S. AWS manages the entire stack, and you simply use the application and own your data inside it. WorkMail, Chime, and QuickSight are examples.
+
+Each step up the stack trades flexibility for less operational burden. There's no single best level. You choose per workload: raw compute when you need control, a managed platform when you'd rather not run the plumbing.

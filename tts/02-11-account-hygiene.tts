@@ -1,0 +1,7 @@
+Account hygiene: Access Analyzer and M-F-A.
+
+Once the mechanics all work, two tools keep an account from drifting. The first is I-A-M Access Analyzer, which watches for unintended openness and for permissions creeping away from least privilege. It does four things. External-access findings continuously inspect your resource policies, across S3, I-A-M roles, K-M-S, Lambda, S-Q-S, and Secrets Manager, and flag anything reachable from outside your account or organization. Unused-access findings flag I-A-M users, roles, permissions, and access keys that haven't been used lately. Policy validation checks a policy for syntax and best-practice problems before you deploy it. And policy generation reads CloudTrail history for an identity and proposes a tighter policy based on what it actually used.
+
+The second tool is multi-factor authentication, or M-F-A: a second factor layered over a password, so that a stolen password alone isn't enough to get in. There are three factor types: a virtual authenticator app, like Google Authenticator, Authy, or 1Password; a hardware time-based token; or a FIDO security key, like a YubiKey.
+
+The simple rule is this: M-F-A on root, M-F-A on every I-A-M user with console access, and M-F-A enforced through condition keys on the operations that hurt the most when they go wrong, like the I-A-M actions or S3 delete-object. Put together, Access Analyzer tells you where you've drifted, and M-F-A raises the cost of a stolen credential. Those are the two habits that keep a mature account healthy.

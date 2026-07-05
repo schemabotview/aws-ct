@@ -1,0 +1,9 @@
+The root user, and day one of an AWS account.
+
+When you create an AWS account, you get one identity for free: the root user. It owns the account, and it has unlimited, un-restrictable access. No policy, not even a service control policy, can take permissions away from it. And that power is exactly why day one is about locking it away, rather than using it.
+
+A handful of tasks genuinely require root, and can't be delegated to anyone else. Changing the account's email address or the root password. Closing the account. Restoring administrative access if you've locked yourself out. Registering as a seller in the Reserved Instance Marketplace. And a few billing settings. Everything else, you do as an I-A-M identity instead.
+
+Root hygiene is non-negotiable. Give it a long, unique password. Enable hardware M-F-A. Never issue access keys for root. Store the credentials somewhere physically safe. And then leave it alone. Most healthy accounts go months, or even years, without anyone signing in as root.
+
+Everything that follows in this module, the users, the roles, the policies, and Organizations, exists so that nobody ever has to touch root to get real work done.

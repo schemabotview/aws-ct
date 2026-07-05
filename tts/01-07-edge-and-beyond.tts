@@ -1,0 +1,7 @@
+Edge locations, and the beyond-region options.
+
+Edge locations are not regions. They don't run E-C-2 or R-D-S. They're smaller facilities, deployed in far more cities than regions, with a single job: to terminate user connections close to the user. That one job is what powers several services. CloudFront caches and delivers content from the nearest edge. Route 53 answers D-N-S from the edge. AWS W-A-F filters H-T-T-P traffic there. AWS Shield provides distributed denial-of-service protection at the edge. And Lambda at Edge and CloudFront Functions let you run code at the edge to customize requests and responses.
+
+When even a region is too far away, three more options push AWS services closer to a specific kind of user. Local Zones put AWS into a metro city, for things like live media production, interactive gaming, and real-time finance. Wavelength puts AWS inside a 5G carrier network, for connected vehicles, smart factories, and augmented reality on mobile. And Outposts put AWS into your own data center, for strict data residency or ultra-low latency to local industrial systems.
+
+The common thread is simple: each one trades the full breadth of a region for proximity to somewhere a region can't reach.

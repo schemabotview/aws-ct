@@ -1,0 +1,13 @@
+Deployment models: public, private, hybrid, and multi-cloud.
+
+This is a separate question from the service model. The service model was how much you manage. The deployment model is where the infrastructure actually lives.
+
+Public cloud is provider-owned and multi-tenant. You share physical hardware with other customers, but you're isolated logically. This is the default for everything in this course.
+
+Private cloud is single-organization infrastructure: dedicated hardware, no other tenants. You see it where regulation or policy demands it, like banks, government, and sensitive workloads. On AWS this shows up as Outposts and Dedicated Hosts.
+
+Hybrid connects a public cloud to private or on-premises infrastructure over a dedicated link, such as a V-P-N or Direct Connect. Most large enterprises live here during and after a migration. Some systems stay on-premises, and the rest run in AWS.
+
+Multi-cloud spreads workloads across more than one public provider, like AWS plus Azure or Google Cloud. The usual reasons are avoiding vendor lock-in, or using a specific service that only one provider offers.
+
+For the exam, and for most real work, public is the default. The others are each an answer to a specific constraint: data residency, latency to on-premises systems, or avoiding lock-in.

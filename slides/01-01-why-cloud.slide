@@ -1,0 +1,17 @@
+# Why cloud?
+
+Run software for others: **buy and own** servers, or **rent capacity by the hour**. Cloud is the second option, as the default — and that one trade shapes every decision downstream.
+
+## What cloud means
+
+**On-demand** compute, storage, and networking over the internet, **paid for what you use**. Request through an API, resources appear in **seconds**, billed only while they exist.
+
+## Traditional IT → Cloud
+
+- Hardware: **buy and own** → **rent on-demand**
+- Capacity: over-provision for peak → **scale in minutes**
+- Provisioning: **weeks** → **seconds**
+- Cost: upfront **CapEx** → pay-as-you-go **OpEx**
+- Racks, power, cooling → the **provider's** heavy lifting
+
+**Gone:** idle capacity, multi-week procurement, guessing 18 months out, running a data center.

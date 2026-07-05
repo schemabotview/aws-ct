@@ -1,0 +1,16 @@
+# Policy evaluation
+
+Start from **implicit deny** — everything is denied until allowed. Then, in order:
+
+1. **Explicit `Deny`** — any deny **anywhere wins**, unconditionally → the kill switch
+2. **SCPs** — root → OU → account must allow
+3. **Resource-based** — can grant on its own (same account)
+4. **Permission boundary** — must allow
+5. **Session policies** — must allow
+6. **Identity-based** — must allow
+
+**The rule:** effective = **intersection** of every layer that must say yes; **any explicit deny overrides all**.
+
+## Delegated admin — why boundaries exist
+
+Let a dev run `iam:CreateRole` **only if** each new role carries a set **boundary**. The boundary grants nothing — it just **caps** — so they can't mint themselves `AdministratorAccess`.

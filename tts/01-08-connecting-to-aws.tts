@@ -1,0 +1,7 @@
+How you talk to AWS.
+
+Every interaction with AWS goes through the same control plane. There are just three doors into it, and underneath, they all do the same thing.
+
+The first door is the AWS Management Console, a web interface in your browser. It's best for learning a new service and for one-off exploration. The second is the AWS command line interface, or C-L-I, which runs commands from your terminal. It's best for scripting, automation glue, and ad-hoc operations. The third is the S-D-Ks, the software development kits, like boto-three for Python. These give you programmatic access from your own code, and they're best for application logic, infrastructure-as-code, and repeatable workflows.
+
+Underneath all three are signed H-T-T-P-S requests to a regional A-P-I endpoint. The console is a web app calling those endpoints. The C-L-I is a thin wrapper over them. And the S-D-K is a typed wrapper in your programming language. A good habit is to learn a service in the console first, then move to the C-L-I or an S-D-K once you want it scripted and repeatable.

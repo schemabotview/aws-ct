@@ -1,0 +1,20 @@
+# Service models
+
+**How much of the stack you still own** after you rent from AWS. Three levels — each hands more to the provider, trading **flexibility for less operational burden**.
+
+## IaaS — Infrastructure as a Service
+
+AWS runs the **hardware, networking, virtualization**. *You* run the **OS, runtime, app, and data**. Most control, most work.
+→ **EC2, EBS, VPC**
+
+## PaaS — Platform as a Service
+
+AWS also runs the **OS + runtime**. You bring only the **app + data** — no servers to patch.
+→ **Elastic Beanstalk, RDS**
+
+## SaaS — Software as a Service
+
+AWS runs the **entire stack**. You just **use the app** and own **your data** inside it.
+→ **WorkMail, Chime, QuickSight**
+
+**No single "best" level — pick per workload:** raw control (IaaS) ⟷ zero ops (SaaS).

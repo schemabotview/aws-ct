@@ -1,0 +1,7 @@
+AWS global infrastructure: the hierarchy.
+
+AWS's footprint is a set of nested layers, and every layer trades breadth for proximity to the user. The whole map falls out of three pressures that the cloud has to handle at the same time. The first is latency: your users are spread around the world, and the speed of light is fixed. The second is sovereignty: data has legal homes, and some of it must stay in a particular country. The third is failure isolation: your service can't go down just because one building loses power.
+
+Read from broadest to closest, there are three main layers. A region is an independent geographic area with its own cluster of data centers. There are more than thirty of them worldwide, and a region runs every AWS service. Inside a region are availability zones: one or more discrete data centers each, with three to six per region, running all the regional services. And closest to the user are edge locations, small facilities whose only job is to terminate user connections nearby. There are more than six hundred of them, running services like CloudFront, Route 53, W-A-F, Shield, and Lambda at Edge.
+
+Three more variants push AWS even closer when a whole region is too far away. Local Zones put AWS into a metro city. Wavelength puts it inside a 5G carrier network. And Outposts put AWS hardware into your own data center. The next few sections zoom into each of these layers.

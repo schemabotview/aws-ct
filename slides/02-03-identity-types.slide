@@ -1,0 +1,22 @@
+# Three identity types
+
+IAM has three — and the difference is really about **credentials**.
+
+## User
+
+A single **human or app**. Permanent creds: console password and/or **access key + secret**. Rule: **one user per person**, never shared.
+
+## Group
+
+A **bag of users** — attach one policy set to many. No credentials, **no nesting**; a user can be in many.
+
+## Role — the important one
+
+Policies but **no permanent credentials**. Something *assumes* it → AWS vends **short-lived, auto-expiring** creds.
+
+- EC2 → S3 (instance profile)
+- Lambda → DynamoDB (execution role)
+- Account A → Account B (cross-account role)
+- Federated employees (SAML / OIDC)
+
+**Rule of thumb:** reaching for a long-lived access key? Use a **role** instead.

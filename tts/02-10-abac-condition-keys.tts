@@ -1,0 +1,7 @@
+A-B-A-C, tag-based access, and condition keys.
+
+Conditions are what make policies context-aware. That's the optional condition block that checks the situation before allowing an action. A short list of condition keys solves most real-world problems. Multi-factor-auth-present forces M-F-A before sensitive actions, paired with a deny. Source-I-P restricts callers to office or V-P-N ranges. Requested-region does region restriction. Principal-org-I-D limits access to principals from your own organization. Secure-transport requires H-T-T-P-S. And external-I-D and source-A-R-N handle confused-deputy protection.
+
+Two of those keys, principal-tag and resource-tag, are the building blocks of A-B-A-C, which stands for Attribute-Based Access Control. Instead of hard-coding A-R-Ns into policies, A-B-A-C writes rules whose effect depends on tags. You tag your principals with, say, project equals Atlas. You tag the matching resources with project equals Atlas. Then you write one policy that allows access only when the principal's project tag equals the resource's project tag.
+
+The payoff shows up when a new project starts: you write no new policies at all. You tag the new identities and the new resources, and access flows automatically. A-B-A-C is the scaling pattern for when the number of distinct permission sets would otherwise explode into hundreds of near-identical policies. It's the opposite of spelling out every single A-R-N by hand.

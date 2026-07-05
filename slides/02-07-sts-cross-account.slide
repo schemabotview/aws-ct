@@ -1,0 +1,19 @@
+# STS & cross-account
+
+## STS — temporary credentials
+
+Mints creds when a role is assumed: key, secret, **session token**, expiry **15 min – 12 h**. Then they stop working — safer than long-lived keys.
+
+**Five flavors:** `AssumeRole` · `…WithSAML` (Okta/ADFS) · `…WithWebIdentity` (OIDC) · `GetSessionToken` (MFA) · `GetFederationToken`
+
+On EC2 / Lambda / ECS an **instance profile / execution role** vends rotating creds — **never plant a key on a box**.
+
+## Cross-account — two shapes
+
+- **Role assumption** — resource acct trusts caller's acct; caller *becomes* the role (identity **dropped**)
+- **Resource policy** — names the caller's principal directly (identity **kept**)
+
+## Confused-deputy guard
+
+- Third-party vendor → require **`sts:ExternalId`** (shared secret)
+- AWS service acting for you → **`aws:SourceArn` / `SourceAccount`**

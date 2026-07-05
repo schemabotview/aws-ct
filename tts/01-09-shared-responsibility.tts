@@ -1,0 +1,9 @@
+The shared responsibility model.
+
+Security on AWS is split between the provider and the customer, and there's a slogan that captures the line exactly: AWS is responsible for security of the cloud, and you are responsible for security in the cloud.
+
+AWS is always responsible for the physical buildings, the hypervisors, the networking gear, the host operating system, and the managed services they operate. You are always responsible for your data, your I-A-M users, roles, and policies, your firewall rules, and your encryption choices.
+
+Where exactly the line sits depends on how managed the service is. With E-C-2, AWS owns the hardware and the hypervisor, but you patch the guest operating system, run the application, and set the network rules. With R-D-S, AWS also patches the operating system and the database engine, while you own the users, the queries, and the backup configuration. With S3, AWS guarantees the hardware, the operating system, and the storage durability, while you own the data, the bucket policies, and the access controls.
+
+So the line moves up the stack as the service gets more managed. But responsibility for what you put in, and who you let see it, never leaves you. Module twelve returns to this idea in more depth.

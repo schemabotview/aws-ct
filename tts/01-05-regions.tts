@@ -1,0 +1,7 @@
+Regions, and how to choose one.
+
+A region is a physical geographic area holding a cluster of AWS data centers, in places like Northern Virginia, Ireland, Frankfurt, and Mumbai. Each region has a code, like U-S-east-one, E-U-west-one, or A-P-south-one. The number in the code is just an identifier; it doesn't count anything.
+
+The key property of a region is independence. Regions don't share power, networking, or control planes, so a failure in one has no causal connection to another. Most resources live inside a single region: an S3 bucket, an R-D-S database, a V-P-C. To have a presence in another region, you deploy there explicitly. The exceptions are the global services, like I-A-M, Route 53, CloudFront, and Organizations, where the region selector simply grays out. One quirk worth remembering is U-S-east-one: new services launch there first, and several global control planes call it home, so its outages can have a wider blast radius than most.
+
+Choosing a region comes down to four factors, in rough order of weight. First, compliance and data residency: regulations may require data to stay in a specific country or economic zone, and that's often non-negotiable. Second, latency: the closest region to your users wins, and if your users are spread across continents, you design multi-region with Route 53 or CloudFront in front. Third, service availability: verify that every service you need actually exists in your target region. And fourth, pricing, which varies modestly between regions and is a tiebreaker rather than a driver.

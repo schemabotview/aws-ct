@@ -1,0 +1,21 @@
+# Deployment models
+
+**Where the infrastructure lives** — a separate question from *how much you manage* (the service model).
+
+## Public
+
+Provider-owned, **multi-tenant** — you share hardware, isolated logically. **The default** for everything in this course.
+
+## Private
+
+**Single-organization**, dedicated hardware, no other tenants. Banks, government, regulated workloads. On AWS → **Outposts, Dedicated Hosts**.
+
+## Hybrid
+
+Public **+ on-prem** over a dedicated link (**VPN / Direct Connect**). Where most **enterprises** sit during and after migration.
+
+## Multi-cloud
+
+More than one provider (**AWS + Azure / GCP**). For **lock-in avoidance** or a service only one offers.
+
+**Public is the default;** the rest each answer one constraint — **residency, on-prem latency, or lock-in**.

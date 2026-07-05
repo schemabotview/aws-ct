@@ -1,0 +1,9 @@
+Policy evaluation: how AWS says yes or no.
+
+When a real request arrives, AWS runs every applicable policy through a single evaluation, and it starts from an implicit deny. Everything is denied until something explicitly allows it. Here's the order.
+
+First, explicit deny. This is checked across every policy, and any deny anywhere wins immediately and unconditionally. It's the kill switch. Second, service control policies, along the path from org root, to O-U, to account; they must allow the action. Third, resource-based policies, which can grant access on their own within the same account. Fourth, the permission boundary on the principal, which must allow. Fifth, any session policies, which must allow. And sixth, the identity-based policies on the principal, which must allow.
+
+The single rule to remember is this: the effective permission is the intersection of every layer that has to say yes, and any explicit deny anywhere overrides all of it.
+
+That deny-wins behavior powers a key pattern: permission boundaries for delegated administration. Suppose you want a developer to be able to create I-A-M roles for the services they own, but you do not want them creating a role with administrator-access and then assuming it. So you grant them create-role, but with a condition: every role they create must carry a specific permission boundary. The boundary grants nothing on its own; it only sets a ceiling. So whatever permissions policy they attach, the role can never exceed that cap. That's how you safely hand out I-A-M administration itself.

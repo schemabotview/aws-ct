@@ -1,0 +1,7 @@
+The Well-Architected Framework, and its six pillars.
+
+The Well-Architected Framework is the lens AWS publishes for reviewing any workload. It isn't a checklist. It's a vocabulary for trade-offs: six pillars that you weigh against one another.
+
+The first pillar is operational excellence: running and improving your systems to deliver value, through practices like infrastructure-as-code, observability, runbooks, and post-mortems. The second is security: protecting your data, systems, and assets, using I-A-M, encryption, detective controls, and incident response. The third is reliability: performing correctly and recovering from failure, through multi-A-Z designs, auto scaling, and disaster recovery planning. The fourth is performance efficiency: using the right resources for the job and keeping them right as demand shifts, through right-sizing and choosing the right database for each workload. The fifth is cost optimization: delivering value at the lowest price point, using right-sizing, reserved, spot, and savings plans, and killing idle resources. And the sixth is sustainability: minimizing environmental impact through efficient regions, right-sizing, and managed services.
+
+You rarely maximize all six at once. Tightening cost can trade against performance, and hardening security can trade against operational speed. The real value of the framework is having the shared words to name those trade-offs deliberately. Module fourteen returns to each pillar with concrete service mappings.

@@ -1,0 +1,15 @@
+# Edge & beyond-Region
+
+**Edge locations are not regions** — no EC2 or RDS. Their one job: **terminate user connections close to the user**, in far more cities.
+
+## What lives at the edge
+
+**CloudFront** (cache + deliver) · **Route 53** (DNS) · **WAF** (filter HTTP) · **Shield** (DDoS) · **Lambda@Edge** (run code)
+
+## When a region is still too far
+
+- **Local Zones** → a **metro city** (media, gaming, finance)
+- **Wavelength** → a **5G network** (vehicles, factories, AR)
+- **Outposts** → **your data center** (residency, ultra-low latency)
+
+Each trades a region's breadth for **proximity**.
