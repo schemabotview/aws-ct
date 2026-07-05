@@ -1,0 +1,16 @@
+# Serverless vs. containers vs. EC2
+
+Module 03's EC2 + ASG works — so why anything else? **Three pressures** push workloads off pure EC2:
+
+- **Bursty demand** — ASG ramps too slow; you pay the idle floor
+- **Operational surface** — no OS patching / AMI baking for tiny jobs
+- **Packaging** — the same binary on laptop, CI, prod
+
+## Two answers
+
+- **Serverless** — write code, AWS runs everything; **pay per use, idle = free**
+- **Containers** — code + runtime + deps in one **portable image**; run native (ECS), K8s (EKS), or serverless (Fargate)
+
+## The trade-off
+
+**Serverless** wins on event-driven / intermittent / unpredictable. **EC2 / containers** win on long-running, stateful, sustained-CPU — where per-hour beats per-request.

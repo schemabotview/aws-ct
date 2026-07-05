@@ -1,0 +1,16 @@
+# Choosing a compute service
+
+## App Runner — the top rung
+
+Point at an **image or Git repo** → it builds, deploys, load-balances, TLS, scales, health-checks. For a **small-to-medium web service that just needs to be online**. Outgrow it → drop to ECS/EKS.
+
+## The ladder — by workload shape
+
+- Event-driven, short bursts (< 15 min) → **Lambda**
+- HTTP API, simple routing → **Lambda + API GW** / **App Runner**
+- Long-running, no K8s → **ECS on Fargate**
+- Long-running, high steady util → **ECS on EC2** + Savings Plans
+- Existing K8s / multi-cloud → **EKS**
+- Full OS control / special HW → **EC2**
+
+**Pick the highest rung** that meets your needs — every step down adds work to justify.

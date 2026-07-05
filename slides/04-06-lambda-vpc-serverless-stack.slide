@@ -1,0 +1,17 @@
+# Permissions, VPC & the stack
+
+## Two IAM sides
+
+- **Execution role** — *what* the function can do (assumed at runtime; least privilege)
+- **Resource policy** — *who* may invoke it (auto-added by triggers; manual for cross-account)
+
+## VPC reachability
+
+Default: **outside the VPC** — internet ✓, private ✗. Attach to a subnet → private ✓, but **internet needs a NAT**. Hyperplane ENIs → cold-start overhead negligible.
+
+## Fronting + the serverless stack
+
+- **Function URL** — built-in HTTPS, one per function → webhooks, prototypes
+- **API Gateway** — production front (routing, throttling, keys, caching, authorizers)
+
+Stack: **DynamoDB · S3 · SQS/SNS/EventBridge · Step Functions · Aurora Serverless · Cognito** — each scales + bills per use.

@@ -1,0 +1,7 @@
+Invocation models and error handling.
+
+Lambda is triggered three ways, and the model sets the retry and error rules. Synchronous: the caller waits for the response. This is used by A-P-I Gateway, A-L-B, Function U-R-Ls, and direct S-D-K invokes, and there are no automatic retries; the error goes straight back to the caller. Asynchronous: Lambda queues the event and returns immediately. This is used by S3, S-N-S, and EventBridge, and Lambda retries up to two times with backoff, routing persistent failures to a Dead Letter Queue or a Destination. And event source mapping, which is poll-based: Lambda polls the source and invokes your function with batches of records. This is used by S-Q-S, Kinesis, DynamoDB Streams, and Kafka. Ordering and scaling depend on the source; for example, S-Q-S FIFO preserves order per message group.
+
+Failure handling depends on the model. For async, a Dead Letter Queue, an S-Q-S queue or S-N-S topic, catches the failed payload after retries are exhausted. Lambda Destinations are richer: they route both success and failure, carrying the full event plus the function response, to S-Q-S, S-N-S, EventBridge, or another Lambda. For event source mappings, retries run until the message or record expires, and partial batch responses let your function report exactly which records in a batch failed, so the successful ones aren't reprocessed.
+
+The exam signal is this: synchronous means the caller retries; asynchronous means two retries plus D-L-Q or Destinations; and poll-based means batch retries until expiry.

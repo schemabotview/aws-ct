@@ -1,0 +1,16 @@
+# Invocation & error handling
+
+## Three invocation models
+
+- **Synchronous** — caller waits (API GW, ALB, Function URL). **No auto-retry** — error to caller
+- **Asynchronous** — Lambda queues, returns now (S3, SNS, EventBridge). **2 retries** → DLQ / Destination
+- **Poll** (event source mapping) — Lambda polls in **batches** (SQS, Kinesis, DynamoDB Streams). Ordering per source
+
+## Async failure paths
+
+- **Dead Letter Queue** — failed payload → SQS/SNS (payload only)
+- **Destinations** — success *and* failure → SQS/SNS/EventBridge/Lambda (full event + response)
+
+## Poll failures
+
+Retry until the record expires · **partial batch response** reports only the failed records.

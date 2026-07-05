@@ -1,0 +1,7 @@
+Lambda permissions, V-P-C, and the serverless stack.
+
+Lambda has two I-A-M sides. The execution role controls what the function can do. Lambda assumes it at runtime, so the credentials inside your handler are role credentials; apply least privilege rigorously. The resource-based policy controls who can invoke the function. It's added automatically when you wire a trigger in the console, like A-P-I Gateway or S3, and you set it manually for cross-account invocation patterns.
+
+By default, Lambda runs outside your V-P-C, in an AWS-managed network with internet access. To reach private resources, like R-D-S, ElastiCache, or an internal service, you attach the function to a V-P-C subnet. But then it loses internet access unless you route through a NAT Gateway, exactly like an E-C-2 instance in a private subnet. Modern Hyperplane E-N-Is make the V-P-C cold-start overhead negligible, so today this is a reachability decision, not a latency one.
+
+Lambda needs something in front of it to handle H-T-T-P, and it's rarely alone. A Function U-R-L is a built-in H-T-T-P-S endpoint, one per function, good for webhooks and prototypes. A-P-I Gateway is the production front door, adding routing, throttling, A-P-I keys, caching, custom domains, W-A-F, and Cognito or Lambda authorizers. The wider serverless stack pairs Lambda with DynamoDB, a NoSQL store that scales to zero; S3; S-Q-S, S-N-S, and EventBridge for decoupling; Step Functions for orchestration; Aurora Serverless; and Cognito. Each of these scales independently and bills per use.

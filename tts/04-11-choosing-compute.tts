@@ -1,0 +1,7 @@
+Choosing a compute service.
+
+One higher-level option hides most of the choice for you: App Runner, the highest-level container deployment path. You point it at an E-C-R image or a Git repository, and it builds, deploys, load-balances, terminates T-L-S, scales, and runs health checks for you. Its sweet spot is a small-to-medium web service that just needs to be online behind H-T-T-P-S with autoscaling. You outgrow it when the architecture grows past one service or needs custom networking; then you drop down to E-C-S or E-K-S.
+
+Here's the full compute ladder, by workload shape. Event-driven work in short bursts, under fifteen minutes per unit, goes to Lambda. An H-T-T-P A-P-I with simple routing goes to Lambda plus A-P-I Gateway, or App Runner. A long-running service with no Kubernetes need goes to E-C-S on Fargate. A long-running service at high steady utilisation, where cost matters, goes to E-C-S on E-C-2 with Savings Plans. Existing Kubernetes, multi-cloud, or advanced scheduling goes to E-K-S. And full operating-system control or special hardware means E-C-2 directly.
+
+The progression from Lambda, to App Runner, to E-C-S on Fargate, to E-K-S, to E-C-2, is a ladder of increasing control and increasing operational responsibility. Pick the highest rung that meets your requirements, because every step down adds work you have to justify.

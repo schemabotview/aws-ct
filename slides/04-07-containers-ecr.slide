@@ -1,0 +1,19 @@
+# Containers & ECR
+
+## Why containers
+
+**Image** = app + runtime + deps, **runs identically anywhere**, boots in seconds, shares the host kernel. Fits where Lambda doesn't:
+
+- **Long-running** beyond the 15-min cap
+- **Sustained CPU/mem** — per-hour beats per-invocation
+- Fine **runtime control** · already-containerised apps
+
+AWS runs them 3 ways: **ECS** (native) · **EKS** (Kubernetes) · **Fargate** (serverless host, under either).
+
+## ECR — the registry
+
+Managed, **IAM-integrated** image registry (private Docker Hub). Per account/region + public `public.ecr.aws`.
+
+- **Scanning** (basic on push / enhanced via Inspector)
+- **Lifecycle policies**, cross-region **replication**, **KMS** at rest
+- Auth = **short-lived token** (`get-login-password`)

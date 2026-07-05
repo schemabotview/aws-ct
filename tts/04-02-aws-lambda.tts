@@ -1,0 +1,7 @@
+AWS Lambda: the execution model.
+
+Lambda runs your code in response to events, scales automatically from zero to thousands of concurrent executions, and bills per millisecond of execution time. You provide a function; AWS provides the runtime, the network, the scaling, and integration with dozens of event sources. A function consists of four things: a handler, which is the entry point AWS calls per invocation; a runtime, like Python, Node, Java, Go, or dot-NET, or a custom one; an execution role, which is its I-A-M permissions at runtime; and configuration, meaning memory, timeout, environment variables, and network.
+
+When an event arrives, Lambda finds or creates an execution environment: a sandboxed Firecracker micro-V-M running your runtime and your code. The lifecycle is: init code, then the handler with the event and context, then the response. The init code runs once when the environment starts. Use it to set up database connections, S-D-K clients, cached config, or loaded models, and it's reused across later invocations on the same warm environment. The handler then runs once per invocation, receiving the event payload and a context object exposing the request I-D, remaining time, and function name.
+
+That execution environment is the key unit to hold onto. It's the unit of caching, the unit of cold-start cost, and the unit of concurrency. Every Lambda concept that follows, packaging, cold starts, concurrency, and V-P-C reachability, ties back to how these environments are created, reused, and torn down.

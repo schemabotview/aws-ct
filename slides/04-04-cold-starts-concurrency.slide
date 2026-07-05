@@ -1,0 +1,20 @@
+# Cold starts & concurrency
+
+## Cold vs. warm
+
+`Cold: download → runtime → init → handler` · `Warm: handler`
+Cold on **first call, after idle, or scale-out**. Cost by runtime:
+
+- **Python / Node** — ~100–200 ms
+- **Java / .NET** — 500 ms–1 s+ (VM startup)
+
+**Fixes:** small package · heavy setup in **init** · lighter runtime · **Provisioned Concurrency** (keeps N warm)
+
+## Concurrency
+
+= execution environments running at once (regional pool, default **1,000**).
+
+- **Reserved** — pins a slice: **guarantees + caps** (protect a downstream)
+- **Provisioned** — pre-warms envs → no cold starts
+
+Over the limit → **throttle**: sync = **HTTP 429**, async = queued/retried.

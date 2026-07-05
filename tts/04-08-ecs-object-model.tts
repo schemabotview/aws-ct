@@ -1,0 +1,7 @@
+Amazon E-C-S: the object model and task definitions.
+
+E-C-S is AWS's native container orchestrator. It schedules, places, scales, and replaces containers across a cluster. Its object model nests. A cluster is a logical fleet, backed by either E-C-2 capacity or Fargate. The cluster holds services, and each service maintains a desired number of tasks. A task is a running instance of a task definition. The task is the unit of deployment, meaning one or more containers together. The service is the unit of long-running operation: it holds the desired count, integrates with a load balancer, and replaces failed tasks. One-off batch jobs run as standalone tasks.
+
+A task definition is a J-SON blueprint that pins down everything about how a task runs: the image, C-P-U and memory, port mappings, environment variables, the log driver, volumes, network mode, and two distinct I-A-M roles. The task execution role is used by the E-C-S agent on the host; it's plumbing, used to pull the image from E-C-R and ship logs. The task role is your application's identity; it carries whatever your app actually needs, like s3 get-object or dynamo-D-B query.
+
+Splitting the two is deliberate. The execution role is infrastructure plumbing, and the task role is your application. Credentials reach the container through the standard S-D-K metadata path, so boto-three inside the container just works, with no embedded keys.

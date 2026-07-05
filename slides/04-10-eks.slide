@@ -1,0 +1,17 @@
+# Amazon EKS
+
+## When ECS isn't enough → EKS
+
+- **Existing Kubernetes** investment — one operational model
+- **Multi-cloud / on-prem** portability (manifests are portable; task defs aren't)
+- Rich **K8s features** — taints, controllers, Helm, meshes, GitOps
+
+## What EKS manages
+
+The **control plane** (API server, etcd, scheduler) — managed, ~**$0.10/hr per cluster**. You own **worker nodes**:
+
+- **Managed Node Group** — AWS runs the EC2 lifecycle — the default
+- **Self-Managed** — your AMI / ASG (Windows, custom kernel)
+- **Fargate Profile** — no EC2 (no DaemonSets / privileged / EBS / GPU)
+
+**Default: ECS on Fargate.** EKS when K8s is a **requirement, not a preference**.

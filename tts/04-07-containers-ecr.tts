@@ -1,0 +1,7 @@
+Containers, and E-C-R: the other compute model.
+
+Lambda gives you zero servers, but it constrains your runtime to AWS's choices, its Python version, its library set, its execution model. A container removes that limit. It's your application, its runtime, and its dependencies packaged into one image that runs identically wherever a container engine exists. Containers boot in seconds and share the host kernel rather than virtualising hardware. They fit exactly where Lambda doesn't: long-running processes beyond the fifteen-minute cap; sustained C-P-U or memory work, where per-hour pricing beats per-invocation; workloads needing finer runtime control than Lambda exposes; and applications that are already containerised.
+
+AWS runs containers three ways: E-C-S for AWS-native orchestration, E-K-S for managed Kubernetes, and Fargate as the serverless compute engine underneath either of them, where the host is invisible.
+
+Every container path starts at a registry. E-C-R, the Elastic Container Registry, is AWS's managed image registry: the private, I-A-M-integrated equivalent of Docker Hub. You get one private registry per account per region, plus a public registry at public-dot-e-c-r-dot-a-w-s. It does image scanning, basic on push or enhanced and continuous via Inspector; lifecycle policies to expire old image versions; cross-region and cross-account replication; and K-M-S encryption at rest. Authentication uses a short-lived token from a-w-s e-c-r get-login-password, so there are no long-lived registry credentials to manage.

@@ -1,0 +1,18 @@
+# ECS launch types & scaling
+
+## EC2 vs. Fargate launch type
+
+Same task def, different **host owner**:
+
+- **EC2** — you own instances (type, AMI, SSH). Per-hour, **idle costs**, you patch
+- **Fargate** — AWS owns the host (invisible). Per-**task-second**, **no idle**, no maintenance
+
+**Rule:** start **Fargate**; move to **EC2 + Savings Plans** at steady utilisation.
+
+## Networking — `awsvpc`
+
+Each task gets its **own ENI + IP + SG** (required for Fargate; treat tasks like small EC2s). Attach service → **ALB/NLB target group**; auto-(de)registers.
+
+## Scaling — Application Auto Scaling
+
+Target tracking / step / scheduled. **EC2 type:** also scale instances via an **ECS Capacity Provider** (ASG). Fargate has none to manage.

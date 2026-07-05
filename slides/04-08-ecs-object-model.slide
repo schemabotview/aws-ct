@@ -1,0 +1,19 @@
+# Amazon ECS — object model
+
+## The nesting
+
+**Cluster** (EC2 or Fargate-backed)
+→ **Service** (desired count, LB, replaces failures)
+→ **Task** (running instance, 1+ containers)
+→ from a **Task Definition** (the blueprint)
+
+**Task** = unit of deployment · **Service** = unit of long-running op · batch job = standalone task.
+
+## Task definition — JSON blueprint
+
+Image, CPU/memory, ports, env, logs, volumes, network — **+ two IAM roles**:
+
+- **Task execution role** — the *ECS agent*: pull image from ECR, ship logs
+- **Task role** — your *app's identity*: `s3:GetObject`, `dynamodb:Query`
+
+Split = plumbing vs. app. Creds arrive via SDK metadata → `boto3` just works, no embedded keys.

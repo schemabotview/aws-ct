@@ -416,6 +416,148 @@
           "spine": true
         }
       ]
+    },
+    {
+      "id": "04-serverless-and-containers",
+      "title": "Serverless & Containers",
+      "sections": [
+        {
+          "heading": "Serverless, containers & EC2 — the trade-off",
+          "notebook": "notebooks/04-01-serverless-vs-containers.ipynb",
+          "slide": "slides/04-01-serverless-vs-containers.slide",
+          "audio": "audio/04-01-serverless-vs-containers.wav",
+          "scene": "aws-cloud",
+          "spine": true,
+          "role": "hook"
+        },
+        {
+          "heading": "AWS Lambda — the execution model",
+          "notebook": "notebooks/04-02-aws-lambda.ipynb",
+          "slide": "slides/04-02-aws-lambda.slide",
+          "audio": "audio/04-02-aws-lambda.wav",
+          "scene": "aws-cloud",
+          "focus": "app-a",
+          "highlight": [
+            "lambda-a"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Packaging, layers & configuration",
+          "notebook": "notebooks/04-03-packaging-layers.ipynb",
+          "slide": "slides/04-03-packaging-layers.slide",
+          "audio": "audio/04-03-packaging-layers.wav",
+          "scene": "aws-cloud",
+          "focus": "app-a",
+          "highlight": [
+            "lambda-a"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Cold starts & concurrency",
+          "notebook": "notebooks/04-04-cold-starts-concurrency.ipynb",
+          "slide": "slides/04-04-cold-starts-concurrency.slide",
+          "audio": "audio/04-04-cold-starts-concurrency.wav",
+          "scene": "aws-cloud",
+          "focus": "app-a",
+          "highlight": [
+            "lambda-a"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Invocation models & error handling",
+          "notebook": "notebooks/04-05-invocation-error-handling.ipynb",
+          "slide": "slides/04-05-invocation-error-handling.slide",
+          "audio": "audio/04-05-invocation-error-handling.wav",
+          "scene": "aws-cloud",
+          "focus": "app-a",
+          "highlight": [
+            "lambda-a"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Lambda permissions, VPC & the serverless stack",
+          "notebook": "notebooks/04-06-lambda-vpc-serverless-stack.ipynb",
+          "slide": "slides/04-06-lambda-vpc-serverless-stack.slide",
+          "audio": "audio/04-06-lambda-vpc-serverless-stack.wav",
+          "scene": "aws-cloud",
+          "focus": "app-a",
+          "highlight": [
+            "lambda-a",
+            "apigw"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Containers & ECR — the other compute model",
+          "notebook": "notebooks/04-07-containers-ecr.ipynb",
+          "slide": "slides/04-07-containers-ecr.slide",
+          "audio": "audio/04-07-containers-ecr.wav",
+          "scene": "aws-cloud",
+          "focus": "app-a",
+          "highlight": [
+            "ecr",
+            "ecs-a"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Amazon ECS — object model & task definitions",
+          "notebook": "notebooks/04-08-ecs-object-model.ipynb",
+          "slide": "slides/04-08-ecs-object-model.slide",
+          "audio": "audio/04-08-ecs-object-model.wav",
+          "scene": "aws-cloud",
+          "focus": "app-a",
+          "highlight": [
+            "ecs-a"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "ECS launch types, networking & scaling",
+          "notebook": "notebooks/04-09-ecs-launch-types.ipynb",
+          "slide": "slides/04-09-ecs-launch-types.slide",
+          "audio": "audio/04-09-ecs-launch-types.wav",
+          "scene": "aws-cloud",
+          "focus": "app-a",
+          "highlight": [
+            "ecs-a",
+            "fargate-a"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Amazon EKS — managed Kubernetes",
+          "notebook": "notebooks/04-10-eks.ipynb",
+          "slide": "slides/04-10-eks.slide",
+          "audio": "audio/04-10-eks.wav",
+          "scene": "aws-cloud",
+          "focus": "app-a",
+          "highlight": [
+            "ecs-a",
+            "fargate-a"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Choosing a compute service",
+          "notebook": "notebooks/04-11-choosing-compute.ipynb",
+          "slide": "slides/04-11-choosing-compute.slide",
+          "audio": "audio/04-11-choosing-compute.wav",
+          "scene": "aws-cloud",
+          "focus": "app-a",
+          "highlight": [
+            "ec2-a",
+            "ecs-a",
+            "fargate-a",
+            "lambda-a"
+          ],
+          "spine": true
+        }
+      ]
     }
   ]
 }

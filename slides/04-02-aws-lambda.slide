@@ -1,0 +1,20 @@
+# AWS Lambda
+
+Runs code **on events**, scales **0 → thousands**, bills **per millisecond**. You bring a function; AWS brings the rest.
+
+## A function =
+
+- **Handler** — entry point, called per invocation
+- **Runtime** — Python, Node, Java, Go, .NET, custom
+- **Execution role** — its IAM permissions
+- **Config** — memory, timeout, env vars, network
+
+## The execution environment
+
+A sandboxed **Firecracker micro-VM**. Lifecycle:
+`init code → handler(event, context) → response`
+
+- **Init runs once** per env — DB pools, SDK clients, cached config — **reused** while warm
+- **Handler runs per invocation**
+
+**The env is the unit of caching, cold-start cost & concurrency** — everything below ties back to it.

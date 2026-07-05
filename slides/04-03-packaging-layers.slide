@@ -1,0 +1,18 @@
+# Packaging & configuration
+
+## Three ways to ship code
+
+- **Inline zip** (console) — ≤ 3 MB — tiny utilities
+- **Zip via S3** — ≤ 250 MB unzipped — the standard
+- **Container image** (OCI) — ≤ 10 GB — big deps, ML, custom runtimes
+
+**Layers** — versioned zips of shared libs/runtimes, mounted in; **≤ 5 per function**, shared across accounts → small packages.
+
+## Config knobs
+
+- **Memory** 128 MB–10 GB — **CPU scales with it** (1 vCPU ≈ 1,769 MB)
+- **Timeout** 1 s–15 min — hard cap
+- **`/tmp`** 512 MB–10 GB — survives warm invocations
+- **Env vars** ≤ 4 KB (KMS-encrypted)
+
+**Key knob:** no CPU dial — **raise memory to get vCPU** for CPU-bound work.
