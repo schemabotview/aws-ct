@@ -1,20 +1,18 @@
 # Account hygiene
 
-Once the mechanics work, two habits keep an account from **drifting**.
+Two habits keep an account from **drifting**.
 
 ## IAM Access Analyzer
 
-Watches for unintended openness + least-privilege drift:
+Finds unintended openness + least-privilege drift:
 
-- **External access** — resource policies reachable from outside the org
-- **Unused access** — stale users, roles, permissions, keys
+- **External access** — reachable from outside the org
+- **Unused access** — stale users, roles, keys
 - **Policy validation** — checks a policy **before** deploy
-- **Policy generation** — proposes a tighter policy from CloudTrail history
+- **Policy generation** — tighter policy from CloudTrail history
 
 ## MFA — a second factor
 
-A stolen password alone isn't enough. Types: **authenticator app** · **hardware TOTP** · **FIDO key** (YubiKey).
+A stolen password isn't enough. **Types:** authenticator app · hardware TOTP · FIDO key.
 
-**The rule:** MFA on **root**, on **every console user**, and **enforced via condition keys** on what hurts most (`iam:*`, `s3:DeleteObject`).
-
-Analyzer finds the drift; MFA raises the cost of a stolen credential.
+**The rule:** MFA on **root**, on **every console user**, and **enforced via condition keys** where it hurts most.

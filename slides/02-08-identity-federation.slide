@@ -4,18 +4,16 @@ Let **external identities assume roles** — no IAM user, no long-lived password
 
 ## Two protocols
 
-- **SAML 2.0** — enterprise IdPs (ADFS, Okta, Ping) → `AssumeRoleWithSAML`
-- **OIDC** — Cognito, Google, EKS, GitHub Actions → `AssumeRoleWithWebIdentity`
-
-Prove yourself to the IdP → AWS vends a **short-lived role session**.
+- **SAML 2.0** — enterprise IdPs (ADFS, Okta) → `AssumeRoleWithSAML`
+- **OIDC** — Google, EKS, GitHub Actions → `AssumeRoleWithWebIdentity`
 
 ## IAM Identity Center — the modern way
 
-- Lives in the **management account**; one source of truth (its directory, AD, or Okta / Entra ID)
-- **One sign-on portal** → every account + role; calls `AssumeRole` behind the scenes
+- Lives in the **management account**; one source of truth (AD, Okta, Entra ID)
+- **One sign-on portal** → every account + role; calls `AssumeRole` for you
 
 ## Permission set — its unit
 
-Template of policies (+ optional boundary, session length). Define once → provisions a hidden role per account; update once → updates everywhere.
+A template of policies (+ optional boundary / session length). Define once → provisions a hidden role per account; update once → everywhere.
 
 **Default to Identity Center over per-account IAM users.**

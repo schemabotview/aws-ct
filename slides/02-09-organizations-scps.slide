@@ -2,14 +2,14 @@
 
 ## The fleet as a tree
 
-**Root** → nestable **OUs** → **accounts** (leaves). Turns dozens of accounts into one managed org.
+**Root** → nestable **OUs** → **accounts** (leaves).
 
-- **Management account** — owns the org, pays bills, only one that attaches SCPs. **No workloads here.**
+- **Management account** — owns the org, pays bills, attaches SCPs. **No workloads here.**
 - **Member** — every other account
 
 ## Why Organizations
 
-Consolidated **billing** · programmatic **account creation** · centralized **governance** · cross-account **sharing** (RAM)
+Consolidated **billing** · programmatic **account creation** · centralized **governance** · **sharing** via RAM
 
 ## SCP — the governance lever
 
@@ -17,6 +17,4 @@ On root / OU / account → the **max permissions** in scope, **incl. member root
 
 - **Does not grant** — only caps (IAM must still allow)
 - **Skips** the management account + service-linked roles
-- Usually a **deny-list** (`FullAWSAccess` + explicit `Deny`s)
-
-Patterns: **region restriction** · **`Deny` LeaveOrganization**.
+- Deny-list (`FullAWSAccess` + `Deny`s) · patterns: **region restriction**, **`Deny` LeaveOrganization**
