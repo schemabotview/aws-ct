@@ -1,0 +1,7 @@
+The six security layers at a glance.
+
+Security on A-W-S is layered. No single service does the whole job; each one owns a layer, and a real production stack pulls from most of them.
+
+K-M-S is the cryptographic root. It creates and protects the keys that encrypt data across every other service, S3, E-B-S, R-D-S, DynamoDB, Secrets Manager, all call K-M-S underneath. Secrets Manager, and its cheaper cousin S-S-M Parameter Store, holds credentials so applications never embed passwords or A-P-I keys in code. Shield absorbs denial-of-service floods at the network edge; W-A-F filters H-T-T-P traffic at the application layer; and Firewall Manager centralises both across an entire Organisation. Cognito handles user identity, who's signed in and what A-W-S resources they can reach. And a handful of detective services, GuardDuty, Macie, Inspector, and Detective, watch for misuse after the fact, with Security Hub aggregating all their findings.
+
+The mental split is preventive versus detective. Preventive controls encrypt data, hide credentials, keep bad traffic out, and prove identity. Detective controls notice when something slipped through anyway. Every service in this module maps to one of those two jobs.

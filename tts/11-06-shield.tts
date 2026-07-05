@@ -1,0 +1,9 @@
+Shield, denial-of-service protection.
+
+Shield protects A-W-S resources from distributed denial-of-service attacks, and it comes in two tiers.
+
+Shield Standard is automatic, free, and on for every A-W-S account. It defends Layer three and Layer four, that's SYN floods, U-D-P reflection, and volumetric attacks, for resources behind CloudFront, Route 53, Elastic Load Balancers, and E-C-2 Elastic I-Ps. There is nothing to configure; A-W-S absorbs the routine flood traffic before it ever reaches your infrastructure.
+
+Shield Advanced is a paid subscription at three thousand dollars per organisation per month, plus data transfer, and it builds on Standard with several things worth memorising. First, Layer seven protection, defending application-layer floods like H-T-T-P GET and POST floods and slowloris against CloudFront, A-L-B, and A-P-I Gateway; Standard only covers Layer three and four. Second, denial-of-service cost protection: A-W-S credits back the scaling charges on E-C-2, E-L-B, CloudFront, and Route 53 that you incur because of an active attack, and without it a successful absorption can still arrive with a six-figure bill. Third, twenty-four-seven access to the Shield Response Team, the S-R-T, A-W-S denial-of-service experts you can reach during an attack and pre-authorise to act on your account. And fourth, advanced real-time metrics, reporting, and global threat dashboards.
+
+The exam cues are clean. Free, automatic, Layer three and four, that's Shield Standard. Layer seven protection, cost protection, the Shield Response Team, or a surprise bill after an attack, that's Shield Advanced. Remember that Shield defends availability, while W-A-F, coming up next, inspects content; the two layer together at the edge.

@@ -1363,6 +1363,134 @@
           "spine": true
         }
       ]
+    },
+    {
+      "id": "11-security-services",
+      "title": "Security Services",
+      "sections": [
+        {
+          "heading": "The six security layers at a glance",
+          "notebook": "notebooks/11-01-security-layers.ipynb",
+          "slide": "slides/11-01-security-layers.slide",
+          "audio": "audio/11-01-security-layers.wav",
+          "scene": "aws-cloud",
+          "spine": true,
+          "role": "hook"
+        },
+        {
+          "heading": "KMS — envelope encryption & the key hierarchy",
+          "notebook": "notebooks/11-02-kms-envelope.ipynb",
+          "slide": "slides/11-02-kms-envelope.slide",
+          "audio": "audio/11-02-kms-envelope.wav",
+          "scene": "aws-cloud",
+          "focus": "cross-cut",
+          "highlight": [
+            "kms"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "KMS key policies, grants & rotation",
+          "notebook": "notebooks/11-03-kms-policies-rotation.ipynb",
+          "slide": "slides/11-03-kms-policies-rotation.slide",
+          "audio": "audio/11-03-kms-policies-rotation.wav",
+          "scene": "aws-cloud",
+          "focus": "cross-cut",
+          "highlight": [
+            "kms"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "KMS in practice — S3, EBS, RDS",
+          "notebook": "notebooks/11-04-kms-in-practice.ipynb",
+          "slide": "slides/11-04-kms-in-practice.slide",
+          "audio": "audio/11-04-kms-in-practice.wav",
+          "scene": "aws-cloud",
+          "focus": "cross-cut",
+          "highlight": [
+            "kms"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Secrets Manager vs. Parameter Store",
+          "notebook": "notebooks/11-05-secrets-vs-param.ipynb",
+          "slide": "slides/11-05-secrets-vs-param.slide",
+          "audio": "audio/11-05-secrets-vs-param.wav",
+          "scene": "aws-cloud",
+          "focus": "cross-cut",
+          "highlight": [
+            "secrets"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Shield — DDoS protection",
+          "notebook": "notebooks/11-06-shield.ipynb",
+          "slide": "slides/11-06-shield.slide",
+          "audio": "audio/11-06-shield.wav",
+          "scene": "aws-cloud",
+          "focus": "edge",
+          "highlight": [
+            "shield"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "WAF & Firewall Manager",
+          "notebook": "notebooks/11-07-waf-firewall-manager.ipynb",
+          "slide": "slides/11-07-waf-firewall-manager.slide",
+          "audio": "audio/11-07-waf-firewall-manager.wav",
+          "scene": "aws-cloud",
+          "focus": "edge",
+          "highlight": [
+            "waf"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Cognito — user pools & identity pools",
+          "notebook": "notebooks/11-08-cognito.ipynb",
+          "slide": "slides/11-08-cognito.slide",
+          "audio": "audio/11-08-cognito.wav",
+          "scene": "aws-cloud",
+          "focus": "auth-eng",
+          "highlight": [
+            "cognito"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Detective services — GuardDuty, Macie, Inspector, Detective",
+          "notebook": "notebooks/11-09-detective-services.ipynb",
+          "slide": "slides/11-09-detective-services.slide",
+          "audio": "audio/11-09-detective-services.wav",
+          "scene": "aws-cloud",
+          "focus": "cross-cut",
+          "highlight": [
+            "guardduty",
+            "inspector",
+            "macie"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Picking the right security tool",
+          "notebook": "notebooks/11-10-picking-tool.ipynb",
+          "slide": "slides/11-10-picking-tool.slide",
+          "audio": "audio/11-10-picking-tool.wav",
+          "scene": "aws-cloud",
+          "focus": "cross-cut",
+          "highlight": [
+            "kms",
+            "secrets",
+            "guardduty",
+            "macie"
+          ],
+          "spine": true
+        }
+      ]
     }
   ]
 }

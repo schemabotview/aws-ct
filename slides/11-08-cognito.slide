@@ -1,0 +1,21 @@
+# Cognito — user pools & identity pools
+
+Two distinct services under one name.
+
+## User Pools — *who are you?*
+
+Managed **user directory**: sign-up / sign-in.
+
+- Email + password, configurable policies
+- **Social** (Google, Facebook, Apple) + **enterprise** (SAML, OIDC — Okta, Azure AD)
+- **MFA**, verification, **adaptive auth** (risk-based)
+- **Hosted UI** — pre-built sign-in page, no login form to build
+- Returns **3 JWTs** — ID, access, refresh
+
+## Identity Pools — *what can you reach?*
+
+- Swap a token → **temporary AWS credentials** via STS `AssumeRoleWithWebIdentity`
+- Client calls S3 / DynamoDB **directly** — no backend proxy
+- **Two IAM roles**: authenticated + unauthenticated (guest); role-based access
+
+**Pairing:** User Pool **authenticates** → Identity Pool **authorises to AWS**.

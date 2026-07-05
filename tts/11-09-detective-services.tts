@@ -1,0 +1,13 @@
+Detective services, GuardDuty, Macie, Inspector, and Detective.
+
+Preventive controls block known threats, but you cannot anticipate everything that will go wrong. Detective controls watch for unusual behaviour after the fact. None of them block traffic; all of them surface findings for you, or for Security Hub, to act on.
+
+GuardDuty is continuous threat detection. It reads CloudTrail logs, V-P-C Flow Logs, and D-N-S query logs, and optionally S3 data events, E-K-S audit logs, and E-B-S volumes for malware. Machine-learning models flag anomalies, unusual A-P-I calls, communication with known-bad I-Ps, crypto-mining patterns, and credential exfiltration. Enable it once at the Organisation level and it covers every account, and findings come out as EventBridge events so you can route them to S-N-S, Lambda, or Security Hub.
+
+Macie is sensitive-data discovery in S3. It scans buckets for personally identifiable information, financial data, credentials, and health data, using both regex patterns and machine learning, and produces a per-bucket inventory of what sensitive data lives where, plus findings when something is exposed. Macie is the right answer for compliance audits over S3 data lakes.
+
+Inspector is continuous vulnerability assessment for E-C-2 instances, container images in E-C-R, and Lambda functions. It scans for known C-V-Es in operating-system packages and libraries and for unintended network exposure, and it runs automatically on the resources it discovers, with findings flowing into Security Hub.
+
+Detective is for incident investigation. It pulls in CloudTrail, V-P-C Flow Logs, and GuardDuty findings and stitches them into a graph linking principals, resources, I-P addresses, and time. When GuardDuty fires a finding, Detective is where you go to answer what else that principal touched, when, and from where, without hand-writing queries.
+
+And sitting over all four is Security Hub, which aggregates findings from GuardDuty, Macie, Inspector, Detective, I-A-M Access Analyzer, Config, and third-party tools into one place, with C-I-S, P-C-I, and Foundational Security Best Practices compliance views. The cue map: unusual A-P-I or known-bad-I-P traffic is GuardDuty; sensitive data in S3 is Macie; vulnerability scanning E-C-2, E-C-R, or Lambda is Inspector; investigating after a finding is Detective; and aggregating everything with a compliance dashboard is Security Hub.

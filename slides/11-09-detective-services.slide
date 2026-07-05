@@ -1,0 +1,13 @@
+# Detective services
+
+**Detective** controls notice misuse **after the fact** — none block traffic; all surface findings.
+
+- **GuardDuty** — threat detection over **CloudTrail + VPC Flow + DNS logs**. ML flags bad-IP traffic, crypto-mining, credential exfil. Org-wide; findings → **EventBridge**.
+- **Macie** — sensitive-data discovery in **S3** (PII, financial, health) → per-bucket inventory. Compliance audits over data lakes.
+- **Inspector** — vulnerability scan of **EC2 / ECR images / Lambda** — CVEs + network exposure, automatic on discovered resources.
+- **Detective** — **investigation**: stitches CloudTrail + Flow Logs + GuardDuty into a graph. "What else did that principal touch?"
+- **Security Hub** — aggregates all four + Config + Access Analyzer → one place, **CIS / PCI / FSBP** compliance.
+
+## Cue map
+
+bad IP → **GuardDuty** · S3 PII → **Macie** · vuln scan → **Inspector** · investigate → **Detective** · aggregate → **Security Hub**

@@ -1,0 +1,17 @@
+# KMS policies, grants & rotation
+
+## Access control is different
+
+For S3/DynamoDB, **IAM alone** grants access. For KMS, the **key policy is primary** — IAM only works if the key policy delegates to it.
+
+- **Enable IAM** statement (`Principal: ...:root`, `kms:*`) — without it, even admin IAM does nothing here
+- Grant **specific principals** `kms:Decrypt` / `Encrypt` / `GenerateDataKey`
+- **Cross-account** needs *both* sides: key policy allows + their IAM delegates
+
+**Grants** — programmatic, scoped, revocable delegation (EBS makes one per volume).
+
+## Rotation & deletion
+
+- **Rotation:** new material **yearly**; key ID/ARN/alias unchanged, old data still decrypts. **On-demand** for suspected compromise.
+- **Deletion:** never immediate — **7–30 day** window, then data is **permanently unrecoverable**. Unsure? **Disable** instead.
+- **Multi-Region keys:** same material in many regions → cross-region DR of encrypted data.

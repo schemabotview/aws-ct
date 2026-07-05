@@ -1,0 +1,9 @@
+K-M-S, envelope encryption and the key hierarchy.
+
+K-M-S is the managed service that creates and protects cryptographic keys. The keys live inside FIPS one-forty-dash-two validated hardware security modules, H-S-Ms; they never leave K-M-S in plaintext, and every cryptographic operation happens inside the H-S-M. Every A-P-I call is logged to CloudTrail, so encryption activity is fully audited.
+
+There are three key types by ownership. An A-W-S managed key is created automatically the first time you enable encryption on a service, like a-w-s-slash-s3 or a-w-s-slash-e-b-s; it's free and rotates yearly. A customer managed key, a C-M-K, is one you create and control; it costs about a dollar a month plus A-P-I calls, and you choose the rotation. And an A-W-S owned key is shared across accounts and completely invisible to you. Reach for a C-M-K whenever you need control over the key policy, the rotation schedule, or cross-account access.
+
+Now, envelope encryption. K-M-S has a hard limit of four kilobytes per direct Encrypt call, and a per-region rate limit that bulk encryption would blow straight through. The pattern A-W-S uses everywhere to get around this is envelope encryption. First, the application calls GenerateDataKey. K-M-S returns two things, a plaintext data key, the D-E-K, and that same D-E-K encrypted under your K-M-S key. Second, the application encrypts the actual data locally with the plaintext D-E-K, a fast symmetric cipher, no K-M-S round trip per byte. Third, it stores the encrypted data right beside the encrypted D-E-K, and discards the plaintext D-E-K from memory. To decrypt later, send the encrypted D-E-K back to K-M-S, get the plaintext D-E-K, and decrypt locally.
+
+The wins stack up. Large payloads encrypt at local C-P-U speed, the encrypted D-E-K is safe to keep next to the data because it's useless without K-M-S access, and K-M-S only ever sees small keys.

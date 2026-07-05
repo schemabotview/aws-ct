@@ -1,0 +1,16 @@
+# Picking the right security tool
+
+**Match the cue → service:**
+
+- Encrypt at rest → **KMS** (CMK to control) · > 4 KB / high rate → **envelope encryption**
+- Encrypted data across regions → **Multi-Region keys** · cut S3-GET KMS calls → **Bucket Keys**
+- Credentials **with rotation** → **Secrets Manager** · plain config → **Parameter Store**
+- Free L3/L4 DDoS → **Shield Standard** · L7 + cost protection + SRT → **Shield Advanced**
+- Filter HTTP (SQLi/XSS/rate/geo) → **WAF** · pre-built rules → **Managed Rule Groups**
+- WAF/Shield across all accounts → **Firewall Manager**
+- Sign-in / federation → **Cognito User Pools** · temp AWS creds → **Identity Pools**
+- Unusual API/IP → **GuardDuty** · sensitive S3 data → **Macie**
+- Vuln-scan EC2/ECR/Lambda → **Inspector** · investigate a finding → **Detective**
+- Aggregate + compliance → **Security Hub**
+
+**Stack:** KMS + Secrets Mgr + Shield/WAF + Firewall Mgr + Cognito + GuardDuty/Inspector/Macie → **Security Hub**. Each owns a **layer**.

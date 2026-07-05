@@ -1,0 +1,11 @@
+Picking the right security tool.
+
+Here is the whole module as one cue-to-service sheet; match the need to the service.
+
+To encrypt anything at rest in A-W-S: K-M-S, using a customer managed key when you need control, an A-W-S managed key otherwise. To encrypt data larger than four kilobytes or at high throughput: envelope encryption with GenerateDataKey. To use the same encrypted data in multiple regions: multi-region K-M-S keys. To cut the K-M-S A-P-I calls caused by S3 GETs: S3 Bucket Keys. To store credentials with automatic rotation: Secrets Manager. To store config, feature flags, and non-rotating values: S-S-M Parameter Store.
+
+For free denial-of-service protection at Layers three and four: Shield Standard. For Layer seven protection, cost protection, and the twenty-four-seven Shield Response Team: Shield Advanced. To filter H-T-T-P traffic against S-Q-L injection, cross-site scripting, rate limits, and geo blocks: W-A-F with a Web A-C-L, and for pre-built attack-pattern rules, W-A-F Managed Rule Groups. To apply W-A-F, Shield, or security-group policy across every account in an Organisation: Firewall Manager.
+
+For sign-up, sign-in, social, and SAML federation: Cognito User Pools. For temporary A-W-S credentials for client apps: Cognito Identity Pools. To detect unusual A-P-I or network activity: GuardDuty. To find sensitive data in S3: Macie. To vulnerability-scan E-C-2, E-C-R, and Lambda: Inspector. To investigate a finding end to end: Detective. And to aggregate every finding with a compliance dashboard: Security Hub.
+
+A defensible production stack pulls from most of these at once: K-M-S encrypting everything at rest, Secrets Manager holding the database credentials, Shield Standard plus W-A-F with managed rule groups fronted by CloudFront and A-L-B, Firewall Manager enforcing it across accounts, Cognito handling user identity, and GuardDuty, Inspector, and Macie watching the rest with findings flowing into Security Hub. Each service owns one layer; none of them does the whole job.

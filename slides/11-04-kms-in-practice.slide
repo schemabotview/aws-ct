@@ -1,0 +1,21 @@
+# KMS in practice — S3, EBS, RDS
+
+## S3 — four modes
+
+| Mode | Keys | Note |
+|---|---|---|
+| **SSE-S3** | AWS-managed | default, cheapest, no audit |
+| **SSE-KMS** | KMS / CMK | every GET → KMS `Decrypt`, logged |
+| **SSE-C** | you supply | AWS never stores the key |
+| **Client-side** | app encrypts | AWS never sees plaintext |
+
+**Gotcha:** SSE-KMS calls KMS on **every GET** → hits the rate limit at scale. Fix: **S3 Bucket Keys** (one bucket-level data key across many objects).
+
+## EBS & RDS
+
+- Encryption chosen **at creation** — covers data, snapshots, replicas
+- **Can't** encrypt an existing unencrypted volume/instance in place → **snapshot → copy encrypted → restore**
+- **EBS:** turn on **account-level default encryption**
+- **RDS:** KMS at rest, **TLS** in transit
+
+**Through-line:** KMS is picked **at create time**, transparent at rest, hard to add later.

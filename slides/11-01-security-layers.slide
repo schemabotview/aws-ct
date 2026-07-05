@@ -1,0 +1,17 @@
+# The six security layers
+
+Security on AWS is **layered** — each service owns one layer; a real stack uses most of them.
+
+## Preventive
+
+- **KMS** — the cryptographic root; keys that encrypt data everywhere
+- **Secrets Manager** / **Parameter Store** — credentials, never hard-coded
+- **Shield** — DDoS at the edge · **WAF** — HTTP filtering · **Firewall Manager** — both, org-wide
+- **Cognito** — user identity: who's signed in, what they can reach
+
+## Detective
+
+- **GuardDuty** · **Macie** · **Inspector** · **Detective** — watch for misuse after the fact
+- **Security Hub** — aggregates every finding + compliance view
+
+**The split:** *preventive* keeps threats out; *detective* notices what slipped through.

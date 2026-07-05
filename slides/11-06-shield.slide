@@ -1,0 +1,21 @@
+# Shield — DDoS protection
+
+Protects against **distributed denial-of-service** attacks. Two tiers.
+
+## Shield Standard
+
+- **Free**, automatic, on for **every** account
+- Defends **L3 / L4** — SYN floods, UDP reflection, volumetric
+- Covers CloudFront, Route 53, ELB, EC2 Elastic IPs
+- Nothing to configure
+
+## Shield Advanced — $3,000 / org / month
+
+- **L7 DDoS** — HTTP floods, slowloris (CloudFront, ALB, API GW)
+- **DDoS cost protection** — credits the scaling charges an attack caused
+- **24/7 Shield Response Team (SRT)** — experts during an attack
+- Advanced real-time metrics + global threat dashboards
+
+**Cues:** free / L3-L4 → **Standard**. L7, cost protection, SRT, post-attack bill → **Advanced**.
+
+Shield defends **availability**; **WAF** inspects **content** — they layer at the edge.
