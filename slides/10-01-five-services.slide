@@ -1,0 +1,13 @@
+# Five services, one question
+
+**How do distributed components pass work without tight coupling?** A direct API call ties their fates (a slow/down consumer breaks the producer). Five services decouple — off the hot path, scale + fail independently, retries free.
+
+## The five shapes
+
+- **SQS** — a **queue**: one consumer pulls each message at its pace
+- **SNS** — **pub/sub**: one publish → every subscriber a copy
+- **Kinesis / MSK** — real-time **streams**: high-volume, multi-consumer, **replayable**
+- **Step Functions** — **workflow** orchestration (state machine, branches, retries)
+- **EventBridge** — **event bus**: route AWS / SaaS / custom events **by rule**
+
+**Difference = shape.** → messaging · streaming · orchestration · bus · then a decision sheet.

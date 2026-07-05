@@ -1,0 +1,16 @@
+# Kinesis Data Streams
+
+**Stream, not a queue** — records stay after consumption, **many consumers** read independently, **rewind / replay** (retained up to **1 year**). For telemetry, clickstreams, IoT, change-capture.
+
+vs. SQS: SQS deletes after one consumer; Kinesis keeps + replays.
+
+## Shards — the unit of capacity
+
+Each shard: **1 MB/s or 1,000 rec/s write**, **2 MB/s read**. Scale by **split / merge**. **Partition key** → shard (same key → **ordered** within shard; pick high cardinality).
+
+## Two consumer models
+
+- **Standard** — poll `GetRecords`, **share** 2 MB/s (5 consumers → 400 KB/s each), ~200 ms
+- **Enhanced Fan-Out (EFO)** — **own 2 MB/s** each, HTTP/2 push, ~70 ms — pricier
+
+**Rule:** 1–2 consumers / cost → standard · many / low-latency → EFO.

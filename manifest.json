@@ -1233,6 +1233,136 @@
           "spine": true
         }
       ]
+    },
+    {
+      "id": "10-integration-and-streaming",
+      "title": "Integration & Streaming",
+      "sections": [
+        {
+          "heading": "Five services, one question",
+          "notebook": "notebooks/10-01-five-services.ipynb",
+          "slide": "slides/10-01-five-services.slide",
+          "audio": "audio/10-01-five-services.wav",
+          "scene": "aws-cloud",
+          "spine": true,
+          "role": "hook"
+        },
+        {
+          "heading": "SQS — the queue (standard vs. FIFO)",
+          "notebook": "notebooks/10-02-sqs.ipynb",
+          "slide": "slides/10-02-sqs.slide",
+          "audio": "audio/10-02-sqs.wav",
+          "scene": "aws-cloud",
+          "focus": "integration",
+          "highlight": [
+            "sqs"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "SQS operations — DLQs, polling, delays, large messages",
+          "notebook": "notebooks/10-03-sqs-operations.ipynb",
+          "slide": "slides/10-03-sqs-operations.slide",
+          "audio": "audio/10-03-sqs-operations.wav",
+          "scene": "aws-cloud",
+          "focus": "integration",
+          "highlight": [
+            "sqs"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "SNS & the fan-out pattern",
+          "notebook": "notebooks/10-04-sns-fanout.ipynb",
+          "slide": "slides/10-04-sns-fanout.slide",
+          "audio": "audio/10-04-sns-fanout.wav",
+          "scene": "aws-cloud",
+          "focus": "integration",
+          "highlight": [
+            "sns",
+            "sqs"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "SQS vs. SNS vs. EventBridge — the messaging triangle",
+          "notebook": "notebooks/10-05-messaging-triangle.ipynb",
+          "slide": "slides/10-05-messaging-triangle.slide",
+          "audio": "audio/10-05-messaging-triangle.wav",
+          "scene": "aws-cloud",
+          "focus": "integration",
+          "highlight": [
+            "sqs",
+            "sns",
+            "eventbridge"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Kinesis Data Streams",
+          "notebook": "notebooks/10-06-kinesis.ipynb",
+          "slide": "slides/10-06-kinesis.slide",
+          "audio": "audio/10-06-kinesis.wav",
+          "scene": "aws-cloud",
+          "focus": "ingest",
+          "highlight": [
+            "kinesis-streams"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Firehose, stream analytics & MSK",
+          "notebook": "notebooks/10-07-firehose-flink-msk.ipynb",
+          "slide": "slides/10-07-firehose-flink-msk.slide",
+          "audio": "audio/10-07-firehose-flink-msk.wav",
+          "scene": "aws-cloud",
+          "focus": "ingest",
+          "highlight": [
+            "firehose",
+            "msk"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Step Functions — workflow orchestration",
+          "notebook": "notebooks/10-08-step-functions.ipynb",
+          "slide": "slides/10-08-step-functions.slide",
+          "audio": "audio/10-08-step-functions.wav",
+          "scene": "aws-cloud",
+          "focus": "integration",
+          "highlight": [
+            "stepfunctions"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "EventBridge — the event bus",
+          "notebook": "notebooks/10-09-eventbridge.ipynb",
+          "slide": "slides/10-09-eventbridge.slide",
+          "audio": "audio/10-09-eventbridge.wav",
+          "scene": "aws-cloud",
+          "focus": "integration",
+          "highlight": [
+            "eventbridge"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Picking the right tool",
+          "notebook": "notebooks/10-10-picking-tool.ipynb",
+          "slide": "slides/10-10-picking-tool.slide",
+          "audio": "audio/10-10-picking-tool.wav",
+          "scene": "aws-cloud",
+          "focus": "integration",
+          "highlight": [
+            "sqs",
+            "sns",
+            "eventbridge",
+            "stepfunctions"
+          ],
+          "spine": true
+        }
+      ]
     }
   ]
 }

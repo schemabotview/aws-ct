@@ -1,0 +1,17 @@
+# SQS operations
+
+## Dead-Letter Queue (DLQ)
+
+Failed too many times → set `maxReceiveCount` (3–5) → SQS moves it to the DLQ (same type as source).
+
+- **Poison messages** shunted aside → queue keeps moving
+- **Audit log of failures** → inspect, fix, **redrive** back to source
+
+## Long polling
+
+`WaitTimeSeconds` 1–20 → wait for a message vs. return empty (short poll). **Cuts empty receives, cost, latency** — the default.
+
+## Delays & large messages
+
+- **Delay queues** — postpone visibility up to **15 min** (queue-wide or per-message timer)
+- **> 256 KB** → **Extended Client**: body in **S3**, reference in the queue

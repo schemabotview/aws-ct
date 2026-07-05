@@ -1,0 +1,16 @@
+# Firehose, Flink & MSK
+
+## Firehose — managed delivery
+
+**One-way pipe** — no shards / consumers / checkpointing. **Stores nothing** (no replay; fails → S3). Batches by **size (1–128 MB)** / interval; inline **Lambda transform** + Parquet.
+
+Destinations: **S3** (+ Athena / Glue) · **Redshift** (S3 → COPY) · **OpenSearch** · Splunk / Datadog.
+
+**Streams vs. Firehose:** build consumers + replay → Streams · just deliver → Firehose.
+
+## Flink & MSK
+
+- **Managed Flink** — real-time analytics (windows, joins, anomalies) in Flink / SQL, no cluster
+- **MSK** — managed **Apache Kafka** (provisioned or **Serverless**); existing Kafka clients unchanged
+
+**Kinesis vs. MSK:** AWS-native, zero ops → Kinesis · already-Kafka / ecosystem → MSK.

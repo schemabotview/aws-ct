@@ -1,0 +1,15 @@
+# SQS vs. SNS vs. EventBridge
+
+## The three, side by side
+
+- **SQS** — **queue (pull)**, one consumer/msg, **persistent** (14 d), no filter, cheapest, sources = your apps
+- **SNS** — **pub/sub (push)**, many at once, **no persistence**, per-sub attribute filters, sources = your apps
+- **EventBridge** — **bus + rules**, many targets, **rich pattern match**, optional archive, sources = **AWS + SaaS + custom**
+
+## Decision tree
+
+- Decouple from **one** consumer + buffer → **SQS**
+- One event → **many** subscribers, simple → **SNS** (+ SQS for durable fan-out)
+- Route **AWS / SaaS** events, complex matching, many-to-many → **EventBridge**
+
+**Model:** SQS buffers for one worker · SNS broadcasts now · EventBridge routes by content from many sources.

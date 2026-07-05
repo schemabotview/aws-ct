@@ -1,0 +1,16 @@
+# SNS & fan-out
+
+## SNS — pub/sub
+
+Publish to a **topic** → SNS delivers a copy to **every subscriber** at once. **No queue** — persistence is the subscriber's job.
+
+Subscribers: **SQS** (most common) · Lambda · HTTP webhooks · email / SMS / push · Firehose. Up to **12.5 M subs**; **filter policies** = each sub gets only what it cares about.
+
+## SNS + SQS fan-out — the most reused pattern
+
+One event → several downstreams, each at its own pace. Direct-to-many-queues couples the producer. Instead:
+
+- Producer publishes **once** to an SNS topic
+- SNS → each subscribed **SQS queue** → **independent consumer** (own DLQ, scaling)
+
+**Producer doesn't know downstream** — add a consumer = 1 queue + 1 sub, no producer change; peers fail independently.

@@ -1,0 +1,7 @@
+Picking the right tool.
+
+Here's the whole module in one decision sheet; match the need to the service.
+
+To decouple a producer and consumer, buffer work, with one consumer per message: S-Q-S Standard. The same, but with strict order and exactly-once: S-Q-S FIFO. To isolate failing messages without blocking the queue: an S-Q-S dead-letter queue. For one event to many subscribers at once: S-N-S, and with ordering, S-N-S FIFO. For durable fan-out of one event to many independent workers: S-N-S plus S-Q-S. For a real-time stream with many consumers and replay: Kinesis Data Streams. To bulk-deliver streaming data to S3, Redshift, or OpenSearch: Firehose. For S-Q-L or Flink over streams, with windows, joins, and anomalies: Managed Service for Apache Flink. For Kafka semantics or existing Kafka clients: M-S-K. For a multi-step workflow with branches, retries, parallel steps, and an audit trail: Step Functions Standard. For a very high-throughput short workflow under five minutes: Step Functions Express. To pause for a human approval or external callback: the wait-for-task-token pattern. And to route A-W-S, SaaS, or custom events by rule, or to run scheduled cron jobs: EventBridge, with Scheduler.
+
+The meta-pattern is queue versus fan-out versus stream versus workflow versus bus, and real systems combine them: S-N-S-plus-S-Q-S fan-out, Kinesis into Firehose into S3, EventBridge Pipes into Step Functions. Match the shape of the coupling, not the service name.

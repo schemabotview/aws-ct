@@ -1,0 +1,16 @@
+# Step Functions
+
+Chained Lambdas rot by month 3 (own retries, no visibility, 15-min cap). **Step Functions** = a managed **state machine** (**ASL** JSON): runs steps, retries, shows **full execution history**.
+
+**States:** Task (Lambda / AWS) · Choice (if/else) · Wait · Parallel · Map (iterate).
+
+## Why it exists — errors made declarative
+
+- **Retry** per Task — error types, interval, attempts, backoff (2 s / 3× / 2× absorbs transient failures)
+- **Catch** — route to a handler when retries exhausted
+
+## Standard vs. Express
+
+- **Standard** — ≤ **1 yr**, **exactly-once**, per-transition, history kept → business workflows
+- **Express** — ≤ 5 min, **100k+ starts/s**, per-duration → high-volume events
+- `.waitForTaskToken` — pause for **human approval / callback**

@@ -1,0 +1,7 @@
+S-Q-S versus S-N-S versus EventBridge: the messaging triangle.
+
+Three services all decouple producers from consumers and look similar in shape, so picking the right one is a frequent decision. S-Q-S is a queue, a pull model: one consumer per message, persistent for up to fourteen days, no filtering apart from the D-L-Q, very cheap, very high throughput, and its sources are your own applications. S-N-S is pub/sub, a push model: many consumers at once, no persistence, per-subscription attribute filters, cheap, very high throughput, and again its sources are your applications. EventBridge is an event bus with rules: many targets via rich pattern matching, an optional archive, and its sources include A-W-S services, SaaS partners, and custom events, at a little more cost and some rule overhead.
+
+Here's the decision tree. To decouple from a single consumer and buffer traffic, reach for S-Q-S. For one event to many subscribers with simple delivery, reach for S-N-S, often paired with S-Q-S for durable fan-out. And to route A-W-S or SaaS events with complex matching rules, or many-to-many across accounts and regions, reach for EventBridge.
+
+The mental model: S-Q-S buffers work for one worker; S-N-S broadcasts to many right now; and EventBridge routes by content from many sources. S-Q-S-plus-S-N-S is the durable fan-out workhorse, and EventBridge is the richer router when the source is A-W-S or SaaS, or the matching is complex.

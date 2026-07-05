@@ -1,0 +1,17 @@
+# EventBridge — the event bus
+
+Routes events to targets **by rule** (pattern match) — the **rule** is the abstraction (vs. SNS's subscription).
+
+## Three bus kinds
+
+- **Default** — AWS service events auto-published (EC2, S3, IAM…)
+- **Custom** — your app's events (`PutEvents`)
+- **Partner** — SaaS (Datadog, Stripe, GitHub) into your account
+
+Event = JSON: `source`, `detail-type`, `detail`. **Rule** = event pattern (exact / list / prefix / range / anything-but) → up to **5 targets** (Lambda, Step Functions, SQS…).
+
+## Three features
+
+- **Schema Registry** — auto-discover schemas → typed **code bindings**
+- **Pipes** — point-to-point **source → filter → enrich → target**, no glue
+- **Archive + Replay** — store + replay matching events. Plus **Scheduler** (cron).

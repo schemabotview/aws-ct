@@ -1,0 +1,9 @@
+S-Q-S operations: D-L-Qs, polling, delays, and large messages.
+
+Four S-Q-S features come up constantly. First, the Dead-Letter Queue, or D-L-Q: a separate queue where S-Q-S sends messages that fail processing too many times. You set max-receive-count, commonly three or five, on the main queue, and after that many failed deliveries, S-Q-S moves the message to the D-L-Q. The D-L-Q has to be the same type as the source, so a FIFO source needs a FIFO D-L-Q. Two payoffs: poison messages, malformed payloads that break the consumer every time, get shunted aside after a few attempts so the rest of the queue keeps moving; and the D-L-Q is the audit log of what failed, so you inspect it, fix the bug, and use D-L-Q redrive to replay the messages back into the source queue.
+
+Second, long polling: set wait-time-seconds from one to twenty on receive-message, so instead of returning immediately when the queue is empty, which is short polling and the default, S-Q-S waits up to that duration for a message. It cuts empty receives, cost, and latency, and it should be your default.
+
+Third, delay queues: they postpone a message's visibility for up to fifteen minutes after it's sent, either queue-wide as a default or per-message using message timers. And fourth, for payloads over two hundred fifty-six kilobytes, the Extended Client Library stores the body in S3 and passes a reference through the queue.
+
+Together these are the operational toolkit: the D-L-Q to isolate failures, long polling for efficiency, delays for scheduling, and the S3 extended client for big payloads.

@@ -1,0 +1,7 @@
+Five services, one question.
+
+How do the components of a distributed system pass work to each other without being tightly coupled? The naive approach is a direct A-P-I call from producer to consumer, but that ties their fates together. If the consumer is slow, the producer slows. If the consumer is down, the producer fails. And if you add a second consumer, the producer has to know about it. Five services in this module answer different versions of that same question, all getting producers and consumers off each other's hot path, letting each side scale independently, surviving the failure of either, and adding retries and observability for free.
+
+S-Q-S is a queue: producers drop messages in, and one consumer pulls each one out at its own pace. S-N-S is pub/sub: one publish, and every subscriber gets a copy. Kinesis and M-S-K are real-time streams, for high-volume, multi-consumer, replayable event data. Step Functions is workflow orchestration: a managed state machine that sequences tasks with branches and retries. And EventBridge is an event bus that routes A-W-S-service, SaaS, and custom events to targets by rule.
+
+The difference across all of them is shape: a one-to-one queue, versus one-to-many fan-out, versus a persistent stream, versus an orchestrated workflow, versus a rule-routed bus. This module walks the messaging pair, S-Q-S and S-N-S plus the triangle with EventBridge, then streaming with Kinesis, Firehose, and M-S-K, then Step Functions, then EventBridge, and closes with a decision sheet.

@@ -1,0 +1,15 @@
+# Picking the right tool
+
+**Match the need → service:**
+
+- Decouple + buffer, 1 consumer/msg → **SQS Standard** · order + exactly-once → **SQS FIFO**
+- Isolate failures → **SQS DLQ**
+- One event → many at once → **SNS** · durable fan-out → **SNS + SQS**
+- Stream, many consumers, replay → **Kinesis Data Streams**
+- Bulk-deliver to S3 / Redshift / OpenSearch → **Firehose**
+- SQL / Flink over streams → **Managed Flink** · Kafka clients → **MSK**
+- Multi-step workflow (branches / retries / audit) → **Step Functions Standard**
+- High-throughput short workflow → **Express** · human approval → `.waitForTaskToken`
+- Route AWS / SaaS events by rule + cron → **EventBridge**
+
+**Meta:** queue vs fan-out vs stream vs workflow vs bus — real systems **combine** them. Match the *shape*.

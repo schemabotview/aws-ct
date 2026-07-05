@@ -1,0 +1,14 @@
+# SQS — the queue
+
+`SendMessage` → queue → `ReceiveMessage` (≤ 10) → work → `DeleteMessage`.
+
+## The at-least-once mechanism
+
+Never delete (crash / timeout) → message **reappears after the visibility timeout** → another consumer retries. Hidden while processing (no double-run); extend with `ChangeMessageVisibility`. ≤ **256 KB**, retained **14 days**.
+
+## Standard vs. FIFO (choose on ordering)
+
+- **Standard** — best-effort order, **at-least-once** (dupes), **unlimited throughput**. Consumer must be **idempotent**.
+- **FIFO** — **strict order per group**, **exactly-once**, ~**300 msg/s** (3,000 batched), name `.fifo`. **Message Group ID** + **dedup ID**.
+
+**Default:** Standard + idempotent; FIFO only when order / exactly-once matters.
