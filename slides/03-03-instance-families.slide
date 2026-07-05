@@ -1,0 +1,19 @@
+# Instance families & naming
+
+Pick the **family** (workload shape) first, then the size.
+
+## The families
+
+- **General Purpose** (`m7g`, `t3`) — balanced
+- **Compute** (`c7g`) — CPU per dollar
+- **Memory** (`r7g`, `x2idn`) — RAM per core
+- **Storage** (`i4i`) — local NVMe
+- **Accelerated** (`p4`, `inf2`) — GPUs / ML chips
+
+## Reading the name — `m7g.xlarge`
+
+`m` family · `7` generation · `g` **Graviton** (ARM; `i` Intel, `a` AMD) · `xlarge` size. **Graviton ≈ 20% cheaper, ~40% better perf/$** — default on ARM.
+
+## T-series — burstable
+
+`t3`/`t4g` run at a **baseline**, earn credits below it, spend to burst above. Great for spiky/idle; **wrong for sustained CPU**.

@@ -1,0 +1,7 @@
+A-M-Is, and bootstrapping.
+
+An A-M-I, an Amazon Machine Image, is the template an instance launches from: the operating system, any pre-installed software, and baked-in config. The A-M-I itself is just metadata; the actual bytes live in E-B-S snapshots that AWS manages for you. A-M-Is come from four sources. A-W-S-provided images, like Amazon Linux, Ubuntu, and Windows, patched by AWS. Marketplace images, from vendors with licensing included. Community images, shared publicly by other accounts. And custom images, your own golden image. A-M-Is are region-scoped: the same logical image has a different I-D in every region, and you use copy-image to take it elsewhere.
+
+The deeper choice is how much you bake into the image versus bootstrap at boot. Fully bootstrapped does all the setup in user data; it's the slowest to launch but the most flexible, which is good for dev. Fully baked puts the app and config right into the A-M-I; it's the fastest to launch but the least flexible, and it's the right call for Auto Scaling at scale and immutable infrastructure. Most production fleets sit in the hybrid middle: a base A-M-I with dependencies, and the app pulled at launch. E-C-2 Image Builder is the A-W-S-native pipeline for producing golden A-M-Is, on a schedule or whenever the base image updates.
+
+One gotcha the exam likes: deregistering an A-M-I does not delete its snapshots; they keep billing until you remove them explicitly. And sharing an encrypted A-M-I means also sharing the K-M-S key, or the recipient won't be able to launch it.

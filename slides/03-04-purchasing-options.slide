@@ -1,0 +1,15 @@
+# Purchasing options
+
+The **top EC2 cost lever** — each trades **commitment for discount**.
+
+## The four to know
+
+- **On-Demand** — no commit, **full price**. Unpredictable / short-term.
+- **Reserved Instances** — 1 or 3 yr, **~40–72% off**. Steady 24/7.
+- **Savings Plans** — commit a **$/hr spend rate**, auto-applies. The modern default.
+- **Spot** — spare capacity, **up to 90% off**; reclaimed on a **2-min warning**.
+
+## Two rules of thumb
+
+- Default to **Compute Savings Plans** (any region/family + Fargate/Lambda); RIs only for a capacity reservation or resale
+- **Spot only for interruption-tolerant** work (batch, CI, stateless, checkpointed ML) — never stateful DBs

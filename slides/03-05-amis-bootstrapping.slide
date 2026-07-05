@@ -1,0 +1,18 @@
+# AMIs & bootstrapping
+
+## What an AMI is
+
+The **template** an instance boots from: OS + software + config. Metadata only — bytes live in **EBS snapshots**. **Region-scoped** (`CopyImage` to move). Sources: AWS · Marketplace · Community · **Custom**.
+
+## Bake vs bootstrap
+
+- **Bootstrapped** — setup in user data. Slowest, flexible → dev
+- **Baked** — app in the AMI. Fastest → **ASG scale, immutable infra**
+- **Hybrid** — base AMI + app at launch → most production
+
+**EC2 Image Builder** builds golden AMIs on a schedule.
+
+## Two gotchas
+
+- **Deregister ≠ delete snapshots** — they keep billing
+- Encrypted AMI → must share the **KMS key** too

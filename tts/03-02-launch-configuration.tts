@@ -1,0 +1,7 @@
+Launch configuration: what you choose.
+
+Every E-C-2 launch is the same set of fields, whether you click them in the console or pass them to an A-P-I. Eight of them matter.
+
+The A-M-I, which is the operating-system image: Amazon Linux, Ubuntu, Windows, or a custom image you built. The instance type, which is the C-P-U and memory profile, like m-seven-g-dot-large. The key pair, which is the S-S-H key for Linux, or the password-decryption key for Windows R-D-P. The network: which V-P-C and subnet, and whether to auto-assign a public I-P. The security group, which is the instance-level firewall. Storage: the root E-B-S volume, plus any extra volumes. The I-A-M role, which grants permissions through an instance profile, so no long-lived keys ever sit on disk. And user data, a shell script that runs once, as root, on first boot.
+
+Two of these deserve emphasis. First, attach an I-A-M role rather than baking access keys into the image; the instance metadata service vends rotating credentials automatically. Second, treat user data as your first-boot automation: install packages, pull code, and register the instance with whatever it needs to join. Everything after this section is really about choosing each of these fields well.

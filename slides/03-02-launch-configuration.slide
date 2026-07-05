@@ -1,0 +1,18 @@
+# Launch configuration
+
+Every launch = the **same fields**, whether console or API.
+
+## The eight you set
+
+- **AMI** — OS image
+- **Instance type** — CPU + memory (`m7g.large`)
+- **Key pair** — SSH / Windows password
+- **Network** — VPC, subnet, public-IP toggle
+- **Security group** — instance firewall
+- **Storage** — root EBS + extra volumes
+- **IAM role** — via an **instance profile**
+- **User data** — boot script, run **once**
+
+## Two to get right
+
+**IAM role, not access keys** — the metadata service vends rotating creds, so nothing sits on disk. **User data** = first-boot automation (install, pull code, register).

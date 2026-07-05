@@ -1,0 +1,17 @@
+# Networking an instance
+
+## Security group — the firewall
+
+**Stateful, allow-only**, on the instance's ENI. Reply traffic auto-allowed; **no deny rules** (use a subnet **NACL** for those). Default: **deny-all inbound**.
+
+## IP addresses
+
+- **Private** — VPC-only, free, permanent
+- **Public** — routable, **changes on stop/start**, billed hourly
+- **Elastic IP** — public, **survives stop/start** → stable endpoint
+
+## ENI · ENA · EFA · IMDS
+
+**ENI** = the virtual NIC (`eth0`) · **ENA** = 100+ Gbps driver (Nitro) · **EFA** = kernel-bypass for HPC/ML.
+
+**IMDS** (`169.254.169.254`) serves an instance its own facts + **IAM creds** — **require IMDSv2** (v1 is SSRF-prone).

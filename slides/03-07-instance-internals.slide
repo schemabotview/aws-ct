@@ -1,0 +1,19 @@
+# Instance internals
+
+## The Nitro System
+
+Offloads networking / storage / security to **Nitro cards** + a thin hypervisor:
+
+- **Near bare-metal** perf; up to **100–200 Gbps**
+- **Hardware EBS encryption**, no CPU cost
+- Hard **security boundary** — no operator path into guest RAM
+- Enables **bare metal** (`*.metal`) instances
+
+## Tenancy
+
+**Shared** (default, cheapest) · **Dedicated Instance** (your account) · **Dedicated Host** (a physical server — socket licensing / audits).
+
+## Placement & lifecycle
+
+**Placement groups:** cluster (low latency) · spread (resilience) · partition (racks).
+**Stop** keeps EBS · **Hibernate** saves RAM to disk · **Terminate** deletes it.

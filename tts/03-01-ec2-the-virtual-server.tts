@@ -1,0 +1,9 @@
+E-C-2, the virtual server.
+
+You have an application, and you need a computer, reachable from the internet, to run it on. Just one machine, your code on it, and a U-R-L you can open in a browser. That machine is an E-C-2 instance. E-C-2, which stands for Elastic Compute Cloud, is AWS's virtual server service, and it's the most fundamental compute primitive on AWS. Almost every workload runs on E-C-2 in some form, either directly, or as the engine behind a managed service.
+
+An instance is a virtual machine. AWS picks the physical hardware, runs a hypervisor on it, and gives you a slice. You choose the operating system, the C-P-U, the memory, the storage, and the networking, and AWS handles everything underneath.
+
+Getting from nothing to a server you can open in a browser comes down to six decisions. An A-M-I, the disk image to boot from. An instance type, which is the size. A key pair, so you can log in. The network, meaning a V-P-C and a public I-P. A security group, which is the firewall; you open port eighty for H-T-T-P and port twenty-two for S-S-H. And user data, a boot script that turns a bare operating system into a running app. Make the happy-path choice for each, and you get your "it works" moment.
+
+The rest of this module revisits each of those six decisions with real judgment, and then scales the pattern out: from one instance, to a load balancer in front of many, to an Auto Scaling Group that grows and shrinks the fleet automatically.

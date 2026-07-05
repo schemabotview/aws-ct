@@ -1,0 +1,7 @@
+Purchasing options: the E-C-2 cost lever.
+
+Purchasing options are the single most important E-C-2 cost lever, and each one trades commitment for discount.
+
+On-Demand commits to nothing and pays full price. It's the right default for unpredictable or short-lived workloads. Reserved Instances commit to a specific instance shape for one or three years, for roughly forty percent up to about seventy-two percent off. A reserved instance isn't a separate kind of instance; it's a billing discount applied to any matching on-demand usage. Savings Plans are the modern replacement. Instead of committing to specific instances, you commit to a steady spend rate, say ten dollars an hour for a year, and the discount auto-applies as your fleet changes. And Spot uses AWS's spare capacity at up to ninety percent off, but AWS can reclaim the instance with just a two-minute warning.
+
+Two rules of thumb settle most exam questions. First, prefer Compute Savings Plans as your default commitment; they flex across any region, any family, and even Fargate and Lambda. Reach for Reserved Instances only when you specifically need a capacity reservation or Marketplace resale. Second, use Spot only for interruption-tolerant work: batch jobs, C-I runners, stateless web workers behind a load balancer, or checkpointed machine-learning training. Never use Spot for databases, or anything with state it can't checkpoint.

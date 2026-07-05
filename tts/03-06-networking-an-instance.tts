@@ -1,0 +1,9 @@
+Networking an instance: security groups, I-Ps, and E-N-Is.
+
+Four things wire an instance to the network. First, the security group. It's a stateful, allow-only firewall attached to the instance's network interface. Stateful means that if you allow traffic in, the response is allowed back out automatically. Allow-only means there are no deny rules; for denies, you drop down to a subnet-level N-A-C-L. The default is deny-all inbound.
+
+Second, I-P addresses. A private I-P is V-P-C-only, free, and permanent for the life of the interface. A public I-P is internet-routable and auto-assigned at launch, but it changes on stop and start; and since twenty-twenty-four, every public I-P-v-four address is billed hourly. An Elastic I-P is a public I-P you own that survives stop and start; use it for a stable inbound endpoint or for I-P whitelisting.
+
+Third, the E-N-I, the Elastic Network Interface. It's the virtual N-I-C that every instance has, called eth-zero, and it carries the private I-P, the M-A-C, and the security groups. E-N-A is the high-throughput driver, giving a hundred-plus gigabits, and it's the default on Nitro. E-F-A is a specialised E-N-I that bypasses the kernel for H-P-C and distributed machine-learning traffic.
+
+Fourth, the Instance Metadata Service, at the link-local address one-six-nine dot two-five-four dot one-six-nine dot two-five-four. That's where code discovers facts about its own instance, including the I-A-M role credentials. Always require I-M-D-S-v-two, which is token-based. Version one's simple GET request is vulnerable to S-S-R-F, and it was the single biggest cause of historic credential theft on E-C-2.

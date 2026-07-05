@@ -1,0 +1,19 @@
+# Elastic Load Balancing
+
+A single instance fails or blocks deploys. Run **many** → a **load balancer** fronts them at one **stable DNS endpoint**.
+
+## What a load balancer adds
+
+- **Health checks** — unhealthy targets stop getting traffic
+- **Connection draining** — graceful removal mid-deploy
+- **TLS termination** — cert on the LB, not every instance
+- **Stickiness** — same client → same target (optional)
+
+## The four types
+
+- **ALB** — Layer 7, HTTP/HTTPS, **content routing**
+- **NLB** — Layer 4, TCP/UDP, **static IP**, ultra-fast
+- **GWLB** — Layer 3, inline **firewall / IDS** appliances
+- **CLB** — legacy only
+
+**Decision:** ALB for HTTP · NLB for everything else.

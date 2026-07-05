@@ -1,0 +1,13 @@
+# Picking the load balancer
+
+## ALB — Layer 7 (HTTP)
+
+Terminates + parses HTTP, routes on **content**. Model: **listener → rules → target group**. Targets: `instance` · `ip` · `lambda`. Default for **web apps, APIs, microservices**.
+
+## NLB — Layer 4 (TCP/UDP)
+
+Moves packets — fast, protocol-agnostic. **Static IP per AZ**, **preserves source IP**, millions req/s, **only LB with UDP**. For IP whitelisting, non-HTTP, low latency.
+
+## GWLB — Layer 3 (niche)
+
+Transparent inline bump for **third-party firewalls / IDS**, via **GENEVE :6081**. "Deploy appliances scalably + transparently."
