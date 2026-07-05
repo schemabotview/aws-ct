@@ -56,6 +56,7 @@ Structure drafted — `README.md` holds the full **14-module / 148-section spine
 - **06 — VPC & Connectivity (11)** → `aws-cloud` scene (best fit: real nodes for VPC/subnets/`igw`/`nat`/SG-NACL gates, and `vpc-edge` holds `tgw`/`vpc-endpoint`/`privatelink` for the connectivity sections).
 - **07 — DNS, CDN & Edge (10)** → `aws-cloud` scene (Edge / Front Door column: DNS §2–4 → `route53`, CloudFront §5–8 → `cloudfront` (+`waf`), §9 → `ga`; §10 → all three).
 - **08 — Relational Databases & Caching (10)** → `aws-cloud` scene (Data Subnet: RDS/Aurora §2–8 → `aurora-a` (+`aurora-b` for Multi-AZ, `rdsproxy-a` for proxy); caching §9–10 → `cache-a`).
+- **09 — NoSQL & Analytics (11)** → `aws-cloud` scene (DynamoDB §2–6 → `dynamodb` (Integration row); Redshift §7–8 → `redshift`; analytics §9/§11 → Region B `athena`/`glue`/`emr`/`opensearch`; §10 purpose-built rides `dynamodb`).
 
 The 3-scene AWS set is settled: `aws-global` (mod 01), `aws-iam` (mod 02), `aws-cloud` (mod 03+, framed per section). All three are ported into graphl-movie (`src/scenes/`).
 
