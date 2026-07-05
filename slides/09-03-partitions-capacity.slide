@@ -1,0 +1,15 @@
+# Partitions, hot keys & capacity
+
+## Partitions
+
+Data sharded across physical partitions by **hashing the PK**. Two gotchas:
+
+- **Want high cardinality** — few PK values → one partition → **hot partition throttle** (even with healthy total capacity). Fix: synthesise `status#shardId`.
+- **Can't query across partitions** — `Query` = one PK value; many PKs → use a **GSI**.
+
+## Capacity modes
+
+- **Provisioned** — set **RCU/WCU** (1 RCU = 4 KB strong read/s; 1 WCU = 1 KB write/s). Cheaper for **steady**, **throttles** past ceiling. **Auto Scaling** within min/max.
+- **On-demand** — no planning, scales instantly, per-request, **never throttles**; pricier per request.
+
+**Heuristic:** on-demand for new/spiky/unknown · provisioned + AS for steady high-volume.

@@ -1,0 +1,7 @@
+DynamoDB: the core model.
+
+DynamoDB is a fully managed NoSQL store. Tables hold items, which are records; items hold attributes, which are fields; and items in the same table can have different attributes, because DynamoDB is schemaless, apart from the primary key, which every item must carry. Attributes support a rich set of types: strings, numbers, binary, booleans, null, sets of those, lists, and nested maps. A single item is capped at four hundred kilobytes.
+
+The primary key uniquely identifies each item, and it comes in two shapes. A simple primary key is just a partition key, or P-K; each item has a globally unique partition key, like a user I-D. A composite primary key is a partition key plus a sort key, P-K plus S-K; many items share a partition key, and the sort key orders them and provides uniqueness, like a customer I-D plus an order I-D, or a device I-D plus a timestamp.
+
+The core trade is that DynamoDB rewards designing your access patterns first, then choosing the keys and indexes to support them. The relational habit, of normalising the schema and querying however you want later, does not transfer; you model for the queries you'll actually run. Pair Lambda with DynamoDB, and you get an application that scales from zero to tens of thousands of requests per second with nothing operational to change, which is exactly why it anchors serverless architectures on AWS.

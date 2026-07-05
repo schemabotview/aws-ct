@@ -1,0 +1,17 @@
+# Loading & tuning Redshift
+
+## Getting data in
+
+- **`COPY`** — parallel bulk load from S3 (CSV/JSON/Parquet…), ≫ faster than `INSERT`. Pattern: **land in S3 → COPY**
+- **Spectrum** — query S3 **directly** via external tables (Glue Catalog), join to in-cluster; per-TB scanned
+
+**Split:** hot / joined data **in** Redshift · cold history **in S3** via Spectrum.
+
+## Distribution style (rows across nodes)
+
+- **AUTO** (default) · **KEY** (co-locate join column) · **ALL** (small dims) · **EVEN** (no join key)
+- Pattern: fact **KEY** on `customer_id` + dim **ALL** → **local joins, no shuffle**
+
+## Sort keys
+
+Storage order within a node + **zone maps** (min/max) → filters **skip blocks**. Huge for range / time-series.

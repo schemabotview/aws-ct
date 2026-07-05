@@ -1,0 +1,17 @@
+# Streams, global tables, TTL & PITR
+
+## DynamoDB Streams
+
+**24-h change log** of item changes (ordered per PK; keys / new / old image). **Lambda consumes** (auto-scaled) → powers:
+
+- event-driven work · **OpenSearch** indexing · audit to S3 (Firehose)
+- materialized views · **replication** (Global Tables)
+
+## Global Tables
+
+**Multi-region, multi-active** — every region reads **+ writes**, ~1 s replication, last-writer-wins. Global apps + multi-region DR.
+
+## TTL & PITR
+
+- **TTL** — auto-delete after per-item expiry; **no WCU cost**, **shows in Streams** (filter for strict expiry)
+- **PITR** — continuous backup, restore to **any second in 35 days**; on-demand backups = manual snapshot

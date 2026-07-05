@@ -1,0 +1,7 @@
+Picking the right database.
+
+Here's a cue-to-service cheat sheet spanning the relational chapter and this one. Match the cue, get the service.
+
+Key-value or document at any scale, single-digit milliseconds, serverless: DynamoDB. DynamoDB but microseconds and read-heavy: D-A-X. MongoDB-compatible documents: DocumentDB. Cassandra-compatible: Keyspaces. Graph, for social, fraud, or recommendations: Neptune. Time-series, for I-o-T, sensors, or metrics: Timestream. Redis as a durable primary store: MemoryDB. An immutable centralised audit trail: Q-L-D-B; a decentralised multi-party ledger: Managed Blockchain. O-L-A-P, B-I, terabyte-to-petabyte S-Q-L analytics: Redshift; querying S3 alongside cluster data: Redshift Spectrum. Serverless S-Q-L on S3 with no warehouse: Athena; serverless Spark E-T-L plus a table catalogue: Glue. Managed Hadoop, with Spark, Hive, Presto, or HBase: E-M-R; full-text search and log analytics: OpenSearch. And relational O-L-T-P, from the previous module, is R-D-S or Aurora.
+
+The meta-pattern: each service is the answer to one specific data shape or access pattern. Real architectures end up stacking two or three of them together: DynamoDB plus OpenSearch for operational state with search, Redshift plus Athena plus Glue for a warehouse fed by a lake, DynamoDB plus D-A-X for hot reads. The question is rarely "which database", but "which mix".

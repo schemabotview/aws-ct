@@ -1,0 +1,15 @@
+# DynamoDB — the core model
+
+Fully managed **NoSQL**. **Table** → **items** (records) → **attributes** (fields).
+
+- **Schemaless** apart from the primary key (every item has one)
+- Rich types (string, number, binary, bool, sets, lists, maps); item ≤ **400 KB**
+
+## Primary key — two shapes
+
+- **Simple** — just a **partition key (PK)**, globally unique (`userId`)
+- **Composite** — **PK + sort key (SK)**; many items share a PK, SK orders + uniquifies (`customerId` + `orderId`)
+
+## The core trade
+
+**Design access patterns first**, then keys/indexes. The relational "normalize + query anything" habit **does not transfer** — model for the queries. **Lambda + DynamoDB** = serverless scale from zero.

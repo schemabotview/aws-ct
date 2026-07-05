@@ -1,0 +1,14 @@
+# Consistency & secondary indexes
+
+## Three read consistency levels
+
+- **Eventually consistent** (default) — ~1 s stale, **0.5 RCU** — most reads
+- **Strongly consistent** — latest write, **1 RCU** — read-your-own-write
+- **Transactional** — **ACID** across items/tables, 2× again — invariants (financial, inventory)
+
+## Secondary indexes — answer more patterns
+
+- **LSI** — base **PK**, **different sort key**. At **creation only**, ≤ 5, shares throughput, **strong reads**, 10 GB/PK cap
+- **GSI** — **different PK** (± SK). **Anytime**, ≤ 20, **own throughput**, **eventually consistent only**
+
+**Rule:** **GSI is the default** (flexible); **LSI** only for strong consistency on an alt sort — and plan it up front.

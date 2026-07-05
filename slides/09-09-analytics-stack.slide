@@ -1,0 +1,17 @@
+# The analytics stack (on S3)
+
+Four services around Redshift, all on the **S3 data lake**.
+
+## Athena — serverless SQL on S3
+
+No infra / loading; SQL over S3 objects (Glue Catalog), **per-TB scanned**. For log / ad-hoc / lake queries when a warehouse is overkill.
+**vs. Spectrum:** Athena standalone · Spectrum = part of Redshift. **No Redshift → Athena; have it → Spectrum.**
+
+## Glue — ETL + Data Catalog
+
+**Crawlers** infer S3 schemas → the **Catalog** (Athena / Spectrum / EMR all read it). **Glue ETL** = serverless Spark (per DPU-sec).
+
+## EMR & OpenSearch
+
+- **EMR** — managed **Hadoop / Spark** (Hive, Presto, HBase) — custom / heavy big-data
+- **OpenSearch** — **full-text search + log analytics** (+ Dashboards). Common: **DynamoDB Streams → OpenSearch**.

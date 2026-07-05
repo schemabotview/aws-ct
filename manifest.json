@@ -1092,6 +1092,147 @@
           "spine": true
         }
       ]
+    },
+    {
+      "id": "09-nosql-and-analytics",
+      "title": "NoSQL & Analytics",
+      "sections": [
+        {
+          "heading": "The database zoo — why purpose-built",
+          "notebook": "notebooks/09-01-database-zoo.ipynb",
+          "slide": "slides/09-01-database-zoo.slide",
+          "audio": "audio/09-01-database-zoo.wav",
+          "scene": "aws-cloud",
+          "spine": true,
+          "role": "hook"
+        },
+        {
+          "heading": "DynamoDB — the core model",
+          "notebook": "notebooks/09-02-dynamodb-core.ipynb",
+          "slide": "slides/09-02-dynamodb-core.slide",
+          "audio": "audio/09-02-dynamodb-core.wav",
+          "scene": "aws-cloud",
+          "focus": "integration",
+          "highlight": [
+            "dynamodb"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Partitions, hot keys & capacity modes",
+          "notebook": "notebooks/09-03-partitions-capacity.ipynb",
+          "slide": "slides/09-03-partitions-capacity.slide",
+          "audio": "audio/09-03-partitions-capacity.wav",
+          "scene": "aws-cloud",
+          "focus": "integration",
+          "highlight": [
+            "dynamodb"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Read consistency & secondary indexes",
+          "notebook": "notebooks/09-04-consistency-indexes.ipynb",
+          "slide": "slides/09-04-consistency-indexes.slide",
+          "audio": "audio/09-04-consistency-indexes.wav",
+          "scene": "aws-cloud",
+          "focus": "integration",
+          "highlight": [
+            "dynamodb"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "DynamoDB operations & DAX",
+          "notebook": "notebooks/09-05-operations-dax.ipynb",
+          "slide": "slides/09-05-operations-dax.slide",
+          "audio": "audio/09-05-operations-dax.wav",
+          "scene": "aws-cloud",
+          "focus": "integration",
+          "highlight": [
+            "dynamodb"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Streams, global tables, TTL & PITR",
+          "notebook": "notebooks/09-06-streams-global-ttl.ipynb",
+          "slide": "slides/09-06-streams-global-ttl.slide",
+          "audio": "audio/09-06-streams-global-ttl.wav",
+          "scene": "aws-cloud",
+          "focus": "integration",
+          "highlight": [
+            "dynamodb"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Redshift — the OLAP warehouse",
+          "notebook": "notebooks/09-07-redshift-olap.ipynb",
+          "slide": "slides/09-07-redshift-olap.slide",
+          "audio": "audio/09-07-redshift-olap.wav",
+          "scene": "aws-cloud",
+          "focus": "query",
+          "highlight": [
+            "redshift"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Loading & tuning Redshift — COPY, Spectrum, dist/sort keys",
+          "notebook": "notebooks/09-08-redshift-loading-tuning.ipynb",
+          "slide": "slides/09-08-redshift-loading-tuning.slide",
+          "audio": "audio/09-08-redshift-loading-tuning.wav",
+          "scene": "aws-cloud",
+          "focus": "query",
+          "highlight": [
+            "redshift"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "The analytics stack — Athena, Glue, EMR, OpenSearch",
+          "notebook": "notebooks/09-09-analytics-stack.ipynb",
+          "slide": "slides/09-09-analytics-stack.slide",
+          "audio": "audio/09-09-analytics-stack.wav",
+          "scene": "aws-cloud",
+          "focus": "region-b",
+          "highlight": [
+            "athena",
+            "glue",
+            "emr",
+            "opensearch"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Purpose-built databases — the rest of the zoo",
+          "notebook": "notebooks/09-10-purpose-built.ipynb",
+          "slide": "slides/09-10-purpose-built.slide",
+          "audio": "audio/09-10-purpose-built.wav",
+          "scene": "aws-cloud",
+          "focus": "integration",
+          "highlight": [
+            "dynamodb"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Picking the right database",
+          "notebook": "notebooks/09-11-picking-database.ipynb",
+          "slide": "slides/09-11-picking-database.slide",
+          "audio": "audio/09-11-picking-database.wav",
+          "scene": "aws-cloud",
+          "focus": "region-b",
+          "highlight": [
+            "dynamodb",
+            "redshift",
+            "athena",
+            "opensearch"
+          ],
+          "spine": true
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,17 @@
+# Operations & DAX
+
+## Four read shapes
+
+- **`GetItem`** — one item by key — cheapest
+- **`Query`** — items in **one PK** (± SK range) — the **workhorse**
+- **`Scan`** — reads the **whole table**, charges for all — **almost always wrong** (→ GSI)
+- **`Batch`** — ≤ 100 gets / 25 writes — saves round-trips, not capacity
+
+**Trap:** filter expressions run **after** the read → filtered items still cost capacity.
+
+## DAX — microsecond reads
+
+In-memory cache for DynamoDB: **microsecond** hits, **drop-in** SDK.
+
+- **Write-through** · item cache (5 min) + query cache (1 min) · **VPC-only, multi-AZ**
+- For **read-heavy hot items**; serves eventually-consistent (not for strong reads).

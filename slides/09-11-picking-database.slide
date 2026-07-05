@@ -1,0 +1,14 @@
+# Picking the right database
+
+**Cue → service.** Match the phrase.
+
+- Key-value / doc, ms, serverless → **DynamoDB** · microsecond read-heavy → **DAX**
+- MongoDB → **DocumentDB** · Cassandra → **Keyspaces**
+- Graph → **Neptune** · time-series → **Timestream** · Redis-as-DB → **MemoryDB**
+- Audit ledger → **QLDB** · decentralized → **Managed Blockchain**
+- OLAP TB–PB SQL → **Redshift** · S3 beside cluster → **Spectrum**
+- Serverless SQL on S3 → **Athena** · Spark ETL + catalog → **Glue**
+- Managed Hadoop → **EMR** · search + logs → **OpenSearch**
+- *(relational OLTP → RDS / Aurora)*
+
+**Meta:** each = one pattern; **real designs stack 2–3** (DynamoDB+OpenSearch, Redshift+Athena+Glue). Not "which DB" but **"which mix."**

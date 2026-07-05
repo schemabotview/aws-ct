@@ -1,0 +1,14 @@
+# The database zoo
+
+You know relational (RDS/Aurora) — **general**, fits any shape. So why a **zoo** of others? **Generality has a cost** at scale: analytics, microsecond lookups, graph, time-series each want a **purpose-built** engine. Skill = **cue → service**.
+
+## The two anchors
+
+- **DynamoDB** — serverless **NoSQL** (key-value + doc), single-digit-ms at any scale, no servers/schema, 3-AZ. Underpins serverless.
+- **Redshift** — **data warehouse**, columnar + massively parallel, TB–PB analytics.
+
+## Around them
+
+**Purpose-built** DBs (Neptune, DocumentDB, Keyspaces, Timestream, MemoryDB, QLDB) + an **analytics stack on S3** (Athena, Glue, EMR, OpenSearch).
+
+→ DynamoDB deep-dive · Redshift + stack · the rest · then a cheat sheet.

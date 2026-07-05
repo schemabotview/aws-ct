@@ -1,0 +1,12 @@
+# Purpose-built databases
+
+Exist because **relational *and* DynamoDB are wrong** for specific shapes. Learn **cue → service**:
+
+- **DocumentDB** — MongoDB-compatible **document** → *MongoDB, catalog*
+- **Neptune** — **graph** (nodes / edges) → *social, fraud, recommendations, friend-of-friend*
+- **Keyspaces** — serverless **Cassandra** → *Cassandra, CQL*
+- **Timestream** — **time-series** → *IoT, sensors, metrics*
+- **MemoryDB** — **Redis as durable primary** → *Redis as system of record*
+- **QLDB** — **verifiable ledger** → *tamper-proof audit* (decentralized → **Managed Blockchain**)
+
+**Pattern:** cue-to-service, not service-to-capability — learn the phrase that jumps you to the service.

@@ -1,0 +1,17 @@
+# Redshift — the OLAP warehouse
+
+## OLTP vs. OLAP
+
+- **OLTP** (RDS/Aurora) — many small point lookups, GB–TB, row-oriented
+- **OLAP** (Redshift) — **few large** scans + aggregations, TB–PB, **columnar**
+
+## Columnar is the key word
+
+Row store = a row's fields together (fetch by key). **Columnar** = a column's values together → `SUM(revenue)` reads **one column**, not all 50. Huge win for analytics.
+
+## Architecture — MPP
+
+**Leader node** (parse / plan / distribute) + **compute nodes** (run slices **in parallel**) = massively parallel processing.
+
+- **RA3** — managed storage, compute/storage independent (S3 + SSD cache) — **default**
+- **DC2** — local SSD, coupled (legacy) · **Serverless** — no cluster, base capacity in **RPUs**
