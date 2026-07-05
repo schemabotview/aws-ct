@@ -1,0 +1,17 @@
+# Pillar — Operational Excellence
+
+*Run the system well day to day* — ship safely, respond, improve.
+
+## Checklist
+
+- **IaC** everywhere — CloudFormation / CDK / Terraform; Config flags manual drift
+- **Pipelines** — CodePipeline/Build/Deploy, auth via **OIDC** (no long-lived CI keys)
+- **Safe deploy** — **blue/green** (ECS, Lambda), **canary** (ALB), **auto-rollback on alarm**
+- **Observability by default** — CloudWatch + CloudTrail org-wide + Config
+- **Runbooks** — SSM Automation docs → repeatable, not tribal
+
+## Principles
+
+Operations **as code** · small **reversible** changes · refine often · anticipate failure · learn from events
+
+**Cue:** *reduce manual effort / deploy without downtime / auto-rollback* → this pillar.

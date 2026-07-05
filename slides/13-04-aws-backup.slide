@@ -1,0 +1,16 @@
+# AWS Backup
+
+**One** central, managed backup for **EC2, EBS, RDS, Aurora, DynamoDB, EFS, FSx, S3, Redshift…** — the long list *is* the point.
+
+## Three pieces
+
+- **Backup vaults** — hold recovery points; KMS key + policy. **Vault Lock = WORM** → even **root can't** delete/shorten (ransomware answer)
+- **Backup plans** — schedules, retention, lifecycle to cold; one plan, many types
+- **Resource assignment** — **by tag** (`backup=daily-prod`) or ARN → auto-picks up
+
+## Two key features
+
+- **Cross-Region copy** — auto-duplicate to another Region = **cheapest DR** (Backup & Restore, automated)
+- **Cross-account copy** — to an isolated backup account → survives a compromised prod account
+
+**Cue:** many service types / immutable vs. ransomware / tag-based org policy → **AWS Backup**.

@@ -1,0 +1,15 @@
+# Study plan & closing
+
+## Four weeks at SAA-C03
+
+- **W1 — Foundations, IAM, VPC, Compute** (01/02/03/06) → lab: VPC + ASG/ALB across 2 AZs + least-priv role; read policy JSON
+- **W2 — Serverless, Storage, DNS, CDN** (04/05/07) → Lambda+API GW, S3 versioning/lifecycle+CloudFront, Route 53 failover
+- **W3 — Data, Integration, Security** (08/09/10/11) → RDS Multi-AZ, DynamoDB+GSI, SQS→Lambda, KMS-encrypted EBS
+- **W4 — Observability, Resilience, Cost** (12/13) → Backup plan, alarms, WA review → **timed exams** to the principle
+
+## Closing
+
+- **Account** = security+billing boundary · **Regions/AZs** = substrate · **IAM** = the chokepoint
+- Compute/storage/network/data/integration/security = a layer each; observability/DR/cost = the glue
+
+**AWS is wide but it composes.** The work is no longer *what* the pieces are — it's *which combination fits the requirement.* **You have the map. Go build.**

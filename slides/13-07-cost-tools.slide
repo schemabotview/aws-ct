@@ -1,0 +1,14 @@
+# Cost tools — Explorer, Budgets, Anomaly
+
+Three tools, three jobs.
+
+- **Cost Explorer** — **interactive analysis**: slice by service/account/region/tag; **Recommendations** (RIs/SPs) + **Forecast**. *Analysis, not alerting.*
+- **AWS Budgets** — **proactive alarms**: cost / usage / SP-utilisation budgets → email/**SNS** at 50/80/100% + forecast. **Budget per team**, not just account total.
+- **Cost Anomaly Detection** — **ML** on spend → alerts on spikes (the cryptominer on a leaked key).
+
+## Enablers
+
+- **Cost allocation tags** — activate → slice by team/project
+- **Cost & Usage Report (CUR)** — full line-item export → S3 → Athena/QuickSight
+
+**Cue:** slice history → **Explorer** · alert on threshold → **Budgets** · catch a spike → **Anomaly Detection**.

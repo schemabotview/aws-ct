@@ -1,0 +1,16 @@
+# Commitment discounts — RIs, SPs, Spot
+
+On-Demand for steady load leaves **30–70%** on the table. Three families:
+
+- **Reserved Instances** — commit family+region, **1/3 yr**, ~**72%** off. **Standard** (locked) vs. **Convertible** (exchangeable)
+- **Savings Plans** — commit **$/hr**; applies **across families/regions**. **Compute SP** (EC2+Fargate+Lambda, flexible) vs. **EC2 Instance SP** (pinned, deeper)
+- **Spot** — unused capacity, ~**90%** off, **2-min** reclaim notice → batch, CI, stateless, Fargate Spot. **Never** a stateful DB.
+
+## The layering
+
+1. Baseline floor → **Savings Plans / RIs**
+2. Variable steady → more SPs
+3. Burst / fault-tolerant → **Spot**
+4. Spiky tip → **On-Demand**
+
+**Commit on the base, burst on Spot, On-Demand only for the tip.**

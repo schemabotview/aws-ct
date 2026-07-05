@@ -1,0 +1,15 @@
+# Migration services & the Snow family
+
+The R = strategy; these move the bytes.
+
+- **MGN** (App Migration Service) — modern **lift-and-shift**: agent → continuous block replication → EBS staging → cut over to a **byte-identical EC2** in minutes
+- **DMS** (Database Migration Service) — **homogeneous** (Oracle→RDS Oracle) or **heterogeneous** (Oracle→Aurora PG) via **SCT** + **CDC**; near-zero downtime
+- **DataSync** — bulk **file** transfer (NFS/SMB/HDFS → S3/EFS/FSx), scheduled + verified
+
+## Snow family — when the network won't do
+
+- **Snowcone** — rugged, **8 TB**, battery; field/IoT
+- **Snowball Edge** — workhorse: **Storage (~80 TB)** or **Compute (vCPU/GPU)**
+- **Snowmobile** — 45-ft container, **100 PB**; exabyte evacuations
+
+**Rule:** ship it if faster than your link (500 TB @ 100 Mbps ≈ 460 days). E2E **KMS** encryption.

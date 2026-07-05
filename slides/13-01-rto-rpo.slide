@@ -1,0 +1,22 @@
+# RTO & RPO — the only two numbers
+
+Resilience reduces to two numbers, quoted **per workload**:
+
+- **RTO** — *Recovery Time* — how long you can be **down**
+- **RPO** — *Recovery Point* — how much **data** you can lose (time to last good copy)
+
+## Per workload, not per company
+
+| Workload | RTO | RPO |
+|---|---|---|
+| **Checkout** | < 5 min | < 30 s |
+| **Reporting warehouse** | 24 h | 4 h |
+
+Every choice — sync vs. async, Multi-AZ vs. multi-region, hot vs. cold — **pays for a smaller RTO/RPO**.
+
+## Two costs scale as you tighten
+
+- **Money** — replicas, cross-region bandwidth
+- **Complexity** — failover automation, drift, testing
+
+*How small is small enough?* — the rest of this module is the levers.

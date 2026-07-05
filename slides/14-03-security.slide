@@ -1,0 +1,17 @@
+# Pillar — Security
+
+*Protect data & identities against credible threats.* The non-negotiables:
+
+- **Identity** — **roles, not users**; permission boundaries; SSO via **IAM Identity Center**
+- **Least privilege** — Access Analyzer, policies sized to usage; never `*:*`
+- **Encryption** — **KMS CMKs**, S3/EBS default encryption, **TLS in transit**
+- **Secrets** — Secrets Manager (rotation) / SSM SecureString; never plaintext in code/AMIs/env
+- **Network** — private subnets for compute, tight SGs, NACLs as coarse layer
+- **Detection** — GuardDuty + Security Hub + Config + immutable CloudTrail
+
+## Two recurring ideas
+
+- **Defence in depth** — identity + network + encryption + detection
+- **Least privilege** — minimum grant, expand on evidence
+
+**Cue:** *encrypt with your own key / limit blast radius / detect activity* → this pillar.

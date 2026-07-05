@@ -1,0 +1,18 @@
+# DR strategies — the four AWS shapes
+
+DR = the rare, catastrophic failures (Region down, ransomware, bad delete). Four shapes, by RTO/RPO & cost:
+
+| Strategy | RPO | RTO | Idea |
+|---|---|---|---|
+| **Backup & Restore** | hours | hrs–days | backups → restore in DR Region · **cheapest** |
+| **Pilot Light** | minutes | tens of min | **data** replicated, compute off → scale up + DNS |
+| **Warm Standby** | sec–min | minutes | **scaled-down** stack always live → scale up |
+| **Active-Active** | seconds | seconds | both Regions serve → auto shift · **fastest** |
+
+**The ladder** = how much runs warm in the DR Region: nothing → data → small stack → full site. Cost climbs with it.
+
+## Building blocks
+
+**Aurora Global DB** · **DynamoDB Global Tables** · **S3 CRR** · **Route 53 health-check failover** (the DNS switch)
+
+**Rehearse it** — an untested DR plan is a hope. Drill quarterly.

@@ -1,0 +1,18 @@
+# The tools — WA Tool & Trusted Advisor
+
+Two services turn pillars into a **score**.
+
+## AWS Well-Architected Tool
+
+- Define a **workload**; pick **lenses** — WA Framework (default) + Serverless, SaaS, FTR, ML, IoT, Analytics, Hybrid Net
+- Unchecked options → **HRIs / MRIs**, scored per pillar
+- Notes + tickets; **re-run every 6–12 months** → trend
+- **Custom lenses** — encode org / regulated standards
+
+## Trusted Advisor
+
+- Five categories: **Cost · Performance · Security · Fault Tolerance · Service Limits**
+- **Free tier** = 7 core checks (root MFA, public S3, exposed keys, limits); **Business/Enterprise** = full set
+- Publishes to **EventBridge** (*new public bucket → alert*)
+
+**Together:** WA Tool = periodic **workload** review · Trusted Advisor = continuous **account** monitoring.

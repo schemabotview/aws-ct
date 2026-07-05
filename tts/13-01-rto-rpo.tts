@@ -1,0 +1,9 @@
+R-T-O and R-P-O, the only two numbers that matter.
+
+Every production workload eventually has to answer two questions: can we survive a failure, which is high availability, and how fast can we come back, which is disaster recovery. The entire conversation reduces to two numbers, quoted per workload.
+
+R-T-O, the Recovery Time Objective, is how long the workload can be down before the business is in real trouble. R-P-O, the Recovery Point Objective, is how much data the business can afford to lose, measured in time, back to the last successful backup or replication point.
+
+Quote them per workload, never per company. The customer-facing checkout flow might need an R-T-O under five minutes and an R-P-O under thirty seconds. The back-office reporting warehouse might be perfectly fine with an R-T-O of twenty-four hours and an R-P-O of four hours. Every architectural choice that follows, synchronous versus asynchronous replication, multi-A-Z versus multi-region, hot standby versus cold backup, is paying for a smaller R-T-O or R-P-O.
+
+And two costs scale as you tighten those numbers. Money, because you're buying more hardware, more replicas, and more cross-region bandwidth. And complexity, because you're adding more failover automation, more drift between primary and standby, and more things to test. So the only honest question is: how small is small enough for this workload? This module, H-A, D-R, cost, and migration, is the set of levers you pull to hit those two numbers without overpaying.

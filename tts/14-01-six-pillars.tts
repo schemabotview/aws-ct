@@ -1,0 +1,7 @@
+The Well-Architected Framework, six pillars.
+
+Thirteen modules in, you have the A-W-S service map. This one ties the threads together. A-W-S's Well-Architected Framework is the structured way the field answers the question, is this architecture good? It's six pillars, each with design principles, best-practice questions, and a portal-based scoring tool.
+
+The six pillars each answer one question. Operational Excellence: can we run and improve the system day to day? Security: are data and identities protected against credible threats? Reliability: do we meet our uptime and recovery targets? Performance Efficiency: do we hit performance targets without overspending? Cost Optimization: are we paying only for value delivered? And Sustainability: are we minimising environmental impact? Every service you've already met fits under one or more of these pillars, so this module is composition, not new introductions.
+
+The crucial idea is that the pillars are not independent. Tightening security often costs more. Improving reliability usually trades against cost. Sustainability frequently argues the same way as cost. The Well-Architected review process exists precisely to make those trade-offs explicit per workload, so nobody silently optimises for one pillar at the expense of another. That tension, naming the trade-off and choosing deliberately, is the job of a solutions architect, and it's the through-line of this final module.

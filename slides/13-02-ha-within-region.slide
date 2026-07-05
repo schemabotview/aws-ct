@@ -1,0 +1,19 @@
+# HA patterns within a Region
+
+A Region = **3+ Availability Zones** (separate DCs, independent power/network). HA = **use them**.
+
+## The standard pattern
+
+Stateless tier **across AZs behind an LB** · stateful tier **replicated across AZs** · **autoscale** on demand.
+
+- **ASG across 3 AZs** behind an ALB · **RDS Multi-AZ** standby · **ElastiCache** Multi-AZ
+- **S3** — never think about AZs; automatic
+
+## Four native primitives
+
+- **Multi-AZ ASG** — kills single-host failure, zero cost (`min ≥ 2`, all AZs, cross-zone LB)
+- **RDS Multi-AZ (sync)** — writer fails over; **RPO ≈ 0, RTO ≈ 60–120 s**; single-region
+- **Aurora storage** — **6 copies / 3 AZs**, survives an AZ loss transparently
+- **Managed services** (S3, DynamoDB, SQS, Lambda) — multi-AZ by design
+
+**Rule:** production tiers → **span AZs by default**.

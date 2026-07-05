@@ -4,7 +4,7 @@ Video-first content for the **AWS Certified Solutions Architect – Associate (S
 
 This file is the **course outline** — the human-facing map of modules and sections. It is the plan we author against; the machine source of truth for structure is `manifest.json` (once authored).
 
-**Status:** structure drafted — **14 modules, 148 sections** (spine below). **Modules 01–12 authored** — every section has `.ipynb` + `.slide` + `.tts`, and `manifest.json` wires them (01 → `aws-global`, 02 → `aws-iam`, 03–12 → `aws-cloud`). All three scenes are ported into the graphl-movie app (monogram tiles + official AWS service icons). Pending: Colab `.wav`s. Modules 13–14 not authored yet. Intended remote: `github.com/schemabotview/aws-ct`.
+**Status:** structure drafted — **14 modules, 148 sections** (spine below). **All 14 modules authored (148 sections)** — every section has `.ipynb` + `.slide` + `.tts`, and `manifest.json` wires them (01 → `aws-global`, 02 → `aws-iam`, 03–14 → `aws-cloud`, framed per section via `focus`/`highlight`). All three scenes are ported into the graphl-movie app (monogram tiles + official AWS service icons). Pending: the remaining Colab `.wav`s (97 of 148 generated). Intended remote: `github.com/schemabotview/aws-ct`.
 
 ## Target exam
 

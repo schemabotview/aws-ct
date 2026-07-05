@@ -1,0 +1,18 @@
+# Pillar — Reliability
+
+*Meet your uptime & recovery targets.*
+
+## Checklist
+
+- **Across AZs** — ASG spans AZs, RDS/ElastiCache Multi-AZ, ALB cross-zone
+- **Stateless compute** — sessions→ElastiCache, files→S3, secrets→Secrets Mgr; any instance replaceable
+- **Auto-recovery** — ASG self-heal, ALB health checks, EC2 Auto Recovery, ECS reschedule
+- **Service quotas** — raise *before* you hit them; alarm on usage
+- **DR chosen & tested** — the four shapes, **quarterly drills**
+- **Backpressure** — SQS buffers, backoff + jitter, idempotent retries
+
+## Principles
+
+Auto-recover · **test recovery** · scale horizontally · stop guessing capacity · automate change
+
+**Model:** *assume everything fails, make failure a non-event.* **Cue:** survive AZ outage / no SPOF / meet RTO → this pillar.

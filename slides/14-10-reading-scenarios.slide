@@ -1,0 +1,18 @@
+# Reading a scenario & distractors
+
+Questions are **paragraphs.** A repeatable pattern → accuracy:
+
+1. **Verb first** — *ensure / minimise / prevent* = the goal
+2. **Highlight constraints** — *least overhead · cost-effective · no public IP · two Regions*
+3. **Match constraint → service, not feature** — *global + WAF* → CloudFront · *in-order* → SQS FIFO
+4. **Eliminate by capability mismatch** — CLB has no host routing; DynamoDB has no JOINs → strike
+
+## Distractor patterns
+
+- *minimum operational overhead* → **managed** (Lambda > EC2, Aurora Serverless > Postgres/EC2)
+- *encrypt with a customer key* → **KMS CMK**, not default
+- *cost-effective + infrequent* → **S3 Standard-IA / Glacier** (check latency)
+- **CLB / NAT instance / EC2-Classic** → usually **wrong** (ALB / NAT GW / VPC)
+- **Multi-AZ = failover**, **Read Replica = read scaling** — don't swap them
+
+**Meta-skill:** the exam rewards **elimination over recall**.

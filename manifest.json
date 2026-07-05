@@ -1619,6 +1619,266 @@
           "spine": true
         }
       ]
+    },
+    {
+      "id": "13-ha-dr-cost-and-migration",
+      "title": "HA, DR, Cost & Migration",
+      "sections": [
+        {
+          "heading": "RTO & RPO — the only two numbers that matter",
+          "notebook": "notebooks/13-01-rto-rpo.ipynb",
+          "slide": "slides/13-01-rto-rpo.slide",
+          "audio": "audio/13-01-rto-rpo.wav",
+          "scene": "aws-cloud",
+          "spine": true,
+          "role": "hook"
+        },
+        {
+          "heading": "HA patterns within a Region",
+          "notebook": "notebooks/13-02-ha-within-region.ipynb",
+          "slide": "slides/13-02-ha-within-region.slide",
+          "audio": "audio/13-02-ha-within-region.wav",
+          "scene": "aws-cloud",
+          "focus": "region-a",
+          "highlight": [
+            "asg",
+            "aurora-a",
+            "aurora-b"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "DR strategies — the four AWS shapes",
+          "notebook": "notebooks/13-03-dr-strategies.ipynb",
+          "slide": "slides/13-03-dr-strategies.slide",
+          "audio": "audio/13-03-dr-strategies.wav",
+          "scene": "aws-cloud",
+          "focus": "region-b",
+          "highlight": [
+            "glacier"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "AWS Backup",
+          "notebook": "notebooks/13-04-aws-backup.ipynb",
+          "slide": "slides/13-04-aws-backup.slide",
+          "audio": "audio/13-04-aws-backup.wav",
+          "scene": "aws-cloud",
+          "focus": "region-b",
+          "highlight": [
+            "glacier",
+            "s3-serving"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Right-sizing & idle elimination",
+          "notebook": "notebooks/13-05-right-sizing.ipynb",
+          "slide": "slides/13-05-right-sizing.slide",
+          "audio": "audio/13-05-right-sizing.wav",
+          "scene": "aws-cloud",
+          "focus": "global-plane",
+          "highlight": [
+            "cost",
+            "trusted-advisor"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Commitment discounts — Reserved Instances, Savings Plans, Spot",
+          "notebook": "notebooks/13-06-commitment-discounts.ipynb",
+          "slide": "slides/13-06-commitment-discounts.slide",
+          "audio": "audio/13-06-commitment-discounts.wav",
+          "scene": "aws-cloud",
+          "focus": "global-plane",
+          "highlight": [
+            "cost"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Cost tools — Cost Explorer, Budgets, Anomaly Detection",
+          "notebook": "notebooks/13-07-cost-tools.ipynb",
+          "slide": "slides/13-07-cost-tools.slide",
+          "audio": "audio/13-07-cost-tools.wav",
+          "scene": "aws-cloud",
+          "focus": "global-plane",
+          "highlight": [
+            "cost"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Migration — the 7 Rs",
+          "notebook": "notebooks/13-08-seven-rs.ipynb",
+          "slide": "slides/13-08-seven-rs.slide",
+          "audio": "audio/13-08-seven-rs.wav",
+          "scene": "aws-cloud",
+          "focus": "region-a",
+          "highlight": [
+            "ec2-a"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Migration services & the Snow family",
+          "notebook": "notebooks/13-09-migration-services-snow.ipynb",
+          "slide": "slides/13-09-migration-services-snow.slide",
+          "audio": "audio/13-09-migration-services-snow.wav",
+          "scene": "aws-cloud",
+          "focus": "region-b",
+          "highlight": [
+            "s3-raw"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Putting it together",
+          "notebook": "notebooks/13-10-putting-together.ipynb",
+          "slide": "slides/13-10-putting-together.slide",
+          "audio": "audio/13-10-putting-together.wav",
+          "scene": "aws-cloud",
+          "focus": "region-a",
+          "highlight": [
+            "asg",
+            "aurora-a"
+          ],
+          "spine": true
+        }
+      ]
+    },
+    {
+      "id": "14-well-architected-and-saa-exam-prep",
+      "title": "Well-Architected & SAA Exam Prep",
+      "sections": [
+        {
+          "heading": "The Well-Architected Framework — six pillars",
+          "notebook": "notebooks/14-01-six-pillars.ipynb",
+          "slide": "slides/14-01-six-pillars.slide",
+          "audio": "audio/14-01-six-pillars.wav",
+          "scene": "aws-cloud",
+          "spine": true,
+          "role": "hook"
+        },
+        {
+          "heading": "Pillar — Operational Excellence",
+          "notebook": "notebooks/14-02-operational-excellence.ipynb",
+          "slide": "slides/14-02-operational-excellence.slide",
+          "audio": "audio/14-02-operational-excellence.wav",
+          "scene": "aws-cloud",
+          "focus": "global-plane",
+          "highlight": [
+            "cloudformation",
+            "cloudwatch"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Pillar — Security",
+          "notebook": "notebooks/14-03-security.ipynb",
+          "slide": "slides/14-03-security.slide",
+          "audio": "audio/14-03-security.wav",
+          "scene": "aws-cloud",
+          "focus": "cross-cut",
+          "highlight": [
+            "kms",
+            "secrets"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Pillar — Reliability",
+          "notebook": "notebooks/14-04-reliability.ipynb",
+          "slide": "slides/14-04-reliability.slide",
+          "audio": "audio/14-04-reliability.wav",
+          "scene": "aws-cloud",
+          "focus": "region-a",
+          "highlight": [
+            "asg",
+            "aurora-a",
+            "aurora-b"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Pillar — Performance Efficiency",
+          "notebook": "notebooks/14-05-performance-efficiency.ipynb",
+          "slide": "slides/14-05-performance-efficiency.slide",
+          "audio": "audio/14-05-performance-efficiency.wav",
+          "scene": "aws-cloud",
+          "focus": "region-a",
+          "highlight": [
+            "ec2-a",
+            "cache-a"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Pillar — Cost Optimization",
+          "notebook": "notebooks/14-06-cost-optimization.ipynb",
+          "slide": "slides/14-06-cost-optimization.slide",
+          "audio": "audio/14-06-cost-optimization.wav",
+          "scene": "aws-cloud",
+          "focus": "global-plane",
+          "highlight": [
+            "cost",
+            "trusted-advisor"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Pillar — Sustainability",
+          "notebook": "notebooks/14-07-sustainability.ipynb",
+          "slide": "slides/14-07-sustainability.slide",
+          "audio": "audio/14-07-sustainability.wav",
+          "scene": "aws-cloud",
+          "focus": "global-plane",
+          "highlight": [
+            "cost"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "The tools — Well-Architected Tool & Trusted Advisor",
+          "notebook": "notebooks/14-08-tools.ipynb",
+          "slide": "slides/14-08-tools.slide",
+          "audio": "audio/14-08-tools.wav",
+          "scene": "aws-cloud",
+          "focus": "global-plane",
+          "highlight": [
+            "trusted-advisor"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "SAA blueprint — where each module fits",
+          "notebook": "notebooks/14-09-saa-blueprint.ipynb",
+          "slide": "slides/14-09-saa-blueprint.slide",
+          "audio": "audio/14-09-saa-blueprint.wav",
+          "scene": "aws-cloud",
+          "spine": true,
+          "role": "hook"
+        },
+        {
+          "heading": "Reading a scenario question & distractor patterns",
+          "notebook": "notebooks/14-10-reading-scenarios.ipynb",
+          "slide": "slides/14-10-reading-scenarios.slide",
+          "audio": "audio/14-10-reading-scenarios.wav",
+          "scene": "aws-cloud",
+          "spine": true,
+          "role": "hook"
+        },
+        {
+          "heading": "Study plan & closing",
+          "notebook": "notebooks/14-11-study-plan-closing.ipynb",
+          "slide": "slides/14-11-study-plan-closing.slide",
+          "audio": "audio/14-11-study-plan-closing.wav",
+          "scene": "aws-cloud",
+          "spine": true,
+          "role": "hook"
+        }
+      ]
     }
   ]
 }

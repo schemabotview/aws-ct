@@ -1,0 +1,9 @@
+High-availability patterns within a Region.
+
+Within a Region, A-W-S gives you at least three Availability Zones, physically separate data centres with independent power and network, and H-A design within a Region is mostly about using them.
+
+The standard pattern is: a stateless tier spread across multiple A-Zs behind a load balancer, a stateful tier replicated across A-Zs, and autoscaling on demand. In practice that's E-C-2 in an Auto Scaling Group spanning three A-Zs behind an A-L-B; R-D-S Multi-A-Z with a synchronous standby in another A-Z; ElastiCache Redis with Multi-A-Z replication; and S3, the one A-W-S service where you never think about A-Zs at all, because it stores objects across them automatically.
+
+Four A-W-S-native H-A primitives are worth being explicit about. A Multi-A-Z Auto Scaling Group kills the single-host failure mode at zero developer cost; set minimum at least two, span all A-Zs, attach a target group, and enable cross-zone load balancing. R-D-S Multi-A-Z, which is synchronous, fails the writer endpoint over to the standby in another A-Z on a hardware or maintenance failure, giving an R-P-O near zero and an R-T-O of about sixty to a hundred-twenty seconds; but it's single-region only. Aurora's storage layer spreads your data as six copies across three A-Zs, so the storage survives an A-Z loss transparently and replicas promote fast. And managed services, S3, DynamoDB, S-Q-S, and Lambda, are multi-A-Z by design, so they do the A-Z work for you.
+
+The rule: for production tiers, span A-Zs by default. It's the cheapest resilience you will ever buy.

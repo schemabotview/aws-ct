@@ -1,0 +1,18 @@
+# Pillar — Sustainability
+
+The newest pillar (2021): *minimise the environmental impact* — less compute, less idle, efficient hardware.
+
+## Overlaps heavily with Cost
+
+- **Right-size + decommission idle** — same lever saves money **and** carbon
+- **Modern generations** — **Graviton** = less power per unit of work
+- **Serverless / managed** — shared hardware, higher utilisation
+- **Storage tiering** — **Glacier Deep Archive** ≪ Standard energy at scale
+- **Region choice** — AWS publishes carbon intensity; pick a greener Region
+- **Reduce the work** — smaller formats, efficient code, lifecycle deletion
+
+## Principles
+
+Understand impact · set goals · maximise utilisation · adopt efficient hardware · managed services
+
+**Takeaway:** the **greenest ≈ cheapest** architecture — count carbon alongside dollars.

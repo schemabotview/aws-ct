@@ -1,0 +1,9 @@
+Cost tools, Cost Explorer, Budgets, and Anomaly Detection. Three tools, three jobs.
+
+Cost Explorer is the interactive analysis console. You slice spend by service, account, region, or tag, over arbitrary time windows. Its Recommendations tab proposes R-Is and Savings Plans based on the last seven, thirty, or sixty days of usage, and its Forecast view projects month-end and next-month spend from the trend. Cost Explorer is where finance and engineering meet, same data, two questions, and importantly it's for analysis, not alerting.
+
+A-W-S Budgets are the proactive alarms. You set a monthly cost budget, a usage budget, like reserved-instance coverage above eighty percent, or a Savings Plans utilisation budget, and Budgets emails you or fires S-N-S when you cross thresholds at fifty, eighty, and a hundred percent, and on forecasted overage. The trick is to budget per team or per workload, not just for the account total, because a one-team overrun is invisible inside a healthy whole-account budget.
+
+Cost Anomaly Detection is the machine-learning layer on top. It learns each service's normal spending pattern and alerts on unexpected spikes. The classic catch is a cryptominer running on a leaked I-A-M key, spinning up G-P-U instances, where the bill spikes hours before anyone notices the breach.
+
+Underneath all three are two enablers: cost allocation tags, which you activate so Cost Explorer and Budgets can slice by team or project, and the A-W-S Cost and Usage Report, the exhaustive line-item export to S3 for deep analysis in Athena or QuickSight. The cue map: to analyse and slice historical spend, Cost Explorer; to alert before crossing a threshold, Budgets; and to catch an unexpected spike, Anomaly Detection.

@@ -1,0 +1,18 @@
+# SAA blueprint — where each module fits
+
+**SAA-C03** — four domains, mapping onto modules 01–13:
+
+| Domain | Weight | Modules |
+|---|---|---|
+| **Secure Architectures** | **30%** | 02 IAM · 11 KMS/WAF/GuardDuty · 06 VPC |
+| **Resilient Architectures** | 26% | 03 ELB/ASG · 08 RDS/Aurora · 13 DR/Backup |
+| **High-Performing** | 24% | 03 compute · 04 serverless · 05 storage · 07 CDN · 08–10 data |
+| **Cost-Optimized** | 20% | 13 RIs/SPs/Spot · 05 S3 classes · 03 instance choice |
+
+- **01** (foundations) + **12** (observability) cut across **all four**; **14** = integration
+- **No SAA topic is uncovered** — the course *is* the blueprint
+
+## Two notes
+
+- **Security (30%) = largest domain** → invest study time proportionally
+- Weights = **breadth of questions**, not difficulty — same discipline every question

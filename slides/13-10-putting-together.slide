@@ -1,0 +1,16 @@
+# Putting it together
+
+**Measure first, design for the target, rehearse the recovery.**
+
+- **HA** — span AZs by default; Multi-AZ ASG / RDS / Aurora; trust managed services
+- **DR** — **RTO/RPO per workload** → pick the shape → **drill quarterly** (Aurora Global, DynamoDB GT, S3 CRR, Route 53 failover)
+- **Cost** — right-size (Compute Optimizer) · **commit base** (Savings Plans) · **burst Spot** · lifecycle · **budget per team** · Anomaly Detection day one
+- **Migration** — **R per workload** · **MGN** servers · **DMS** (+SCT) DBs · **DataSync** files · **Snow** for the rest
+
+## Cue map
+
+- resilience decision → **RTO & RPO** · cheapest DR → **AWS Backup**
+- right-size → **Compute Optimizer** · steady discount → **Savings Plans**
+- budget alert → **Budgets** · move servers/DBs → **MGN / DMS** · PBs offline → **Snow**
+
+**Resilience & cost are dials, not switches** — set each per workload.

@@ -1,0 +1,17 @@
+# Pillar — Performance Efficiency
+
+*Hit performance targets without overspending.*
+
+## Checklist
+
+- **Right compute** — Lambda (sporadic) · Fargate (steady) · EC2 (sustained) · **Graviton** (~20% price/perf)
+- **Right data engine per pattern** — RDS/Aurora OLTP · DynamoDB key-value · Redshift warehouse · S3+Athena lake · OpenSearch search · ElastiCache hot
+- **Cache** — CloudFront (edge) · ElastiCache (app) · **DAX** (DynamoDB)
+- **Async** — SQS / SNS / EventBridge / Step Functions decouple slow work
+- **Auto-scale** on the right metric, with cooldowns (no thrash)
+
+## Principles
+
+Managed services · global in minutes · serverless · experiment · mechanical sympathy
+
+**Core move:** **match the tool to the access pattern** — the most-tested idea. No universal "best."

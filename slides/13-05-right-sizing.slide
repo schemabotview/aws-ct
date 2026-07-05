@@ -1,0 +1,18 @@
+# Right-sizing & idle elimination
+
+First cost lever: resources **not doing the work they're sized for**.
+
+- **Over-sized** — `m5.4xlarge` at 8% CPU → drop to `m5.large` / **Graviton** = **60%+**
+- **Idle** — forgotten EC2, dev RDS running 24/7, detached EBS, unused Elastic IP (billed!)
+
+## Two tools
+
+- **Compute Optimizer** — right-sizing engine; **14 days** of CloudWatch → concrete rec (*"→ m6g.large, save $X"*) for EC2/ASG/EBS/Lambda/ECS/RDS
+- **Trusted Advisor** — **Cost Optimization** checks: idle LBs, underused EBS/EC2
+
+## Two structural levers
+
+- **Schedule non-prod** — stop dev nights/weekends → ~70% off office-hours workloads
+- **Storage lifecycle** — S3 **Intelligent-Tiering**, delete unattached EBS/snapshots
+
+**The cheapest resource is the one you turned off.**

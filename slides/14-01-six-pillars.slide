@@ -1,0 +1,18 @@
+# Well-Architected — six pillars
+
+The structured answer to *"is this architecture good?"* — 13 modules of services, now composed.
+
+| Pillar | Answers |
+|---|---|
+| **Operational Excellence** | run & improve day to day? |
+| **Security** | data & identities protected? |
+| **Reliability** | uptime & recovery targets met? |
+| **Performance Efficiency** | fast without overspending? |
+| **Cost Optimization** | paying only for value? |
+| **Sustainability** | minimising footprint? |
+
+## The key idea
+
+The pillars are **not independent** — security ↔ cost, reliability ↔ cost, sustainability ≈ cost.
+
+The **review process makes trade-offs explicit per workload** — no silently optimising one pillar at another's expense. *Naming the trade-off and choosing* **is** the architect's job.

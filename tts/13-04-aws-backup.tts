@@ -1,0 +1,9 @@
+A-W-S Backup.
+
+A-W-S Backup is the managed, central backup service that covers E-C-2, E-B-S, R-D-S, Aurora, DynamoDB, E-F-S, F-S-x, S3, Storage Gateway, Neptune, DocumentDB, and Redshift, and the length of that list is exactly the point. Without it you would run six or more different backup configurations, one per service.
+
+The model has three pieces. Backup vaults hold the recovery points; each vault has a K-M-S key for encryption and an access policy, and Vault Lock makes the vault write-once-read-many. Once it's locked in compliance mode, even the root user cannot shorten retention or delete recovery points, and that is the ransomware-resilience answer. Backup plans define schedules, retention, and lifecycle transitions to cold storage, and one plan can target many resource types. And resource assignment matches resources to plans by tag, or by explicit A-R-N; tag something backup equals daily-prod and the plan picks it up automatically.
+
+Two features are worth highlighting. Cross-Region copy, as part of the backup plan, automatically duplicates recovery points to another Region, and that is the cheapest D-R building block, essentially Backup and Restore, automated. And cross-account copy to an isolated backup account protects you against a compromised production account deleting its own backups.
+
+The exam cue: one place to back up many service types, immutable backups against ransomware, or a tag-based backup policy across the organisation, all point to A-W-S Backup, with Vault Lock and cross-Region or cross-account copy.

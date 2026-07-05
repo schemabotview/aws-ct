@@ -1,0 +1,7 @@
+The Cost Optimization pillar.
+
+Module thirteen covered the cost levers in depth, so here is the pillar's checklist, briefly.
+
+Right-size weekly using Compute Optimizer, Trusted Advisor, and Cost Explorer together. Commit on the base with Compute Savings Plans for sixty to seventy percent of the fleet, and Reserved Instances for stable R-D-S and ElastiCache. Use Spot for the burst layer, batch, C-I, and stateless workers. Apply storage lifecycle: S3 Intelligent-Tiering by default, E-B-S g-p-three over g-p-two, and delete unattached volumes. Eliminate idle: auto-shutdown for dev and test, scheduled scaling for off-hours. Govern with tags, cost-center, environment, owner, and application on everything, so Cost Explorer can pivot by tag. And turn on Cost Anomaly Detection on day one, so it catches the compromised-key cryptominer before the bill arrives.
+
+The design principles: adopt a consumption model, measure efficiency, stop spending on undifferentiated heavy lifting by using managed services, and attribute expenditure through tags and accounts. The insight that outlasts any single tactic is that cost optimisation is an operating discipline, not a one-time project. A team that reviews spend weekly and adjusts will always beat a team that does one big cleanup a year and then drifts. The cue: most cost-effective, minimise cost for a spiky workload, or reduce spend without hurting performance, all point to this pillar, which sits directly on the trade-off with reliability and performance.

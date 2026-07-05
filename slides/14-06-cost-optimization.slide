@@ -1,0 +1,17 @@
+# Pillar — Cost Optimization
+
+Module 13 in depth; the checklist in brief:
+
+- **Right-size weekly** — Compute Optimizer + Trusted Advisor + Cost Explorer
+- **Commit on the base** — Compute Savings Plans (60–70%) · RIs for stable RDS/cache
+- **Spot** for burst — batch, CI, stateless
+- **Storage lifecycle** — S3 Intelligent-Tiering, EBS gp3 > gp2, delete unattached
+- **Idle elimination** — auto-shutdown dev/test, scheduled off-hours
+- **Tag governance** — `cost-center` / `environment` / `owner`; Cost Explorer pivots
+- **Anomaly detection day one** — catches the cryptominer before the bill
+
+## Principles
+
+Consumption model · measure efficiency · managed over heavy-lifting · **attribute spend** (tags)
+
+**Insight:** cost is an **operating discipline, not a one-time project** — weekly review beats an annual cleanup.
