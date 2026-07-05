@@ -1,0 +1,20 @@
+# EC2 — the virtual server
+
+**Elastic Compute Cloud** — AWS's virtual server and most fundamental compute primitive. Almost everything runs on it.
+
+## What an instance is
+
+A **virtual machine**: AWS picks the hardware + hypervisor, you get a slice. You choose the **OS, CPU, memory, storage, network**.
+
+## Six decisions to launch
+
+- **AMI** — the disk image to boot
+- **Instance type** — the size
+- **Key pair** — to log in
+- **Network** — a VPC + public IP
+- **Security group** — firewall (open 80, 22)
+- **User data** — boot script → running app
+
+## Where this module goes
+
+One instance → **load balancer** in front of many → **Auto Scaling Group** that grows/shrinks the fleet.
