@@ -1,0 +1,7 @@
+R-D-S versus Aurora: picking which.
+
+Both are managed relational databases on AWS. The choice comes down to the engine, the performance ceiling, and how variable the workload is.
+
+Pick R-D-S for Oracle, SQL Server, or Db2, when the engine isn't on Aurora's list, since Aurora only speaks MySQL and PostgreSQL. Pick R-D-S MySQL or PostgreSQL for a cost-sensitive, predictable workload that's fine with sixty-to-a-hundred-twenty-second failover. Pick Aurora MySQL or PostgreSQL when you want faster failover, faster replication, and up to fifteen replicas. Pick Aurora Serverless v2 for a variable workload, multi-tenant SaaS, dev and test, or unknown scale. Pick Aurora Global Database for cross-region D-R with an R-P-O under one second, or for global low-latency reads. And pick Aurora Backtrack to guard against accidental data wipes on Aurora MySQL.
+
+Cost shape matters too. Aurora is priced per-second compute, plus per-gigabyte-month storage, plus per-million I-O requests. R-D-S is per-second instance, plus pre-provisioned E-B-S storage. For very small steady workloads, R-D-S often comes out cheaper; for anything bursty or growing, Aurora's storage model usually wins. The default heuristic: for MySQL or PostgreSQL, choose Aurora, unless a small steady workload makes R-D-S cheaper; for anything else, R-D-S.

@@ -1,0 +1,16 @@
+# RDS security & RDS Proxy
+
+## Security — four layers
+
+- **Network** — private subnets; SG allows the DB port **from the app SG only** (never public)
+- **At rest** — KMS AES-256, **enabled at creation** (else snapshot→copy-encrypted→restore)
+- **In transit** — SSL/TLS via parameter group + regional CA
+- **IAM DB auth** — short-lived token, no stored password
+
+## RDS Proxy — the connection pool
+
+DBs cap connections; **Lambda opens one per invocation** → exhausts the DB. RDS Proxy multiplexes **thousands of app connections → a small backend pool**.
+
+- **Handles failover** — reconnects in seconds, app's link stays open
+- **IAM + Secrets Manager** creds
+- The standard part of any **Lambda + relational** stack

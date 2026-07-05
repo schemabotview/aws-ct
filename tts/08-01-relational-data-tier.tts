@@ -1,0 +1,7 @@
+The relational data tier on AWS.
+
+Almost every application needs a relational database: Postgres, MySQL, SQL Server, the durable, transactional system of record where the authoritative state lives. You could run the engine yourself on E-C-2, installing it, patching the O-S, setting up replication, writing backup scripts, and building failover automation, and end up owning all that operational surface. Or you could hand it all to AWS and just bring the schema and the queries. This module is about the three services that make up the data tier.
+
+R-D-S is AWS's managed relational service: you bring the schema and queries, and AWS handles the operating system, the engine binary, patching, backups, and failover. Aurora is AWS's own cloud-native engine that speaks the MySQL and PostgreSQL wire protocols, but has rebuilt the storage and replication layer from scratch, giving a different performance ceiling and availability story. And ElastiCache is the third piece: managed in-memory caching, with Redis, Valkey, or Memcached underneath, that sits in front of the database to absorb hot reads and turn millisecond queries into microsecond cache hits.
+
+The module walks R-D-S first: its engines, backups, availability, security, and R-D-S Proxy. Then Aurora: its storage architecture, Serverless v2, Global Database, and the R-D-S-versus-Aurora decision. Then ElastiCache: why you cache, the patterns, and Redis versus Memcached. And it closes on how the three stack into one tier: a durable source of truth, connection pooling, and a cache on the read path.

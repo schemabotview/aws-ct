@@ -1,0 +1,17 @@
+# The relational data tier
+
+Almost every app needs a **relational database** — the durable, transactional **system of record**. Run it yourself on EC2, or hand it to AWS. This module = the **three services** of the data tier.
+
+## RDS — managed relational
+
+Bring schema + queries; AWS runs OS, engine, **patching, backups, failover**.
+
+## Aurora — AWS's own engine
+
+Speaks **MySQL / PostgreSQL** wire, but **rebuilt storage + replication** → higher ceiling, better HA.
+
+## ElastiCache — in-memory cache
+
+Redis / Valkey / Memcached **in front of** the DB → millisecond queries become **microsecond** hits.
+
+**They stack** — durable DB + connection pool + cache on the read path.

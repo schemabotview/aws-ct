@@ -1,0 +1,7 @@
+R-D-S overview.
+
+R-D-S runs the database engine on E-C-2 instances behind the scenes, with E-B-S for storage, and exposes a connection endpoint, a maintenance window, and a small set of configuration knobs. Everything else, patching the O-S, upgrading the engine, replacing failed hardware, taking backups, setting up replicas, and flipping Multi-A-Z on failure, is AWS's job. The trade is that you don't get S-S-H and there's no O-S-level access. So any feature AWS hasn't certified, like a custom extension, a kernel-level monitoring agent, or Oracle R-A-C, is out of reach.
+
+R-D-S supports six engines: MySQL, PostgreSQL, MariaDB, Oracle, either bring-your-own-license or license-included, Microsoft SQL Server, and I-B-M Db2. All six get the same managed plane: automated backups, Multi-A-Z, read replicas, Performance Insights, and parameter and option groups. The exact feature matrix does vary per engine.
+
+The mental split is simple: R-D-S owns the infrastructure and operations, and you own the schema, the queries, and the data. That boundary is the whole value proposition, and also its one limit. If your workload needs O-S-level control or an uncertified feature, you're back on E-C-2. Otherwise, R-D-S is the default relational tier, and the rest of this act is the operational features layered on top: backups, availability, security, and connection pooling.

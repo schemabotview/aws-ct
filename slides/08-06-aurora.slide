@@ -1,0 +1,18 @@
+# Aurora — a different engine
+
+AWS's own engine — **MySQL / PostgreSQL wire**, **rebuilt storage + replication**. ~**5× RDS MySQL / 3× RDS PostgreSQL**.
+
+## The shared cluster volume
+
+**Separates compute from storage.** Primary + replicas share one distributed log-structured volume:
+
+- **6 copies across 3 AZs** (2 per AZ), writes ack on a **4-of-6 quorum**
+- Replicas read the same volume → tiny lag; a new replica adds **no storage**
+
+## Endpoints (each routes differently)
+
+- **Cluster (writer)** → current primary (writes)
+- **Reader** → load-balanced across replicas (reads)
+- **Custom** → a subset (e.g. report boxes) · **Instance** → one node
+
+On failover, **writer + reader endpoints auto-update** — the app never tracks the writer.

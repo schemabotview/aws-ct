@@ -1,0 +1,19 @@
+# Multi-AZ vs. read replicas
+
+Look alike, solve **different problems**.
+
+## Multi-AZ — availability
+
+- **Synchronous standby**, another AZ, same region
+- Every write commits to **both** before ack
+- Standby carries **no traffic** (hot spare)
+- Failover: promote + **flip endpoint DNS**, same name, **60–120 s**
+- *Multi-AZ DB Cluster*: 1 writer + 2 **readable** standbys, **< 35 s**
+
+## Read Replicas — read scaling
+
+- **Asynchronous**, **do serve reads** (up to 5; Aurora 15)
+- **Own endpoint** — app must send reads there
+- **Cross-region** + **promotable** · can **lag** (not read-after-write)
+
+**Split:** Multi-AZ = availability · Replicas = read scaling. Often used **together**.

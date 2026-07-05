@@ -1,0 +1,13 @@
+# Aurora — Serverless, Global, Backtrack
+
+## Serverless v2
+
+Auto-scales **compute** in real time by load. Unit = **ACU** (~2 GB RAM); **0.5-ACU steps in seconds**, no dropped connections; set **min/max**. Scales the **live** instance (unlike v1). For variable load, dev/test, SaaS.
+
+## Global Database
+
+One logical cluster across **regions**: 1 primary (writes) + up to **5 secondaries** (reads), **storage-layer** replication, **sub-second** lag. DR: **RPO < 1 s, RTO < 1 min**. Strongest cross-region relational option.
+
+## Backtrack
+
+Rewind **Aurora MySQL in place** (no restore, no new instance), window up to **72 h**, in seconds. For the accidental `DELETE`. **MySQL only.**

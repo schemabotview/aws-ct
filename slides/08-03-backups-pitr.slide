@@ -1,0 +1,15 @@
+# RDS backups & PITR
+
+## Two mechanisms, always running
+
+- **Automated backups** (default) — daily snapshot + **tx logs → S3 every 5 min**, retained **1–35 days**
+  - → **Point-in-time restore** to any second (snapshot base + log replay)
+  - **Tied to the instance** — deleted with it (unless a final snapshot)
+- **Manual snapshots** — you / automation trigger; **persist until deleted**
+  - **Copy cross-region** (DR) · **share to accounts** (re-encrypt)
+
+## The rule
+
+**Restore always creates a NEW instance** — PITR doesn't rewind in place. *(Aurora Backtrack does — later.)*
+
+**Automated + PITR** = undo recent hours · **manual snapshots** = long-term / DR / sharing.

@@ -1,0 +1,17 @@
+# RDS overview
+
+Runs the engine on **EC2 + EBS** behind the scenes; you get a **connection endpoint**, a **maintenance window**, and config knobs.
+
+## AWS owns / you own
+
+- **AWS:** OS, engine, patching, hardware, backups, replicas, Multi-AZ failover
+- **You:** schema, queries, data
+- Trade: **no SSH / no OS access** → uncertified features out of reach
+
+## Six engines
+
+**MySQL · PostgreSQL · MariaDB · Oracle · SQL Server · IBM Db2**
+
+All share the managed plane: automated backups, Multi-AZ, read replicas, Performance Insights, parameter/option groups (matrix varies per engine).
+
+**Default relational tier** unless you need OS control or an uncertified feature.

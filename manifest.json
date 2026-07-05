@@ -966,6 +966,132 @@
           "spine": true
         }
       ]
+    },
+    {
+      "id": "08-relational-databases-and-caching",
+      "title": "Relational Databases & Caching",
+      "sections": [
+        {
+          "heading": "The relational data tier on AWS",
+          "notebook": "notebooks/08-01-relational-data-tier.ipynb",
+          "slide": "slides/08-01-relational-data-tier.slide",
+          "audio": "audio/08-01-relational-data-tier.wav",
+          "scene": "aws-cloud",
+          "spine": true,
+          "role": "hook"
+        },
+        {
+          "heading": "RDS overview",
+          "notebook": "notebooks/08-02-rds-overview.ipynb",
+          "slide": "slides/08-02-rds-overview.slide",
+          "audio": "audio/08-02-rds-overview.wav",
+          "scene": "aws-cloud",
+          "focus": "data-a",
+          "highlight": [
+            "aurora-a"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "RDS backups & point-in-time restore",
+          "notebook": "notebooks/08-03-backups-pitr.ipynb",
+          "slide": "slides/08-03-backups-pitr.slide",
+          "audio": "audio/08-03-backups-pitr.wav",
+          "scene": "aws-cloud",
+          "focus": "data-a",
+          "highlight": [
+            "aurora-a"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Multi-AZ vs. read replicas",
+          "notebook": "notebooks/08-04-multi-az-read-replicas.ipynb",
+          "slide": "slides/08-04-multi-az-read-replicas.slide",
+          "audio": "audio/08-04-multi-az-read-replicas.wav",
+          "scene": "aws-cloud",
+          "focus": "data-a",
+          "highlight": [
+            "aurora-a",
+            "aurora-b"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "RDS security & RDS Proxy",
+          "notebook": "notebooks/08-05-rds-security-proxy.ipynb",
+          "slide": "slides/08-05-rds-security-proxy.slide",
+          "audio": "audio/08-05-rds-security-proxy.wav",
+          "scene": "aws-cloud",
+          "focus": "data-a",
+          "highlight": [
+            "rdsproxy-a",
+            "aurora-a"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Aurora — a different engine & endpoints",
+          "notebook": "notebooks/08-06-aurora.ipynb",
+          "slide": "slides/08-06-aurora.slide",
+          "audio": "audio/08-06-aurora.wav",
+          "scene": "aws-cloud",
+          "focus": "data-a",
+          "highlight": [
+            "aurora-a"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Aurora Serverless, Global Database & backtrack",
+          "notebook": "notebooks/08-07-aurora-serverless-global.ipynb",
+          "slide": "slides/08-07-aurora-serverless-global.slide",
+          "audio": "audio/08-07-aurora-serverless-global.wav",
+          "scene": "aws-cloud",
+          "focus": "data-a",
+          "highlight": [
+            "aurora-a"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "RDS vs. Aurora — picking which",
+          "notebook": "notebooks/08-08-rds-vs-aurora.ipynb",
+          "slide": "slides/08-08-rds-vs-aurora.slide",
+          "audio": "audio/08-08-rds-vs-aurora.wav",
+          "scene": "aws-cloud",
+          "focus": "data-a",
+          "highlight": [
+            "aurora-a"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "Caching — why, and the strategies",
+          "notebook": "notebooks/08-09-caching-strategies.ipynb",
+          "slide": "slides/08-09-caching-strategies.slide",
+          "audio": "audio/08-09-caching-strategies.wav",
+          "scene": "aws-cloud",
+          "focus": "data-a",
+          "highlight": [
+            "cache-a"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "ElastiCache — Redis vs. Memcached",
+          "notebook": "notebooks/08-10-elasticache-redis-memcached.ipynb",
+          "slide": "slides/08-10-elasticache-redis-memcached.slide",
+          "audio": "audio/08-10-elasticache-redis-memcached.wav",
+          "scene": "aws-cloud",
+          "focus": "data-a",
+          "highlight": [
+            "cache-a",
+            "aurora-a"
+          ],
+          "spine": true
+        }
+      ]
     }
   ]
 }

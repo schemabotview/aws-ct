@@ -1,0 +1,7 @@
+R-D-S backups and point-in-time restore.
+
+R-D-S runs two backup mechanisms at the same time. Automated backups are on by default: R-D-S takes a daily snapshot during the maintenance window, and ships transaction logs to S3 every five minutes, with retention from one to thirty-five days; zero disables them. Within that window, you get a point-in-time restore, or P-I-T-R, to any second: the snapshot is the base, and the logs replay forward from it. Automated backups are tied to the instance, so if you delete the instance, they go with it, unless you take a final snapshot first.
+
+Manual snapshots are triggered by you or by automation, like Lambda, EventBridge, or AWS Backup, and they persist until you delete them; deleting the instance doesn't touch them. They can be copied to another region, which is the standard cross-region D-R pattern, and shared with other AWS accounts, optionally re-encrypted across the share.
+
+The behaviour to remember is this: restoring always creates a new instance. A point-in-time restore doesn't rewind the existing database in place; it spins up a parallel one that you then repoint the application at. Contrast this with Aurora Backtrack, coming up later, which does rewind in place. The two mechanisms cover different needs: automated backups plus P-I-T-R for undoing the last few hours, and manual snapshots for long-term retention, cross-region D-R, and account sharing.

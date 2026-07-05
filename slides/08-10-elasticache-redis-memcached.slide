@@ -1,0 +1,18 @@
+# ElastiCache — Redis vs. Memcached
+
+## Redis (+ Valkey) — the default
+
+- Rich **data structures** (sorted sets, streams, geo…)
+- **Persistence**, **replication + Multi-AZ failover**, **cluster sharding** (≤ 500)
+- Pub/sub, Lua, transactions, backup · mostly **single-threaded**
+
+## Memcached — simple only
+
+- **Strings only**; **no** persistence / replication / failover
+- **Multi-threaded** (scales with cores), node-add scaling
+
+**Default = Redis.** Memcached only for simple K/V where multi-thread throughput matters + node loss is fine.
+
+## The tier stacks (not replaces)
+
+Source of truth → **RDS / Aurora** · pool → **RDS Proxy** (Lambda) · read scale → replicas then **ElastiCache** · sub-ms (sessions, counters, leaderboards) → **ElastiCache**.

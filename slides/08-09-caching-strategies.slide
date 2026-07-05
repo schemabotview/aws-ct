@@ -1,0 +1,15 @@
+# Caching — why & strategies
+
+DB query: **~1 ms** (hundreds under load). Cache lookup: **microseconds** — 3–4 orders faster. A cache in front of the DB = the **highest-leverage** perf change.
+
+**Shape:** check cache → **hit** returns · **miss** → DB, write to cache, return. Next reads within **TTL** get the fast path.
+
+**Services:** **ElastiCache** (Redis/Valkey/Memcached, general) · **DAX** (write-through, **DynamoDB-only**).
+
+## The patterns
+
+- **Lazy loading (cache-aside)** — read cache; miss → DB → write back. Only caches what's read; outage just slows. But **first read misses** + can go **stale**.
+- **Write-through** — write to **both**; reads never miss written data. Cost: double-write, may cache unused data.
+- **TTL** — per-entry expiry; the staleness bound.
+
+**Default:** lazy loading + TTL; add write-through where read-after-write matters.

@@ -1,0 +1,19 @@
+# RDS vs. Aurora
+
+Choice = **engine · performance ceiling · workload variability**.
+
+## Pick RDS when…
+
+- **Oracle / SQL Server / Db2** — not on Aurora's list
+- **MySQL/PG, cost-sensitive, predictable**, OK with 60–120 s failover
+
+## Pick Aurora when…
+
+- **MySQL/PG** + want **faster failover / replication**, up to **15 replicas**
+- **Serverless v2** — variable / SaaS / dev-test / unknown scale
+- **Global Database** — cross-region DR (RPO < 1 s), global reads
+- **Backtrack** — guard against accidental wipes
+
+## Cost shape
+
+Aurora = per-sec compute + per-GB storage + per-IO. RDS = per-sec + **pre-provisioned EBS**. Small steady → RDS often cheaper; **bursty / growing → Aurora**.
