@@ -1,0 +1,14 @@
+# EFS — shared file storage
+
+Managed **NFS v4**; **many Linux instances mount at once** (across AZs/accounts, on-prem via DX/VPN). **Regional** — auto multi-AZ, elastic, pay per GB. **Linux/POSIX only** (Windows → FSx).
+
+Connect via **mount targets** (one per AZ, a VPC IP + SG). Uses: shared web content, home dirs, ASG config, **ECS/EKS volumes**.
+
+## Two knobs
+
+- **Performance mode** (fixed): **General Purpose** (default) · **Max I/O** (thousands of clients)
+- **Throughput mode** (changeable): **Elastic** (default) · Bursting · Provisioned
+
+## Tiering & One Zone
+
+By last access: **Standard → IA (~92% <) → Archive (~95% <)**. **One Zone** ~47% cheaper — dev/test, already-backed-up.

@@ -1,0 +1,14 @@
+# S3 access & features
+
+## Pre-signed URLs
+
+**Temporary, credential-free** access to one object; inherits the signer's rights, expires ≤ 7 days. For private-download links + **direct browser upload**.
+
+## Access Points & events
+
+- **Access Points** — named endpoints, **each with its own policy** (`analytics-ap`, `app-ap`, `vpc-ap`) vs. one tangled bucket policy
+- **Event Notifications** — on create/remove/restore → **SQS / SNS / Lambda / EventBridge** (EventBridge once routing gets complex)
+
+## Static website hosting
+
+Direct `s3-website` endpoint for quick sites. **Production:** **CloudFront** in front → custom domain, **HTTPS (ACM)**, edge cache, **OAC** (bucket stays private) + WAF.

@@ -1,0 +1,15 @@
+# S3 data protection
+
+## Versioning
+
+Every PUT/DELETE kept; a delete adds a **delete marker** (prior versions live underneath). Once on → only **suspended, never disabled**. Versions cost storage → expire non-current via lifecycle.
+
+- **MFA Delete** (root-only) — MFA to purge a version
+- **Object Lock** — **WORM**, no change/delete for a retention period → compliance
+
+## Replication (async, to another bucket)
+
+- **CRR** (cross-region) — DR, latency, residency · **SRR** (same-region) — logs, cross-account
+- Both buckets need **versioning** + a service role
+
+**Doesn't by default:** backfill existing (→ Batch Replication) · replicate delete markers · chain (A→B→C) · Glacier objects.

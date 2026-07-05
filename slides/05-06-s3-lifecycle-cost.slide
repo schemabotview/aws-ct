@@ -1,0 +1,17 @@
+# S3 lifecycle & cost
+
+## Lifecycle rules
+
+Move + delete objects by **age**, scoped to bucket / prefix / tag / size. Transitions go **downward only** (Standard → IA → Glacier); **30-day min** before IA.
+
+- **Expire current** — retention cap
+- **Expire non-current** — makes versioned buckets affordable
+- **Delete expired delete markers** · **abort incomplete multipart** (silent leak)
+
+## Cost / effort tools
+
+- **S3 Select** — **SQL against one object** server-side → read only matching rows
+- **Batch Operations** — one action over **billions** of objects (Inventory manifest)
+- **Storage Lens** — org-wide dashboard + cost recommendations
+
+**Toolkit:** lifecycle to tier/expire · Select to read less · Storage Lens to find waste.

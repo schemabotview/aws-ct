@@ -1,0 +1,7 @@
+S3 storage classes.
+
+Every S3 storage class shares the same eleven-nines of durability. What they differ on is availability, retrieval cost, and minimum storage duration. Standard is the hot default: instant access, no minimum. Intelligent-Tiering automatically moves objects between tiers based on access, which makes it the safe choice for unknown or shifting access patterns. Standard-I-A, with a thirty-day minimum and a retrieval fee, fits backups and monthly-accessed data. One Zone-I-A is the same, but single-A-Z; it's cheaper, but only for reproducible data, because losing that one availability zone loses the data.
+
+The Glacier tiers are for archives, trading retrieval time for cost. Glacier Instant Retrieval has a ninety-day minimum and millisecond access, for archives read about once a quarter. Glacier Flexible Retrieval takes minutes to hours, for backups and disaster recovery. And Glacier Deep Archive has a one-hundred-eighty-day minimum and takes twelve to forty-eight hours, for long-term compliance.
+
+Two traps to remember. One Zone-I-A is only for data you can regenerate, since a single availability zone means no redundancy. And each I-A and Glacier class has a minimum billed duration: delete an object early, and you still pay for the full thirty, ninety, or one-hundred-eighty days. Match the class to how hot the data is, and to how long it will live. Lifecycle rules, coming up, automate the transitions.

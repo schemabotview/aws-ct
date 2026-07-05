@@ -1,0 +1,17 @@
+# EBS — block storage
+
+**Network-attached** block device seen as a local disk. Three consequences:
+
+- **Detach/reattach** to another instance (same AZ)
+- **Persists** past stop/terminate (unless *Delete on Termination*)
+- Tiny network-latency tax
+
+**AZ-scoped** — cross AZ/region via a **snapshot**. **Multi-Attach** (io1/io2) → up to 16 instances.
+
+## Volume types
+
+- **gp3** — General SSD — **the default** (3,000 IOPS + 125 MB/s baseline, tuned independently; ~20% < gp2)
+- **io2 / Block Express** — provisioned IOPS — demanding DBs (→ 256k IOPS)
+- **st1** (throughput HDD) sequential · **sc1** (cold HDD) bulk — **not bootable**
+
+**gp3 unless you have a reason.**

@@ -1,0 +1,7 @@
+S3 data protection: versioning, Object Lock, and replication.
+
+Versioning preserves every PUT and every DELETE. A new upload gets a new version I-D. A delete just adds a delete marker as the latest version, with the prior versions still retrievable underneath; you permanently remove an object only by naming its exact version I-D. Once versioning is enabled, it can only be suspended, never disabled, and versions accumulate storage cost, so a versioned bucket almost always wants a lifecycle rule to expire non-current versions. M-F-A Delete, which only the root account can enable, requires an M-F-A token to permanently delete a version or change the versioning state. And Object Lock is the strong guarantee: write-once-read-many, or WORM, storage, where objects can't be changed or deleted for a retention period; that's for compliance.
+
+Replication asynchronously copies objects to another bucket. Cross-region replication, C-R-R, is for disaster recovery, latency, and data residency. Same-region replication, S-R-R, is for log aggregation and cross-account copies. Both buckets need versioning enabled, and a service role grants the read and write.
+
+The surprises are what replication does not do by default. It doesn't backfill existing objects; for that you use S3 Batch Replication. It doesn't replicate delete markers; you opt in, and this default stops accidental deletes from cascading. It doesn't chain, so A-to-B doesn't trigger B-to-C. And it skips objects already in Glacier. S-S-E-K-M-S objects also need explicit key configuration on both sides.

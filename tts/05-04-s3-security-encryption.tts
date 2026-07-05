@@ -1,0 +1,7 @@
+S3 security and encryption.
+
+Every bucket and every object is private by default, and access is granted through a small set of layered controls. Block Public Access, or B-P-A, is the safety net. It's on by default for new buckets, it overrides any policy that would make objects public, and it runs before anything else, so a bucket policy granting principal-star is silently ignored if B-P-A is on. Below it are bucket policies, which are resource-based and the primary cross-account and conditional grant; I-A-M policies, for same-account principals; and legacy A-C-Ls, which have been disabled by default since twenty-twenty-three, so leave them off. The rule that catches people: an explicit deny anywhere always wins.
+
+Since twenty-twenty-three, every new object is encrypted by default with S-S-E-S3, using AWS-managed keys. You override that for stronger guarantees. S-S-E-K-M-S uses your own K-M-S key, and every decryption is a CloudTrail-logged A-P-I call, giving you a second access lever independent of the bucket policy; that's the right answer for regulated data. S-S-E-C means you send the key with every request, and client-side encryption means AWS only ever sees ciphertext.
+
+S-S-E-K-M-S's catch is cost and throughput, because K-M-S calls are billable and rate-limited. S3 Bucket Keys cache a bucket-level data key and cut K-M-S calls by about ninety-nine percent. And you enforce H-T-T-P-S-only with an aws-secure-transport condition.

@@ -1,0 +1,7 @@
+Three storage shapes: object, block, and file.
+
+Before you pick a storage service on AWS, pick the shape of access. There are three categories, and they are not interchangeable. Object storage serves files over H-T-T-P, scales to infinity, and has no filesystem semantics; that's S3. Block storage is a virtual disk attached to one machine for random block I/O; that's E-B-S, which is durable and network-attached, or Instance Store, which is local and ephemeral. And file storage is a network filesystem that many machines mount at the same time; that's E-F-S, for Linux over N-F-S, or the F-S-x family, for Windows, Lustre, and more.
+
+The category is the decision that matters most. Pick the wrong shape, and nothing about the service will fit your workload. Pick the right one, and the specifics are mostly tuning. Inside each category, the service is largely obvious: S3 for object, E-B-S or Instance Store for block, and E-F-S or F-S-x for file.
+
+This module spends most of its time on S3, the centre of gravity of AWS storage. Almost every architecture touches it, as the durable home for backups, the staging area for analytics, the publisher of static sites, and the input and output of every data pipeline. Then it covers E-B-S and Instance Store for block, and E-F-S and F-S-x for file.

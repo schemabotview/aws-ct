@@ -1,0 +1,18 @@
+# S3 storage classes
+
+**Same 11-nines durability** — differ on availability, retrieval cost, min duration.
+
+## Hot → warm
+
+- **Standard** — instant, no min — the hot default
+- **Intelligent-Tiering** — auto-tiers — unknown/shifting patterns
+- **Standard-IA** — 30-day min + retrieval fee — backups
+- **One Zone-IA** — single-AZ, cheaper — **reproducible data only**
+
+## Archive — Glacier
+
+- **Instant Retrieval** — 90-day min, **ms** — quarterly reads
+- **Flexible Retrieval** — mins–hours — backups / DR
+- **Deep Archive** — 180-day min, **12–48 h** — compliance
+
+**Traps:** One Zone = no redundancy · IA/Glacier have **minimum billed durations**.

@@ -52,6 +52,7 @@ Structure drafted — `README.md` holds the full **14-module / 148-section spine
 - **02 — IAM, Organizations & Account Security (11)** → `aws-iam` scene.
 - **03 — Compute Core: EC2, ELB, Auto Scaling (12)** → `aws-cloud` scene (the "whole map"; compute lives in Region A's 3-tier — §2–7 frame `app-a`/`ec2-a`, §8–10 `public-a`/`alb`, §11–12 `asg`).
 - **04 — Serverless & Containers (11)** → `aws-cloud` scene (Lambda §2–6 → `app-a`/`lambda-a`+`apigw`; containers §7–10 → `ecs`/`fargate`/`ecr`; §11 → all compute tiles).
+- **05 — Storage: S3, EBS, EFS, FSx (11)** → `aws-cloud` scene (S3 §2–7 → Region B `lake`/`s3-*`/`glacier`; block/file §8–11 → `storage-a` band `ebs`/`efs`/`fsx`/`storage-gw`).
 
 The 3-scene AWS set is settled: `aws-global` (mod 01), `aws-iam` (mod 02), `aws-cloud` (mod 03+, framed per section). All three are ported into graphl-movie (`src/scenes/`).
 

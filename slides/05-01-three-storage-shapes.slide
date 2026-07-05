@@ -1,0 +1,17 @@
+# Three storage shapes
+
+Pick the **shape of access** before the service — three categories, **not interchangeable**.
+
+## Object — S3
+
+Files over **HTTP**, scales to infinity, **no filesystem** semantics. The centre of gravity of AWS storage.
+
+## Block — EBS / Instance Store
+
+A **virtual disk** for one machine, random block I/O. **EBS** (durable, network-attached) · **Instance Store** (local, ephemeral).
+
+## File — EFS / FSx
+
+A **network filesystem** many machines mount at once. **EFS** (Linux/NFS) · **FSx** (Windows, Lustre…).
+
+**The category is the decision** — wrong shape = nothing fits; right shape = the rest is tuning.

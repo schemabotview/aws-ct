@@ -1,0 +1,7 @@
+S3: buckets and objects.
+
+S3 stores objects in buckets. A bucket is a container with a globally unique name, three to sixty-three characters, lowercase, no underscores. An object is a file plus its metadata, addressed by a key that is just a string. The key images-slash-twenty-twenty-four-slash-photo looks like a path, but S3 is flat. The slashes are part of the name, and the console only renders prefixes as folders; there are no real directories underneath.
+
+The numbers that matter are these. A bucket lives in one region, and the data never leaves it unless you explicitly replicate. Objects run from zero bytes to five terabytes. A single PUT tops out at five gigabytes, so you use multipart upload above that, and it's recommended above a hundred megabytes. Metadata is the system headers, like content-type and e-tag, plus up to two kilobytes of user-defined headers. There's no limit on the number of objects, and request capacity scales per prefix.
+
+That minimal core, buckets, objects, and string keys, is the whole mental model. Every other S3 feature, the storage classes, security, lifecycle, replication, and access points, simply bolts onto it. The flatness is exactly what lets S3 scale to any size cheaply. The rest of this act walks those features in the order you actually meet them running a real bucket.

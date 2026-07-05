@@ -1,0 +1,17 @@
+# S3 — buckets & objects
+
+**Objects** in **buckets**, addressed by a string **key**.
+
+## The model
+
+- **Bucket** — container, **globally unique** name (3–63 chars, lowercase)
+- **Object** — file + metadata, keyed by a string
+- **S3 is flat** — `a/b/photo.jpg` is one key; "folders" are just rendered prefixes
+
+## The numbers
+
+- Bucket lives in **one region** (stays unless you replicate)
+- Object **0 B – 5 TB**; single PUT ≤ **5 GB** → **multipart** above (rec. > 100 MB)
+- **No object-count limit**; request capacity scales **per prefix**
+
+Buckets + objects + keys = the whole core. **Everything else bolts on.**

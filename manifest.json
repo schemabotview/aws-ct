@@ -558,6 +558,146 @@
           "spine": true
         }
       ]
+    },
+    {
+      "id": "05-storage-s3-ebs-efs-fsx",
+      "title": "Storage — S3, EBS, EFS, FSx",
+      "sections": [
+        {
+          "heading": "Three storage shapes — object, block, file",
+          "notebook": "notebooks/05-01-three-storage-shapes.ipynb",
+          "slide": "slides/05-01-three-storage-shapes.slide",
+          "audio": "audio/05-01-three-storage-shapes.wav",
+          "scene": "aws-cloud",
+          "spine": true,
+          "role": "hook"
+        },
+        {
+          "heading": "S3 — buckets & objects",
+          "notebook": "notebooks/05-02-s3-buckets-objects.ipynb",
+          "slide": "slides/05-02-s3-buckets-objects.slide",
+          "audio": "audio/05-02-s3-buckets-objects.wav",
+          "scene": "aws-cloud",
+          "focus": "lake",
+          "highlight": [
+            "s3-raw",
+            "s3-curated",
+            "s3-serving"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "S3 storage classes",
+          "notebook": "notebooks/05-03-s3-storage-classes.ipynb",
+          "slide": "slides/05-03-s3-storage-classes.slide",
+          "audio": "audio/05-03-s3-storage-classes.wav",
+          "scene": "aws-cloud",
+          "focus": "lake",
+          "highlight": [
+            "s3-raw",
+            "glacier"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "S3 security & encryption",
+          "notebook": "notebooks/05-04-s3-security-encryption.ipynb",
+          "slide": "slides/05-04-s3-security-encryption.slide",
+          "audio": "audio/05-04-s3-security-encryption.wav",
+          "scene": "aws-cloud",
+          "focus": "lake",
+          "highlight": [
+            "s3-curated"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "S3 data protection — versioning, Object Lock, replication",
+          "notebook": "notebooks/05-05-s3-data-protection.ipynb",
+          "slide": "slides/05-05-s3-data-protection.slide",
+          "audio": "audio/05-05-s3-data-protection.wav",
+          "scene": "aws-cloud",
+          "focus": "lake",
+          "highlight": [
+            "s3-serving"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "S3 lifecycle & cost management",
+          "notebook": "notebooks/05-06-s3-lifecycle-cost.ipynb",
+          "slide": "slides/05-06-s3-lifecycle-cost.slide",
+          "audio": "audio/05-06-s3-lifecycle-cost.wav",
+          "scene": "aws-cloud",
+          "focus": "lake",
+          "highlight": [
+            "s3-raw",
+            "glacier"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "S3 access & features — pre-signed URLs, access points, events, hosting",
+          "notebook": "notebooks/05-07-s3-access-features.ipynb",
+          "slide": "slides/05-07-s3-access-features.slide",
+          "audio": "audio/05-07-s3-access-features.wav",
+          "scene": "aws-cloud",
+          "focus": "lake",
+          "highlight": [
+            "s3-serving"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "EBS — block storage for EC2",
+          "notebook": "notebooks/05-08-ebs.ipynb",
+          "slide": "slides/05-08-ebs.slide",
+          "audio": "audio/05-08-ebs.wav",
+          "scene": "aws-cloud",
+          "focus": "storage-a",
+          "highlight": [
+            "ebs"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "EBS snapshots, encryption & instance store",
+          "notebook": "notebooks/05-09-ebs-snapshots.ipynb",
+          "slide": "slides/05-09-ebs-snapshots.slide",
+          "audio": "audio/05-09-ebs-snapshots.wav",
+          "scene": "aws-cloud",
+          "focus": "storage-a",
+          "highlight": [
+            "ebs"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "EFS — shared file storage",
+          "notebook": "notebooks/05-10-efs.ipynb",
+          "slide": "slides/05-10-efs.slide",
+          "audio": "audio/05-10-efs.wav",
+          "scene": "aws-cloud",
+          "focus": "storage-a",
+          "highlight": [
+            "efs"
+          ],
+          "spine": true
+        },
+        {
+          "heading": "FSx, Storage Gateway & the storage decision",
+          "notebook": "notebooks/05-11-fsx-decision.ipynb",
+          "slide": "slides/05-11-fsx-decision.slide",
+          "audio": "audio/05-11-fsx-decision.wav",
+          "scene": "aws-cloud",
+          "focus": "storage-a",
+          "highlight": [
+            "fsx",
+            "storage-gw"
+          ],
+          "spine": true
+        }
+      ]
     }
   ]
 }

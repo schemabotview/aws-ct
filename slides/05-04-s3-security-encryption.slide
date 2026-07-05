@@ -1,0 +1,18 @@
+# S3 security & encryption
+
+## Layered access — private by default
+
+- **Block Public Access** — on by default; **overrides any public grant**, runs first
+- **Bucket policy** — resource-based, cross-account / conditional
+- **IAM policy** — same-account principals
+- **ACLs** — legacy, off since 2023
+
+**Explicit deny anywhere wins.** BPA is the "oops, public bucket" safety net.
+
+## Encryption — default on since 2023
+
+- **SSE-S3** — AWS keys — the default baseline
+- **SSE-KMS** — your key, **CloudTrail-logged** — regulated data
+- **SSE-C** — you send the key · **Client-side** — AWS sees only ciphertext
+
+**Bucket Keys** cut KMS calls ~99%. Enforce HTTPS via `aws:SecureTransport`.

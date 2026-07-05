@@ -1,0 +1,17 @@
+# Snapshots, encryption & instance store
+
+## Snapshots
+
+Point-in-time backup → **S3** (managed), **incremental**. Restore = new volume, any AZ (or another region after copy) — the way to move volumes across AZ/region.
+
+- **Snapshot Archive** — ~75% cheaper, 24–72 h restore
+- **Recycle Bin** — holds deleted snaps 1–365 days
+- **Fast Snapshot Restore** — full performance immediately
+
+## Encryption
+
+AES-256 via **KMS**, transparent (Nitro, negligible overhead). Encrypted volume → encrypted snapshots. Flip **account default encryption** early (not retroactive).
+
+## Instance Store
+
+Local **NVMe**, millions IOPS — but **ephemeral** (gone on stop/terminate/host loss). For **caches, ML scratch, replicated systems** (Cassandra, Kafka).

@@ -1,0 +1,18 @@
+# FSx, Storage Gateway & the decision
+
+## FSx — specialised file systems
+
+- **Windows File Server** — SMB, NTFS, **AD** — any Windows/SMB question
+- **Lustre** — **HPC / ML**, hundreds of GB/s, links to an **S3 bucket**
+- **NetApp ONTAP** (NFS+SMB+iSCSI) · **OpenZFS** — lift-and-shift
+
+## Storage Gateway — on-prem bridge
+
+- **S3 File Gateway** — on-prem files → S3
+- **Volume Gateway** (iSCSI) — block, S3/EBS-backed
+- **Tape Gateway** — replace physical tape (→ S3/Glacier)
+
+## The file decision
+
+Linux NFS → **EFS** · Windows/AD → **FSx Windows** · HPC/ML → **FSx Lustre** · on-prem→S3 → **File Gateway**.
+**Default: EFS for Linux, FSx for Windows.**
