@@ -13,10 +13,9 @@ Inspects requests → **allow / block / count / CAPTCHA** before your app. Attac
 | **String / regex** | URI, query, headers, body |
 | **SQLi / XSS** | attack patterns |
 
-- **Managed Rule Groups** — Core Rule Set, Known Bad Inputs, Bot Control (no hand-writing)
+- **Managed Rule Groups** — pre-built rules, no hand-writing
 
 ## Firewall Manager — org-wide
 
 - One policy in the mgmt account → **all member accounts** (WAF, Shield Adv, SGs, Network Firewall, DNS Firewall)
 - **Enforce a baseline** + **auto-onboard new accounts** on day one
-- **Cue:** "apply WAF/Shield across all accounts" → **Firewall Manager**

@@ -15,8 +15,6 @@ Reach for a **CMK** when you need to control the **policy**, **rotation**, or **
 ## Envelope encryption — around the 4 KB limit
 
 1. `GenerateDataKey` → **plaintext DEK** + the DEK **encrypted under your key**
-2. Encrypt data **locally** with the plaintext DEK (fast, no per-byte KMS call)
+2. Encrypt data **locally** with the plaintext DEK
 3. Store encrypted data **beside** the encrypted DEK; discard the plaintext DEK
 4. Decrypt: send encrypted DEK → KMS → plaintext DEK back
-
-**Win:** big payloads at CPU speed; KMS only ever sees **small keys**.

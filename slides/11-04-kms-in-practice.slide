@@ -17,5 +17,3 @@
 - **Can't** encrypt an existing unencrypted volume/instance in place → **snapshot → copy encrypted → restore**
 - **EBS:** turn on **account-level default encryption**
 - **RDS:** KMS at rest, **TLS** in transit
-
-**Through-line:** KMS is picked **at create time**, transparent at rest, hard to add later.

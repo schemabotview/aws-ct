@@ -6,10 +6,8 @@ Two distinct services under one name.
 
 Managed **user directory**: sign-up / sign-in.
 
-- Email + password, configurable policies
 - **Social** (Google, Facebook, Apple) + **enterprise** (SAML, OIDC — Okta, Azure AD)
 - **MFA**, verification, **adaptive auth** (risk-based)
-- **Hosted UI** — pre-built sign-in page, no login form to build
 - Returns **3 JWTs** — ID, access, refresh
 
 ## Identity Pools — *what can you reach?*

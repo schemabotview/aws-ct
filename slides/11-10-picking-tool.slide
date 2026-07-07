@@ -12,5 +12,3 @@
 - Unusual API/IP → **GuardDuty** · sensitive S3 data → **Macie**
 - Vuln-scan EC2/ECR/Lambda → **Inspector** · investigate a finding → **Detective**
 - Aggregate + compliance → **Security Hub**
-
-**Stack:** KMS + Secrets Mgr + Shield/WAF + Firewall Mgr + Cognito + GuardDuty/Inspector/Macie → **Security Hub**. Each owns a **layer**.
