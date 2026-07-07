@@ -1,6 +1,6 @@
 # KMS & envelope encryption
 
-**KMS** creates and guards keys inside FIPS-validated **HSMs** — keys never leave in plaintext; every call hits **CloudTrail**.
+**KMS** guards keys in FIPS-validated **HSMs** — never plaintext; every call hits **CloudTrail**.
 
 ## Key types
 
@@ -16,5 +16,5 @@ Reach for a **CMK** when you need to control the **policy**, **rotation**, or **
 
 1. `GenerateDataKey` → **plaintext DEK** + the DEK **encrypted under your key**
 2. Encrypt data **locally** with the plaintext DEK
-3. Store encrypted data **beside** the encrypted DEK; discard the plaintext DEK
+3. Store it **beside** the encrypted DEK; discard the plaintext
 4. Decrypt: send encrypted DEK → KMS → plaintext DEK back
