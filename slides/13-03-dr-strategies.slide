@@ -14,5 +14,3 @@ DR = the rare, catastrophic failures (Region down, ransomware, bad delete). Four
 ## Building blocks
 
 **Aurora Global DB** · **DynamoDB Global Tables** · **S3 CRR** · **Route 53 health-check failover** (the DNS switch)
-
-**Rehearse it** — an untested DR plan is a hope. Drill quarterly.

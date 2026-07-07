@@ -12,8 +12,6 @@ Every workload is being one of these:
 | **Repurchase** | → SaaS (buy Salesforce) | SaaS equiv exists |
 | **Refactor** | rebuild cloud-native | highest value + effort |
 
-Picking the R is **half**; the service moving the bytes is the other half.
-
 ## Sequencing
 
 **Retire + Retain first** (cut scope) → **Rehost the majority** (get out fast) → **Replatform + Refactor over time**.
