@@ -14,5 +14,3 @@ Questions are **paragraphs.** A repeatable pattern → accuracy:
 - *cost-effective + infrequent* → **S3 Standard-IA / Glacier** (check latency)
 - **CLB / NAT instance / EC2-Classic** → usually **wrong** (ALB / NAT GW / VPC)
 - **Multi-AZ = failover**, **Read Replica = read scaling** — don't swap them
-
-**Meta-skill:** the exam rewards **elimination over recall**.
