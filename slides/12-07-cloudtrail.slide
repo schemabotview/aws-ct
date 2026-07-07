@@ -1,11 +1,9 @@
 # CloudTrail — who did what
 
-Records **every API call**: console, CLI, SDK, service-to-service. Five fields per event:
+Records **every API call** (console, CLI, SDK). Five fields per event:
 
 - **Who** — IAM principal · **What** — the action (`PutObject`, `DeleteTrail`)
 - **When** — timestamp · **Where** — IP, agent, region · **Result** — success / error + params
-
-The audit trail behind every *"who did that?"*.
 
 ## Event types
 
@@ -17,6 +15,6 @@ The audit trail behind every *"who did that?"*.
 
 ## Getting it right
 
-- **Multi-region trail → S3** = the baseline (every region, one place)
-- **Log file validation** + **S3 Object Lock** → tamper-proof (attackers call `DeleteTrail` first)
-- Trail → **CloudWatch Logs** → alarm on root login / sensitive calls
+- **Multi-region trail → S3** = the baseline
+- **Log file validation** + **S3 Object Lock** → tamper-proof
+- Trail → **CloudWatch Logs** → alarm on root login
