@@ -8,7 +8,7 @@ Served at `graphl.in/aws-ct/`. Scaffolded from `content-repo-template`, with the
 
 ## Status
 
-Chapters 1–10 (`foundations` 6, `identity` 7, `networking` 9, `compute` 8, `storage` 7, `databases` 8, `integration` 9, `analytics` 7, `delivery` 7, `operations` 10 sections) authored; awaiting review. No narration audio yet.
+Chapters 1–11 (`foundations` 6, `identity` 7, `networking` 9, `compute` 8, `storage` 7, `databases` 8, `integration` 9, `analytics` 7, `delivery` 7, `operations` 10, `optimisation` 6 sections) authored; awaiting review. No narration audio yet.
 
 ## Run it
 

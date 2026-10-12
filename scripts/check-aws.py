@@ -22,7 +22,7 @@ and this script proves the declaration is true. A card with no level, or an unkn
                              operation and input member; CLI customisations (`aws sso login`,
                              `aws configure …`, high-level `aws s3 …`) are reported as unchecked.
                     `<service>.<Operation>.request.json`   a request body, validated in full by
-                             botocore's ParamValidator (nested members, required, types, enums).
+                             botocore's ParamValidator (nested members, required, types) plus an enum walk.
                     `<service>.<Operation>.json`   a response: valid JSON whose top-level keys are
                              all members of that operation's output shape.
                     other `.json`   valid JSON; an IAM-style policy (has "Statement") must give each
@@ -179,7 +179,8 @@ def check_response(where: str, service: str, operation: str, text: str) -> None:
 
 def check_request(where: str, service: str, operation: str, text: str) -> None:
     """A request body, validated IN FULL by botocore's own ParamValidator — the same check the SDK runs
-    before sending: every nested member exists, required members are present, types and enums fit."""
+    before sending: every nested member exists, required members are present, types fit — plus a walk
+    that checks every enum value, which ParamValidator does not."""
     from botocore.validate import ParamValidator
 
     svc = model(service)
@@ -191,9 +192,29 @@ def check_request(where: str, service: str, operation: str, text: str) -> None:
     except json.JSONDecodeError as e:
         problems.append(f"{where}: not valid JSON ({e})")
         return
-    report = ParamValidator().validate(body, svc.operation_model(operation).input_shape)
+    shape = svc.operation_model(operation).input_shape
+    report = ParamValidator().validate(body, shape)
     if report.has_errors():
         problems.append(f"{where}: invalid {service}.{operation} request\n{report.generate_report()}")
+        return
+    # ParamValidator does not check enum values (the SDK sends any string); the model lists them.
+    for path, value, allowed in bad_enums(body, shape, operation):
+        problems.append(f"{where}: {path} = {value!r} is not one of {sorted(allowed)}")
+
+
+def bad_enums(value, shape, path):
+    if shape.type_name == "structure" and isinstance(value, dict):
+        for k, v in value.items():
+            if k in shape.members:
+                yield from bad_enums(v, shape.members[k], f"{path}.{k}")
+    elif shape.type_name == "list" and isinstance(value, list):
+        for i, v in enumerate(value):
+            yield from bad_enums(v, shape.member, f"{path}[{i}]")
+    elif shape.type_name == "map" and isinstance(value, dict):
+        for k, v in value.items():
+            yield from bad_enums(v, shape.value, f"{path}[{k}]")
+    elif shape.type_name == "string" and shape.enum and value not in shape.enum:
+        yield path, value, shape.enum
 
 
 ASL_TYPES = {"Task", "Choice", "Wait", "Succeed", "Fail", "Parallel", "Map", "Pass"}

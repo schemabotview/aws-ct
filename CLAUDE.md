@@ -42,7 +42,7 @@ number; its `title` is the plan's wording **verbatim** (`scripts/check-plan.mjs`
 | 8 | `analytics` | Data Movement and Analytical Workloads | 7 | authored, awaiting owner review (no narration audio yet) |
 | 9 | `delivery` | Repeatable Infrastructure and Delivery | 7 | authored, awaiting owner review (no narration audio yet) |
 | 10 | `operations` | Production Visibility, Security, and Recovery | 10 | authored, awaiting owner review (no narration audio yet) |
-| 11 | `optimisation` | Performance, Cost, and Sustainability | 6 | — |
+| 11 | `optimisation` | Performance, Cost, and Sustainability | 6 | authored, awaiting owner review (no narration audio yet) |
 | 12 | `architecture` | Architecture Evolution and Justified Decisions | 5 | — |
 
 Each course's `index.ts` carries the plan's objective, worked illustrations, outcome and bridge as a
@@ -57,7 +57,7 @@ its `filename` after ` · `, and `npm run check:aws` (`scripts/check-aws.py`) pr
 | level | what it means | what check:aws does |
 | --- | --- | --- |
 | `runs locally` | real Python or SQL, really run | runs the `.py` card (or a `.sql` card in a fresh database on the local PostgreSQL 16 cluster, errors included); a sibling node `<id>-out` must equal its output exactly |
-| `model-checked` | checked against the AWS service models (botocore, the source the CLI/SDKs are generated from) and AWS's IAM reference (parliament) | `.sh`: parses with `bash -n`, and service, operation and every `--param` exist; `<service>.<Operation>.request.json`: the whole request validated by botocore's ParamValidator (nested members, required, types, enums); `<service>.<Operation>.json`: every top-level key is in that response shape; policy `.json`: Effect/Action present, and parliament finds no unknown action, prefix, condition key, bad ARN or action/resource mismatch, and every global `aws:` condition key is in parliament's list (parliament skips per-action key checks when `Action` is `*`) (trust policies are recognised: all statements have a Principal and only `sts:` actions); `.asl.json`: Step Functions structure (StartAt, every Next/Default/Catch target, Task Resource, Next-or-End, Retry/Catch fields); `.yaml`: cfn-lint in-process for eu-west-2, any finding fails |
+| `model-checked` | checked against the AWS service models (botocore, the source the CLI/SDKs are generated from) and AWS's IAM reference (parliament) | `.sh`: parses with `bash -n`, and service, operation and every `--param` exist; `<service>.<Operation>.request.json`: the whole request validated by botocore's ParamValidator (nested members, required, types) plus a walk of the model's enum values, which ParamValidator does not check; `<service>.<Operation>.json`: every top-level key is in that response shape; policy `.json`: Effect/Action present, and parliament finds no unknown action, prefix, condition key, bad ARN or action/resource mismatch, and every global `aws:` condition key is in parliament's list (parliament skips per-action key checks when `Action` is `*`) (trust policies are recognised: all statements have a Principal and only `sts:` actions); `.asl.json`: Step Functions structure (StartAt, every Next/Default/Catch target, Task Resource, Next-or-End, Retry/Catch fields); `.yaml`: cfn-lint in-process for eu-west-2, any finding fails |
 | `emulated` | behaviour from moto's emulator, **not AWS** | runs the `.py` card like `runs locally` |
 | `doc-cited` | AWS documentation says so | the scene file must carry a `// source: https://…` comment |
 | `illustrative` | made-up but realistic; nothing checks it | counted, so unverified cards stay visible |
@@ -136,6 +136,13 @@ the pages directly.
 | ops | Config rule `s3-no-public-read`; SSM patch group `order-api`; KMS key policy on the reports key (account admin, Auditor Decrypt); rotation 09:30 breaks cached password, re-read fixes at 09:31 |
 | edge / incident | web ACL `shop-web` (rate 1,000/IP, AWSManagedRulesCommonRuleSet); OrderApi keys used from 198.51.100.66: detect 18:19, lead 18:21, revoke sessions before 18:20 at 18:24, preserve 18:30, eradicate 19:10 |
 | recovery | backup plan `shop-daily` 02:00 UTC, 35 d in `shop-prod-vault`, copy 90 d to `shop-isolated` (audit 777788889999, eu-west-1); drill 02:00 → 03:06 = 66 min (RTO 90), PITR to 01:52 = 8 min (RPO 15) |
+| saturation | one server modelled as 15 workers × ~100 ms: 60 req/s p99 171 ms, 120 → 187, 140 → 299, 147 → 873 (simulation, not AWS) |
+| edge | Sydney shopper, assumed RTT 280 ms to London / 12 ms to edge: direct 952, hit 38, miss 428 ms; 90% hits → 77 ms; cache policy `product-pages` (path + lang, TTL 60 s, max 300) |
+| capacity plans | large-h/day: fixed 96 (43% busy), elastic no reserve 52 (80%), AZ-safe large 90 (46%, = ASG 3 → 6), AZ-safe medium 78 (53%; medium = half a large at half price, assumed) |
+| cost week | env=prod 93%, dev 5%, untagged 2%; NAT anomaly 10-09 42.20 vs median 3.80 (768 GB through NAT); budget `shop-prod-monthly` 400 USD, forecast 80% → email |
+| rate card ext. | **hypothetical**: NAT $0.05/h + $0.05/GB, internet egress $0.09/GB, cross-AZ $0.02/GB, logs ingest $0.50/GB; committed instance $0.028/h (Ch. 4) |
+| prod month | NAT gateways 109.50, app servers 108.00, egress 81.00, logs 30.00, backups 15.00, cross-AZ 8.00, NAT processing 6.00, S3 4.60 = 362.10; servers with commitment 82.08; break-even 70% |
+| footprint | 90 → 78 large-h/day; logs 730 → 60 GB after a year (2 GB/day, 30-day retention); origin 900 → 90 GB/month at 90% hits |
 
 Public IPs in examples come from `203.0.113.0/24` / `198.51.100.0/24` (documentation ranges). Extend this table — never change a value a
 slide already quotes.
@@ -243,6 +250,12 @@ slide already quotes.
 | `backup-and-restore` | CreateBackupPlan request → `restore_drill.py` → output | `operations-backup-and-restore-validation` |
 | `disaster-recovery` | `rpo_by_incident.py` + output above the DR strategies table | `operations-disaster-recovery-and-failover` |
 | `quotas-and-resilience` | quotas table → `backoff_jitter.py` + output → quotas CLI | `operations-quotas-throttling-and-resilience` |
+| `saturation-curve` | `saturation.py` above its output beside the saturation-signals table | `optimisation-measurement-and-saturation` |
+| `edge-caching` | `edge_latency.py` → output beside cache-key table → CreateCachePolicy request | `optimisation-cloudfront-and-caching` |
+| `capacity-plans` | AZ-safe capacity vs demand plot → `capacity_plans.py` → output | `optimisation-rightsizing-and-idle-capacity` |
+| `cost-allocation` | `cost_lines.py` + output above Cost Explorer CLI beside CreateBudget request | `optimisation-cost-allocation-and-budgets` |
+| `monthly-cost` | `monthly_cost.py` + output above the purchase-options table | `optimisation-total-cost-trade-offs` |
+| `sustainability-levers` | `footprint.py` + output above the lever/constraint table | `optimisation-sustainability-trade-offs` |
 
 ## Engine notes (flow 1.3.0 / shell 0.10)
 
