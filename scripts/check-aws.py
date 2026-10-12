@@ -23,13 +23,16 @@ and this script proves the declaration is true. A card with no level, or an unkn
                     `<service>.<Operation>.json`   a response: valid JSON whose top-level keys are
                              all members of that operation's output shape.
                     other `.json`   valid JSON; an IAM-style policy (has "Statement") must give each
-                             statement an Effect of Allow/Deny and an Action/NotAction.
+                             statement an Effect of Allow/Deny and an Action/NotAction, and pass
+                             parliament's checks for unknown actions, condition keys and ARNs.
                     `.yaml` / `.yml`   a CloudFormation template, linted with cfn-lint.
   emulated        a `.py` card run against moto's in-process AWS emulator — executed like
                   `runs locally`; the label tells the viewer the behaviour came from an emulator,
                   not from AWS.
   doc-cited       not executable; the scene file must carry a `// source: https://…` comment.
   illustrative    nothing is checked. Reported, so the count of unverified cards stays visible.
+
+Hidden verifications: every `verify/**/*.py` runs and must exit 0 (see the end of main()).
 
 Run: npm run check:aws   (needs `pip install -r scripts/requirements-check.txt`)
 """
@@ -57,6 +60,13 @@ CLI_TO_BOTOCORE = {"s3api": "s3", "configservice": "config"}
 CUSTOMISATIONS = {("sso", "login"), ("sso", "logout"), ("configure", None), ("s3", None)}
 
 ROOT = Path(__file__).resolve().parent.parent
+# parliament findings that mean the policy is WRONG, not merely broad. (Its style findings — e.g.
+# RESOURCE_STAR on a deliberately broad guardrail — are teaching choices and are not failures.)
+PARLIAMENT_ERRORS = {
+    "UNKNOWN_ACTION", "UNKNOWN_PREFIX", "UNKNOWN_CONDITION_FOR_ACTION", "RESOURCE_MISMATCH",
+    "MALFORMED", "MALFORMED_JSON", "INVALID_ARN", "UNKNOWN_OPERATOR", "MISMATCHED_TYPE",
+    "BAD_PATTERN_FOR_MFA", "NO_VERSION", "INVALID_VERSION",
+}
 problems: list[str] = []
 tally: dict[str, int] = {lvl: 0 for lvl in LEVELS}
 notes: list[str] = []
@@ -167,6 +177,23 @@ def check_json(where: str, text: str) -> None:
                 problems.append(f"{where}: statement {i} has Effect {s.get('Effect')!r}")
             if "Action" not in s and "NotAction" not in s:
                 problems.append(f"{where}: statement {i} has no Action or NotAction")
+        # parliament carries AWS's IAM action/resource/condition-key reference offline: an action that
+        # does not exist, or a resource ARN no listed action can apply to, is a real defect on screen.
+        from parliament import analyze_policy_string
+
+        # A role TRUST policy has a Principal and no Resource (the role itself is the resource).
+        # parliament reads every document as an identity policy, so give it the implied Resource
+        # rather than report a valid trust policy as malformed.
+        def actions(st):
+            a = st.get("Action", [])
+            return a if isinstance(a, list) else [a]
+
+        trust = all("Principal" in st and actions(st) and all(x.startswith("sts:") for x in actions(st)) for st in stmts)
+        if trust:
+            text = json.dumps({**doc, "Statement": [{**st, "Resource": "*"} for st in stmts]})
+        for f in analyze_policy_string(text).findings:
+            if f.issue in PARLIAMENT_ERRORS:
+                problems.append(f"{where}: parliament {f.issue} — {f.detail}")
 
 
 def run_python(where: str, text: str, expected: str | None) -> None:
@@ -236,7 +263,16 @@ def main() -> None:
                 if not re.search(r"//\s*source:\s*https://", scene_source(sid)):
                     problems.append(f"{where}: doc-cited, but scene '{sid}' has no `// source: https://…` comment")
 
-    print("  " + "  ".join(f"{lvl}: {tally[lvl]}" for lvl in sorted(LEVELS)))
+    # Hidden verifications: claims a board makes that no card can run on screen (which request a
+    # policy allows, implicitly denies or explicitly denies). Each verify/*.py runs and must exit 0;
+    # they assert with moto, so they are emulator evidence, as the board's caption must say.
+    vdir = ROOT / "verify"
+    hidden = sorted(vdir.rglob("*.py")) if vdir.exists() else []
+    for f in hidden:
+        r = subprocess.run([sys.executable, "-I", str(f)], capture_output=True, text=True, timeout=300)
+        if r.returncode:
+            problems.append(f"{f.relative_to(ROOT)}: failed\n{(r.stdout + r.stderr).strip()[-800:]}")
+    print("  " + "  ".join(f"{lvl}: {tally[lvl]}" for lvl in sorted(LEVELS)) + f"  hidden verifications: {len(hidden)}")
     for n in notes:
         print("  · " + n)
     if problems:

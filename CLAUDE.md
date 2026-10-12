@@ -33,7 +33,7 @@ number; its `title` is the plan's wording **verbatim** (`scripts/check-plan.mjs`
 | # | Course id | Chapter | Sections | Status |
 | --- | --- | --- | --- | --- |
 | 1 | `foundations` | Cloud Foundations and a Safe First Workload | 6 | authored, awaiting owner review (no narration audio yet) |
-| 2 | `identity` | Identity, Permissions, and Account Governance | 7 | — |
+| 2 | `identity` | Identity, Permissions, and Account Governance | 7 | authored, awaiting owner review (no narration audio yet) |
 | 3 | `networking` | Networking and the Request Path | 9 | — |
 | 4 | `compute` | Compute and Elastic Application Capacity | 8 | — |
 | 5 | `storage` | Storage and the Data Lifecycle | 7 | — |
@@ -57,10 +57,19 @@ its `filename` after ` · `, and `npm run check:aws` (`scripts/check-aws.py`) pr
 | level | what it means | what check:aws does |
 | --- | --- | --- |
 | `runs locally` | real Python, really run | runs the `.py` card; a sibling node `<id>-out` must equal its stdout exactly |
-| `model-checked` | checked against the AWS service models (botocore, the source the CLI/SDKs are generated from) | `.sh`: service, operation and every `--param` exist; `<service>.<Operation>.json`: every top-level key is in that response shape; policy `.json`: Effect/Action present; `.yaml`: cfn-lint |
+| `model-checked` | checked against the AWS service models (botocore, the source the CLI/SDKs are generated from) and AWS's IAM reference (parliament) | `.sh`: service, operation and every `--param` exist; `<service>.<Operation>.json`: every top-level key is in that response shape; policy `.json`: Effect/Action present, and parliament finds no unknown action, prefix, condition key, bad ARN or action/resource mismatch (trust policies are recognised: all statements have a Principal and only `sts:` actions); `.yaml`: cfn-lint |
 | `emulated` | behaviour from moto's emulator, **not AWS** | runs the `.py` card like `runs locally` |
 | `doc-cited` | AWS documentation says so | the scene file must carry a `// source: https://…` comment |
 | `illustrative` | made-up but realistic; nothing checks it | counted, so unverified cards stay visible |
+
+**Hidden verifications — `verify/<course>/*.py`.** Claims a board makes that no card can show (which
+request a policy allows, implicitly denies or explicitly denies) are asserted there, usually against
+moto with IAM enforcement on; each file must exit 0 and runs in `check:aws`. A board backed by one
+says so in its caption ("outcomes checked in moto's emulator"). Mutate a row and confirm the file
+fails before trusting it. **moto trap:** `set_initial_no_auth_action_count(n)` must equal the setup
+calls exactly — too high and the first checked requests skip authorisation and "pass"; each file
+therefore probes that an unallowed call is denied before checking the board. moto does not model
+cross-account evaluation, SCPs or RCPs; those claims stay doc-cited.
 
 Rules: a response card shows values that are **invented but shape-checked** (ETags, timestamps, role
 suffixes) — never present them as captured output. CLI customisations (`aws sso login`,
@@ -86,6 +95,11 @@ the pages directly.
 | traffic | 60 req/s 00–08 h, 240 req/s 08–18 h, 560 req/s 18–24 h; one app server = 150 req/s → 1 / 2 / 4 servers; elastic 52 vs fixed 96 server-hours a day; peak 4 servers → 2 per AZ (6) to survive an AZ |
 | rate card | **hypothetical**, USD: instance $0.04/h, block volume $0.08/GB-month, public IPv4/Elastic IP $0.005/h, snapshot $0.05/GB-month, object storage $0.023/GB-month, 730 h/month. Always labelled hypothetical on screen |
 | dev ledger | running $36.21/month, instance stopped $7.01 |
+| organization | management **123456789012** at the root; OU Security → audit **777788889999**; OU Workloads → OU Prod (111122223333), OU Dev (444455556666); org id `o-a1b2c3d4e5` |
+| groups | Developers (alex): dev → ShopDeveloper, prod → ShopReadOnly; Operators (sam): prod → ShopOperator |
+| workload role | **OrderApi** in prod, trusted by `ec2.amazonaws.com`, via instance profile `OrderApi`; policy `OrderApiAccess`: ReadProducts (GetObject `products/*`), ListProducts (ListBucket, prefix `products/*`), SendOrderEvents (SendMessage `order-events`), plus §2.4's DenyDrafts (`products/drafts/*`) |
+| cross-account | role **Auditor** in audit reads `shop-reports-111122223333` (bucket policy + identity policy) |
+| queue | `arn:aws:sqs:eu-west-2:111122223333:order-events` |
 
 Public IPs in examples come from `203.0.113.0/24` / `198.51.100.0/24` (documentation ranges); private
 addressing will be fixed in Chapter 3 and added here. Extend this table — never change a value a
@@ -122,6 +136,13 @@ slide already quotes.
 | `first-session` | `~/.aws/config` → sso login / get-caller-identity → STS response | `foundations-accounts-and-first-session` |
 | `api-call-anatomy` | request container (head-object CLI + call-path list) above the HeadObject response and ARN shapes | `foundations-api-request-walkthrough` |
 | `cost-ledger` | `cost_ledger.py` → its real output | `foundations-billing-and-cleanup` |
+| `identity-center-map` | identity source → Identity Center → assignments table → AWSReservedSSO roles per account; principal kinds list | `identity-principals-and-federation` |
+| `order-api-role` | trust + permissions JSON → create-role CLI → "on the app server" list | `identity-roles-and-trust` |
+| `policy-anatomy` | the 3-statement OrderApiAccess policy above a four-questions list | `identity-policy-statements` |
+| `evaluation-flow` | decision row (explicit Deny / Allow / nothing) → DenyDrafts JSON → permission matrix (moto-verified) → illustrative AccessDenied | `identity-policy-evaluation` |
+| `cross-account-read` | bucket policy + Auditor policy side by side above the which-Allows table | `identity-resource-policies-cross-account` |
+| `org-structure` | org root → Security OU / Workloads OU (Prod, Dev) above the isolation table | `identity-organizations-and-isolation` |
+| `guardrails` | region SCP + org-only RCP side by side above the policy-kinds table | `identity-guardrails-and-audit` |
 
 ## Engine notes (flow 1.3.0 / shell 0.10)
 

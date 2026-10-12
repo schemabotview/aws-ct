@@ -1,10 +1,12 @@
 import { foundations } from './foundations'
+import { identity } from './identity'
 import type { Course, Section } from './types'
 
 // Course registry, in syllabus order (AWS-COURSE-PLAN.md). A course is registered here only once
 // it is authored; ids are fixed in CLAUDE.md.
 export const COURSES: Record<string, Course> = {
   [foundations.id]: foundations,
+  [identity.id]: identity,
 }
 
 export type { Course, Section }
