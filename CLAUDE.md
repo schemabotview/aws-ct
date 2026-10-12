@@ -37,7 +37,7 @@ number; its `title` is the plan's wording **verbatim** (`scripts/check-plan.mjs`
 | 3 | `networking` | Networking and the Request Path | 9 | authored, awaiting owner review (no narration audio yet) |
 | 4 | `compute` | Compute and Elastic Application Capacity | 8 | authored, awaiting owner review (no narration audio yet) |
 | 5 | `storage` | Storage and the Data Lifecycle | 7 | authored, awaiting owner review (no narration audio yet) |
-| 6 | `databases` | Databases and Application Access Patterns | 8 | — |
+| 6 | `databases` | Databases and Application Access Patterns | 8 | authored, awaiting owner review (no narration audio yet) |
 | 7 | `integration` | APIs, Serverless Execution, and Asynchronous Work | 9 | — |
 | 8 | `analytics` | Data Movement and Analytical Workloads | 7 | — |
 | 9 | `delivery` | Repeatable Infrastructure and Delivery | 7 | — |
@@ -56,7 +56,7 @@ its `filename` after ` · `, and `npm run check:aws` (`scripts/check-aws.py`) pr
 
 | level | what it means | what check:aws does |
 | --- | --- | --- |
-| `runs locally` | real Python, really run | runs the `.py` card; a sibling node `<id>-out` must equal its stdout exactly |
+| `runs locally` | real Python or SQL, really run | runs the `.py` card (or a `.sql` card in a fresh database on the local PostgreSQL 16 cluster, errors included); a sibling node `<id>-out` must equal its output exactly |
 | `model-checked` | checked against the AWS service models (botocore, the source the CLI/SDKs are generated from) and AWS's IAM reference (parliament) | `.sh`: parses with `bash -n`, and service, operation and every `--param` exist; `<service>.<Operation>.request.json`: the whole request validated by botocore's ParamValidator (nested members, required, types, enums); `<service>.<Operation>.json`: every top-level key is in that response shape; policy `.json`: Effect/Action present, and parliament finds no unknown action, prefix, condition key, bad ARN or action/resource mismatch (trust policies are recognised: all statements have a Principal and only `sts:` actions); `.yaml`: cfn-lint |
 | `emulated` | behaviour from moto's emulator, **not AWS** | runs the `.py` card like `runs locally` |
 | `doc-cited` | AWS documentation says so | the scene file must carry a `// source: https://…` comment |
@@ -75,7 +75,7 @@ Rules: a response card shows values that are **invented but shape-checked** (ETa
 suffixes) — never present them as captured output. CLI customisations (`aws sso login`,
 `aws configure`, high-level `aws s3 …`) have no API operation and are reported as unchecked. When a
 claim is not on a card (a quota, a default, a timing), put its source URL in the scene's comment.
-Install the checker's deps with `pip install -r scripts/requirements-check.txt`.
+Install the checker's deps with `pip install -r scripts/requirements-check.txt`; `.sql` cards need the local cluster (`pg_ctlcluster 16 main start`, and once `su postgres -c 'createuser -s root'`).
 
 **Network note (2026-10-12):** this environment's policy denies `docs.aws.amazon.com` (and
 `aws.amazon.com`, `docs.aws.eu`, `docs.amazonaws.cn`), so Chapter 1's documentation claims were
@@ -115,6 +115,12 @@ the pages directly.
 | buckets | `shop-catalog-<acct>` (versioned: noncurrent expire 30 d; `exports/` → STANDARD_IA 30 d → GLACIER 90 d), `shop-uploads-111122223333` (review photos, presigned PUT 300 s, key `reviews/p-1001/photo-77.jpg`), `shop-reports-111122223333` (SSE-KMS `alias/shop-reports`, bucket key), `shop-releases-111122223333` |
 | S3 race | p-1001.json `{price 12.0, stock 40}`; price job → 10.0, stock job → 39; plain PUT ends `{12.0, 39}`, If-Match ends `{10.0, 39}` (moto) |
 | block / file | invoice service: 30 GiB gp3 in eu-west-2a → snapshot → restored in eu-west-2b (moto); EFS `shop-invoices-1` mounted at /mnt/invoices in all three AZs |
+| orders DB | RDS PostgreSQL 16 `shop-orders`, db.m7g.large, 100 GiB gp3, Multi-AZ (instance), encrypted, 7-day backups, deletion protection, password managed in Secrets Manager, subnet group `shop-data`, sg-db; max_connections 200 (assumed), 10 reserved, pool 20/server → 12 servers = 50 refused |
+| order 501 | 2 × p-1001 (10.00, stock 40) + 2 × p-1002 (4.50, stock 1), total 29.00 → CHECK fails, rolled back (PostgreSQL 16) |
+| access mix | product by id ~450 reads/s, place order ~6 writes/s, a customer's orders ~40 reads/s (evening peak, assumed) |
+| DynamoDB | table `Orders` (PK customer, SK `<time>#<order>`), GSI `by-status` (2 values → hot key); `Stock`/`Orders` transaction: o-601 placed, o-602 ConditionalCheckFailed (moto) |
+| cache | p-1001 12.0 → 10.0 at t=10 s, TTL 60 s: stale 10–60 s; delete-on-write: fresh at 20 s |
+| migration | DMS task `orders-to-rds`, full-load-and-cdc, schema `shop` |
 
 Public IPs in examples come from `203.0.113.0/24` / `198.51.100.0/24` (documentation ranges). Extend this table — never change a value a
 slide already quotes.
@@ -181,6 +187,14 @@ slide already quotes.
 | `ebs-snapshot` | `snapshot_restore.py` (moto) + output | `storage-ebs-and-snapshots` |
 | `shared-files` | EFS mount row → CreateFileSystem request → FSx table | `storage-shared-file-storage` |
 | `data-protection` | PutBucketEncryption request above the threat × protection table | `storage-encryption-and-backup` |
+| `access-patterns` | access-pattern table → data-model row → questions list | `databases-data-requirements` |
+| `rds-instance` | CreateDBInstance request above the who-does-what table | `databases-rds-and-aurora` |
+| `order-transaction` | `place_order.sql` (PostgreSQL) + output beside `connections.py` + output | `databases-transactions-and-connections` |
+| `rds-availability` | five-option capability table → which-one-saves-you list | `databases-availability-read-scaling-restore` |
+| `dynamodb-keys` | `orders_table.py` (moto) + output | `databases-dynamodb-keys-and-indexes` |
+| `dynamodb-conditions` | `last_unit.py` (moto) + output beside the read-consistency table | `databases-dynamodb-conditions-and-consistency` |
+| `cache-aside` | `cache_aside.py` above its two timelines | `databases-caching-and-stale-reads` |
+| `migration-and-specialists` | DMS CLI + table mappings above the specialist table | `databases-migration-and-specialist-databases` |
 
 ## Engine notes (flow 1.3.0 / shell 0.10)
 

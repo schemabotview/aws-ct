@@ -13,7 +13,8 @@ was verified, in its filename, after a middle dot:
 
 and this script proves the declaration is true. A card with no level, or an unknown one, fails.
 
-  runs locally    a `.py` card is executed with `python3 -I`; it must exit 0, and if the scene holds a
+  runs locally    a `.sql` card runs in a fresh database on the local PostgreSQL 16 cluster and must
+                  equal its `<id>-out` card (errors included). A `.py` card is executed with `python3 -I`; it must exit 0, and if the scene holds a
                   code node with id `<id>-out`, that node's text must equal the program's stdout.
   model-checked   checked against the AWS service models botocore ships (the same JSON the CLI and
                   SDKs are generated from):
@@ -240,6 +241,30 @@ def run_python(where: str, text: str, expected: str | None) -> None:
         )
 
 
+def run_sql(where: str, text: str, expected: str | None) -> None:
+    """A `.sql` card runs in real PostgreSQL (the local 16 cluster), in a FRESH database created for
+    this card and dropped after, so cards cannot see each other's tables. Errors are part of the
+    output: a script that demonstrates a rejected statement shows psql's terse ERROR line."""
+    import uuid
+
+    db = "awsct_" + uuid.uuid4().hex[:10]
+    if subprocess.run(["createdb", db], capture_output=True).returncode:
+        problems.append(f"{where}: cannot create a PostgreSQL database (is the local cluster running?)")
+        return
+    try:
+        r = subprocess.run(
+            ["psql", "-X", "-q", "-d", db, "-P", "pager=off", "-v", "VERBOSITY=terse"],
+            input=text, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, timeout=120,
+        )
+    finally:
+        subprocess.run(["dropdb", db], capture_output=True)
+    if expected is not None and r.stdout.rstrip() != expected.rstrip():
+        problems.append(
+            f"{where}: the output card does not match PostgreSQL's real output\n"
+            f"--- card ---\n{expected.rstrip()}\n--- run ---\n{r.stdout.rstrip()}"
+        )
+
+
 def check_yaml(where: str, text: str) -> None:
     with tempfile.TemporaryDirectory() as d:
         f = Path(d) / "template.yaml"
@@ -270,7 +295,10 @@ def main() -> None:
                 continue
             tally[level] += 1
             text = n["label"]
-            if level in ("runs locally", "emulated"):
+            if level == "runs locally" and name.endswith(".sql"):
+                out = by_id.get(n["id"] + "-out")
+                run_sql(where, text, out["label"] if out else None)
+            elif level in ("runs locally", "emulated"):
                 if not name.endswith(".py"):
                     problems.append(f"{where}: '{level}' needs a .py card, got {name}")
                     continue

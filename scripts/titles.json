@@ -4,5 +4,6 @@
   "identity": "AWS IAM Explained: Roles, Policies, Cross-Account Access & SCPs",
   "networking": "AWS VPC Networking Explained: Subnets, Routes, NAT, Security Groups & DNS",
   "compute": "AWS Compute Explained: EC2, Auto Scaling, ECS Fargate, EKS & Spot",
-  "storage": "Amazon S3, EBS & EFS Explained: Consistency, Versioning, Snapshots & Backups"
+  "storage": "Amazon S3, EBS & EFS Explained: Consistency, Versioning, Snapshots & Backups",
+  "databases": "AWS Databases Explained: RDS, Aurora, DynamoDB, ElastiCache & DMS"
 }
