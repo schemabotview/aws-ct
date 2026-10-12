@@ -20,6 +20,8 @@ and this script proves the declaration is true. A card with no level, or an unkn
                     `.sh`    every `aws <service> <operation> --param …` line names a real service,
                              operation and input member; CLI customisations (`aws sso login`,
                              `aws configure …`, high-level `aws s3 …`) are reported as unchecked.
+                    `<service>.<Operation>.request.json`   a request body, validated in full by
+                             botocore's ParamValidator (nested members, required, types, enums).
                     `<service>.<Operation>.json`   a response: valid JSON whose top-level keys are
                              all members of that operation's output shape.
                     other `.json`   valid JSON; an IAM-style policy (has "Statement") must give each
@@ -164,6 +166,25 @@ def check_response(where: str, service: str, operation: str, text: str) -> None:
             problems.append(f"{where}: '{k}' is not in the {service}.{operation} response shape")
 
 
+def check_request(where: str, service: str, operation: str, text: str) -> None:
+    """A request body, validated IN FULL by botocore's own ParamValidator — the same check the SDK runs
+    before sending: every nested member exists, required members are present, types and enums fit."""
+    from botocore.validate import ParamValidator
+
+    svc = model(service)
+    if svc is None or operation not in svc.operation_names:
+        problems.append(f"{where}: no operation {service}.{operation} in the AWS models")
+        return
+    try:
+        body = json.loads(text)
+    except json.JSONDecodeError as e:
+        problems.append(f"{where}: not valid JSON ({e})")
+        return
+    report = ParamValidator().validate(body, svc.operation_model(operation).input_shape)
+    if report.has_errors():
+        problems.append(f"{where}: invalid {service}.{operation} request\n{report.generate_report()}")
+
+
 def check_json(where: str, text: str) -> None:
     try:
         doc = json.loads(text)
@@ -248,8 +269,11 @@ def main() -> None:
                 out = by_id.get(n["id"] + "-out")
                 run_python(where, text, out["label"] if out else None)
             elif level == "model-checked":
+                req = re.fullmatch(r"([a-z0-9-]+)\.([A-Z][A-Za-z0-9]+)\.request\.json", name)
                 m = re.fullmatch(r"([a-z0-9-]+)\.([A-Z][A-Za-z0-9]+)\.json", name)
-                if m:
+                if req:
+                    check_request(where, req.group(1), req.group(2), text)
+                elif m:
                     check_response(where, m.group(1), m.group(2), text)
                 elif name.endswith(".sh"):
                     check_cli(where, text)

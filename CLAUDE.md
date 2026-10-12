@@ -34,7 +34,7 @@ number; its `title` is the plan's wording **verbatim** (`scripts/check-plan.mjs`
 | --- | --- | --- | --- | --- |
 | 1 | `foundations` | Cloud Foundations and a Safe First Workload | 6 | authored, awaiting owner review (no narration audio yet) |
 | 2 | `identity` | Identity, Permissions, and Account Governance | 7 | authored, awaiting owner review (no narration audio yet) |
-| 3 | `networking` | Networking and the Request Path | 9 | — |
+| 3 | `networking` | Networking and the Request Path | 9 | authored, awaiting owner review (no narration audio yet) |
 | 4 | `compute` | Compute and Elastic Application Capacity | 8 | — |
 | 5 | `storage` | Storage and the Data Lifecycle | 7 | — |
 | 6 | `databases` | Databases and Application Access Patterns | 8 | — |
@@ -57,7 +57,7 @@ its `filename` after ` · `, and `npm run check:aws` (`scripts/check-aws.py`) pr
 | level | what it means | what check:aws does |
 | --- | --- | --- |
 | `runs locally` | real Python, really run | runs the `.py` card; a sibling node `<id>-out` must equal its stdout exactly |
-| `model-checked` | checked against the AWS service models (botocore, the source the CLI/SDKs are generated from) and AWS's IAM reference (parliament) | `.sh`: service, operation and every `--param` exist; `<service>.<Operation>.json`: every top-level key is in that response shape; policy `.json`: Effect/Action present, and parliament finds no unknown action, prefix, condition key, bad ARN or action/resource mismatch (trust policies are recognised: all statements have a Principal and only `sts:` actions); `.yaml`: cfn-lint |
+| `model-checked` | checked against the AWS service models (botocore, the source the CLI/SDKs are generated from) and AWS's IAM reference (parliament) | `.sh`: service, operation and every `--param` exist; `<service>.<Operation>.request.json`: the whole request validated by botocore's ParamValidator (nested members, required, types, enums); `<service>.<Operation>.json`: every top-level key is in that response shape; policy `.json`: Effect/Action present, and parliament finds no unknown action, prefix, condition key, bad ARN or action/resource mismatch (trust policies are recognised: all statements have a Principal and only `sts:` actions); `.yaml`: cfn-lint |
 | `emulated` | behaviour from moto's emulator, **not AWS** | runs the `.py` card like `runs locally` |
 | `doc-cited` | AWS documentation says so | the scene file must carry a `// source: https://…` comment |
 | `illustrative` | made-up but realistic; nothing checks it | counted, so unverified cards stay visible |
@@ -101,8 +101,14 @@ the pages directly.
 | cross-account | role **Auditor** in audit reads `shop-reports-111122223333` (bucket policy + identity policy) |
 | queue | `arn:aws:sqs:eu-west-2:111122223333:order-events` |
 
-Public IPs in examples come from `203.0.113.0/24` / `198.51.100.0/24` (documentation ranges); private
-addressing will be fixed in Chapter 3 and added here. Extend this table — never change a value a
+| VPC (prod) | `shop-prod` 10.20.0.0/16; subnets public-a/b/c 10.20.0–2.0/24, app-a/b/c 10.20.10–12.0/24, data-a/b/c 10.20.20–22.0/24; app-b server ENI 10.20.11.37; dev VPC 10.30.0.0/16 via peering `pcx-dev` |
+| routes | rt-public: local + 0.0.0.0/0 → igw-shop; rt-app-a: local, 10.30.0.0/16 → pcx-dev, 0.0.0.0/0 → nat-a (NAT gateway in public-a) |
+| filters | sg-alb 443 from anywhere → sg-app 8080 from sg-alb → sg-db 5432 from sg-app (PostgreSQL) |
+| DNS / TLS | Route 53 zone example.com, alias A shop.example.com → ALB `shop-alb-123.eu-west-2.elb.amazonaws.com`; ACM cert in eu-west-2, TLS 1.3 policy; ALB → app plain HTTP |
+| target group | `shop-app` HTTP 8080, /health every 10 s, unhealthy 2, healthy 3 → app-3 unhealthy at 15 s, back at 85 s; 560 req/s = 93 per target over 6, 112 over 5 |
+| payments | external API `api.payments.example.com` → 198.51.100.7 |
+
+Public IPs in examples come from `203.0.113.0/24` / `198.51.100.0/24` (documentation ranges). Extend this table — never change a value a
 slide already quotes.
 
 ## Authoring conventions
@@ -143,6 +149,15 @@ slide already quotes.
 | `cross-account-read` | bucket policy + Auditor policy side by side above the which-Allows table | `identity-resource-policies-cross-account` |
 | `org-structure` | org root → Security OU / Workloads OU (Prod, Dev) above the isolation table | `identity-organizations-and-isolation` |
 | `guardrails` | region SCP + org-only RCP side by side above the policy-kinds table | `identity-guardrails-and-audit` |
+| `cidr-plan` | `cidr_plan.py` → output, above a ports table | `networking-addresses-and-cidr` |
+| `vpc-layout` | VPC container: 3 AZ columns × public/app/data subnets; placement-rules list | `networking-vpc-and-subnet-layout` |
+| `route-selection` | rt-public + rt-app-a tables → `route_pick.py` beside its output | `networking-route-tables` |
+| `private-egress` | timeout symptom → NAT fix CLI → who-can-start-a-connection table | `networking-public-and-private-connectivity` |
+| `traffic-filters` | sg-alb / sg-app / sg-db row → AuthorizeSecurityGroupIngress request → SG vs NACL table | `networking-security-groups-and-nacls` |
+| `dns-resolution` | resolution chain (TB) beside the alias UPSERT request; routing-policy list | `networking-dns-and-route-53` |
+| `tls-path` | browser → ALB → app → DB column beside the ACM/listener CLI and per-hop table | `networking-tls-and-certificates` |
+| `lb-health` | create-target-group CLI → `health_timeline.py` → output | `networking-load-balancers-and-health` |
+| `private-connectivity` | S3 gateway-endpoint policy above the private-paths table | `networking-private-connectivity` |
 
 ## Engine notes (flow 1.3.0 / shell 0.10)
 
@@ -158,6 +173,12 @@ slide already quotes.
   (`cols: 1`, or a two-up row container above full-width cards).
 - A long JSON value (an assumed-role ARN) sets the card's width; acceptable in a single-column stack.
 - `padding` 0.12–0.13 clears the eyebrow for boards that bind on height.
+- **Edges are all-or-nothing on a board's top level.** If some top-level nodes have edges and others
+  do not, the unconnected ones are placed in the first rank beside the chain and widen the board.
+  Chain every node, or use none and let `cols` lay them out.
+- **Never re-indent a template literal when restructuring a scene.** Code-card text is the literal;
+  re-indenting changed a `runs locally` card's output (caught by check:aws) and a `.sh` card's layout
+  (not caught — look at the route).
 - The shell 0.10 catalog collapses courses, so section links are not in the DOM; `shot.mjs` reads
   slugs from `src/content` instead.
 
