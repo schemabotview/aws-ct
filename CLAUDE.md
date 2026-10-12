@@ -39,7 +39,7 @@ number; its `title` is the plan's wording **verbatim** (`scripts/check-plan.mjs`
 | 5 | `storage` | Storage and the Data Lifecycle | 7 | authored, awaiting owner review (no narration audio yet) |
 | 6 | `databases` | Databases and Application Access Patterns | 8 | authored, awaiting owner review (no narration audio yet) |
 | 7 | `integration` | APIs, Serverless Execution, and Asynchronous Work | 9 | authored, awaiting owner review (no narration audio yet) |
-| 8 | `analytics` | Data Movement and Analytical Workloads | 7 | — |
+| 8 | `analytics` | Data Movement and Analytical Workloads | 7 | authored, awaiting owner review (no narration audio yet) |
 | 9 | `delivery` | Repeatable Infrastructure and Delivery | 7 | — |
 | 10 | `operations` | Production Visibility, Security, and Recovery | 10 | — |
 | 11 | `optimisation` | Performance, Cost, and Sustainability | 6 | — |
@@ -123,6 +123,9 @@ the pages directly.
 | migration | DMS task `orders-to-rds`, full-load-and-cdc, schema `shop` |
 | API | REST API, model `Order` + validator `body-only`, Cognito authorizer `shoppers`, stage `prod` throttle 600 rps |
 | functions | `place-order` (python3.13, arm64, 512 MB, timeout 10 s, role PlaceOrderFn, reserved concurrency 50; 0.12 s assumed → 67 needed at 560 req/s, 143/s throttled); also reserve-stock, charge-payment, ship-order, release-stock |
+| lake | `s3://shop-lake-111122223333/order_history/`, Glue db `shop_lake`, table `order_history` (Parquet, partition dt); September 2026 history: 60,000 rows (2,000/day, seed 12); one day opens 629 KiB flat vs 24 KiB partitioned vs 220 KiB as 200 tiny files; 11–13 Sep sales 202,224.52 / 205,617.39 / 202,876.5 (DuckDB, labelled) |
+| CDC 12 Oct | 6 records → 4 orders (o-502 replayed; o-504 at 23:58 arrived 00:04), 756.50 = source → reconciled |
+| stream | Kinesis Data Streams `shop-clickstream`, provisioned, 2 shards; 1,800 rec/s vs consumer 1,600/s → ~11 min iterator age by 19:30, drains after 20:00 |
 | messaging | SQS `fulfilment`; SNS `order-events` → fulfilment, loyalty, fraud-check (total ≥ 500); EventBridge rules `uk-vat` (OrderPlaced, GB), `refunds`; DynamoDB `idempotency` (keys `ship#o-501`, `key#k-91`) |
 
 Public IPs in examples come from `203.0.113.0/24` / `198.51.100.0/24` (documentation ranges). Extend this table — never change a value a
@@ -207,6 +210,13 @@ slide already quotes.
 | `order-workflow` | state diagram beside the checked ASL definition | `integration-step-functions` |
 | `idempotency` | `idempotent.py` (moto) + output beside the retry-ownership table | `integration-idempotency-and-retries` |
 | `integration-choices` | end-to-end order flow above the which-mechanism table | `integration-choosing-integration` |
+| `state-vs-history` | DB → S3 → Glue → Athena row above `history.py` + output | `analytics-operational-vs-analytical` |
+| `cdc-reconcile` | `reconcile.py` + output above the ingestion-choices table | `analytics-ingestion-and-reconciliation` |
+| `lake-layout` | `layout.py` (real Parquet) + output | `analytics-lake-layout` |
+| `glue-catalog` | Glue CreateTable request above the three-promises table | `analytics-glue-catalog-and-governance` |
+| `athena-query` | `daily_sales_duckdb.py` + output → Athena CLI | `analytics-athena-queries-and-cost` |
+| `stream-lag` | `consumer_lag.py` + output → CreateStream request | `analytics-kinesis-streaming` |
+| `warehouse-or-cluster` | Athena/Redshift/EMR row → selection table → caution list | `analytics-redshift-and-emr` |
 
 ## Engine notes (flow 1.3.0 / shell 0.10)
 
@@ -225,6 +235,8 @@ slide already quotes.
 - **Edges are all-or-nothing on a board's top level.** If some top-level nodes have edges and others
   do not, the unconnected ones are placed in the first rank beside the chain and widen the board.
   Chain every node, or use none and let `cols` lay them out.
+- **A code-card filename is `name.ext · level`** — nothing else may follow the extension (a
+  parenthetical broke level parsing); say "DuckDB, not Athena" in the narration and scene comment.
 - **Never re-indent a template literal when restructuring a scene** (done twice; the second time the
   program still ran identically, so nothing caught it). Generate a scene with the literal inserted
   verbatim, then compare the card text to its source program. Code-card text is the literal;

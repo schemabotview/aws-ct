@@ -3,3 +3,5 @@ cfn-lint>=1.30
 moto[s3,sqs,sns,dynamodb,events]>=5.1
 jsonpath-ng>=1.6
 parliament>=1.6
+duckdb>=1.1
+pyarrow>=17
