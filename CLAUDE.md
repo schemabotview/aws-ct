@@ -41,7 +41,7 @@ number; its `title` is the plan's wording **verbatim** (`scripts/check-plan.mjs`
 | 7 | `integration` | APIs, Serverless Execution, and Asynchronous Work | 9 | authored, awaiting owner review (no narration audio yet) |
 | 8 | `analytics` | Data Movement and Analytical Workloads | 7 | authored, awaiting owner review (no narration audio yet) |
 | 9 | `delivery` | Repeatable Infrastructure and Delivery | 7 | authored, awaiting owner review (no narration audio yet) |
-| 10 | `operations` | Production Visibility, Security, and Recovery | 10 | — |
+| 10 | `operations` | Production Visibility, Security, and Recovery | 10 | authored, awaiting owner review (no narration audio yet) |
 | 11 | `optimisation` | Performance, Cost, and Sustainability | 6 | — |
 | 12 | `architecture` | Architecture Evolution and Justified Decisions | 5 | — |
 
@@ -57,7 +57,7 @@ its `filename` after ` · `, and `npm run check:aws` (`scripts/check-aws.py`) pr
 | level | what it means | what check:aws does |
 | --- | --- | --- |
 | `runs locally` | real Python or SQL, really run | runs the `.py` card (or a `.sql` card in a fresh database on the local PostgreSQL 16 cluster, errors included); a sibling node `<id>-out` must equal its output exactly |
-| `model-checked` | checked against the AWS service models (botocore, the source the CLI/SDKs are generated from) and AWS's IAM reference (parliament) | `.sh`: parses with `bash -n`, and service, operation and every `--param` exist; `<service>.<Operation>.request.json`: the whole request validated by botocore's ParamValidator (nested members, required, types, enums); `<service>.<Operation>.json`: every top-level key is in that response shape; policy `.json`: Effect/Action present, and parliament finds no unknown action, prefix, condition key, bad ARN or action/resource mismatch (trust policies are recognised: all statements have a Principal and only `sts:` actions); `.asl.json`: Step Functions structure (StartAt, every Next/Default/Catch target, Task Resource, Next-or-End, Retry/Catch fields); `.yaml`: cfn-lint in-process for eu-west-2, any finding fails |
+| `model-checked` | checked against the AWS service models (botocore, the source the CLI/SDKs are generated from) and AWS's IAM reference (parliament) | `.sh`: parses with `bash -n`, and service, operation and every `--param` exist; `<service>.<Operation>.request.json`: the whole request validated by botocore's ParamValidator (nested members, required, types, enums); `<service>.<Operation>.json`: every top-level key is in that response shape; policy `.json`: Effect/Action present, and parliament finds no unknown action, prefix, condition key, bad ARN or action/resource mismatch, and every global `aws:` condition key is in parliament's list (parliament skips per-action key checks when `Action` is `*`) (trust policies are recognised: all statements have a Principal and only `sts:` actions); `.asl.json`: Step Functions structure (StartAt, every Next/Default/Catch target, Task Resource, Next-or-End, Retry/Catch fields); `.yaml`: cfn-lint in-process for eu-west-2, any finding fails |
 | `emulated` | behaviour from moto's emulator, **not AWS** | runs the `.py` card like `runs locally` |
 | `doc-cited` | AWS documentation says so | the scene file must carry a `// source: https://…` comment |
 | `illustrative` | made-up but realistic; nothing checks it | counted, so unverified cards stay visible |
@@ -130,6 +130,12 @@ the pages directly.
 | release | order-api 1.5.0 fails 2%: failed requests before a 2-min alarm at 560 req/s — all at once 1,344, linear 10%/min 202, canary 10% 134; CodeDeploy `CodeDeployDefault.ECSLinear10PercentEvery1Minutes` |
 | promotion | commit 9f3c2e1 → one image digest → dev, then prod; pipeline role `ShopPipeline` (dev 444455556666) is the only principal prod's `ShopDeploy` trusts |
 | messaging | SQS `fulfilment`; SNS `order-events` → fulfilment, loyalty, fraud-check (total ≥ 500); EventBridge rules `uk-vat` (OrderPlaced, GB), `refunds`; DynamoDB `idempotency` (keys `ship#o-501`, `key#k-91`) |
+| telemetry | 18:04 → 18:06: p50 112 → 114 ms, p99 132 → 1020 ms; 20 slow traces, 90% waiting for a DB connection |
+| objective | checkout 99.9% over 30 days, ~6/s → budget 15,552; 2% errors burn 20× (1.5 days); alarm `checkout-5xx-fast-burn` (5xx > 50/min, 5 of 5) → SNS `ops-pager` |
+| audit | PutBucketPolicy on shop-reports at 18:12:44 by sam (AWSReservedSSO_ShopOperator) from 203.0.113.24; event history 90 days, data events off |
+| ops | Config rule `s3-no-public-read`; SSM patch group `order-api`; KMS key policy on the reports key (account admin, Auditor Decrypt); rotation 09:30 breaks cached password, re-read fixes at 09:31 |
+| edge / incident | web ACL `shop-web` (rate 1,000/IP, AWSManagedRulesCommonRuleSet); OrderApi keys used from 198.51.100.66: detect 18:19, lead 18:21, revoke sessions before 18:20 at 18:24, preserve 18:30, eradicate 19:10 |
+| recovery | backup plan `shop-daily` 02:00 UTC, 35 d in `shop-prod-vault`, copy 90 d to `shop-isolated` (audit 777788889999, eu-west-1); drill 02:00 → 03:06 = 66 min (RTO 90), PITR to 01:52 = 8 min (RPO 15) |
 
 Public IPs in examples come from `203.0.113.0/24` / `198.51.100.0/24` (documentation ranges). Extend this table — never change a value a
 slide already quotes.
@@ -227,6 +233,16 @@ slide already quotes.
 | `rollback-and-protection` | protected orders-db template above illustrative failed-update events | `delivery-rollback-and-stateful-resources` |
 | `deployment-strategies` | blue/green row → `traffic_shift.py` → CodeDeploy CLI | `delivery-cicd-and-deployment-strategies` |
 | `promotion-and-tools` | build/dev/prod row → prod deploy trust policy → CFN/CDK/Terraform table | `delivery-promotion-and-provenance` |
+| `telemetry-correlation` | metric/log/trace row above `latency_incident.py` + output | `operations-telemetry-and-correlation` |
+| `slos-and-alarms` | `error_budget.py` + output above the PutMetricAlarm request | `operations-objectives-and-alarms` |
+| `cloudtrail-evidence` | illustrative CloudTrail record → lookup CLI → which-evidence table | `operations-cloudwatch-versus-cloudtrail` |
+| `ops-access` | SSM fleet CLI → PutConfigRule request → questions table | `operations-operational-access-and-inventory` |
+| `keys-and-rotation` | KMS key policy beside `rotation.py` + output | `operations-keys-secrets-and-rotation` |
+| `edge-and-detection` | CreateWebACL request beside the prevents-or-detects table | `operations-layered-exposure-and-detection` |
+| `incident-containment` | five-step timeline beside the revoke-older-sessions policy | `operations-incident-triage-and-containment` |
+| `backup-and-restore` | CreateBackupPlan request → `restore_drill.py` → output | `operations-backup-and-restore-validation` |
+| `disaster-recovery` | `rpo_by_incident.py` + output above the DR strategies table | `operations-disaster-recovery-and-failover` |
+| `quotas-and-resilience` | quotas table → `backoff_jitter.py` + output → quotas CLI | `operations-quotas-throttling-and-resilience` |
 
 ## Engine notes (flow 1.3.0 / shell 0.10)
 

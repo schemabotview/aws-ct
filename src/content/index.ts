@@ -7,6 +7,7 @@ import { databases } from './databases'
 import { integration } from './integration'
 import { analytics } from './analytics'
 import { delivery } from './delivery'
+import { operations } from './operations'
 import type { Course, Section } from './types'
 
 // Course registry, in syllabus order (AWS-COURSE-PLAN.md). A course is registered here only once
@@ -21,6 +22,7 @@ export const COURSES: Record<string, Course> = {
   [integration.id]: integration,
   [analytics.id]: analytics,
   [delivery.id]: delivery,
+  [operations.id]: operations,
 }
 
 export type { Course, Section }

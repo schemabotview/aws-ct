@@ -273,6 +273,15 @@ def check_json(where: str, text: str) -> None:
         for f in analyze_policy_string(text).findings:
             if f.issue in PARLIAMENT_ERRORS:
                 problems.append(f"{where}: parliament {f.issue} — {f.detail}")
+        # parliament checks condition keys per action, so with "Action": "*" it checks none. Global
+        # (aws:) keys are checked here against its list of them, whatever the action.
+        from parliament.statement import get_global_key_type
+
+        for i, st in enumerate(stmts):
+            for keys in (st.get("Condition") or {}).values():
+                for k in keys:
+                    if k.lower().startswith("aws:") and get_global_key_type(k) is None:
+                        problems.append(f"{where}: statement {i} uses unknown global condition key {k}")
 
 
 def run_python(where: str, text: str, expected: str | None) -> None:
