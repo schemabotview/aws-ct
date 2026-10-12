@@ -43,7 +43,7 @@ number; its `title` is the plan's wording **verbatim** (`scripts/check-plan.mjs`
 | 9 | `delivery` | Repeatable Infrastructure and Delivery | 7 | authored, awaiting owner review (no narration audio yet) |
 | 10 | `operations` | Production Visibility, Security, and Recovery | 10 | authored, awaiting owner review (no narration audio yet) |
 | 11 | `optimisation` | Performance, Cost, and Sustainability | 6 | authored, awaiting owner review (no narration audio yet) |
-| 12 | `architecture` | Architecture Evolution and Justified Decisions | 5 | — |
+| 12 | `architecture` | Architecture Evolution and Justified Decisions | 5 | authored, awaiting owner review (no narration audio yet) |
 
 Each course's `index.ts` carries the plan's objective, worked illustrations, outcome and bridge as a
 comment; the bridge is also the last words of the chapter's final narration.
@@ -143,6 +143,10 @@ the pages directly.
 | rate card ext. | **hypothetical**: NAT $0.05/h + $0.05/GB, internet egress $0.09/GB, cross-AZ $0.02/GB, logs ingest $0.50/GB; committed instance $0.028/h (Ch. 4) |
 | prod month | NAT gateways 109.50, app servers 108.00, egress 81.00, logs 30.00, backups 15.00, cross-AZ 8.00, NAT processing 6.00, S3 4.60 = 362.10; servers with commitment 82.08; break-even 70% |
 | footprint | 90 → 78 large-h/day; logs 730 → 60 GB after a year (2 GB/day, 30-day retention); origin 900 → 90 GB/month at 90% hits |
+| ADR-007 | order API on ECS Fargate + RDS PostgreSQL Multi-AZ; rejected EC2 (OS patching), Lambda + DynamoDB (PostgreSQL), EKS (skills); revisit at 5× peak |
+| region case | assumed 2 s lag × 6 orders/s → ~12 orders lost at failover; health check 3 × 30 s + TTL 60 s → 150 s; active/active sells the last p-1002 twice |
+| cutover | ALB weights EC2 `shop-app` / ECS `shop-ecs` 90/10 → 50/50 → 0/100; gate at 100%: 1,210 acked vs 1,207 stored → roll back, replay 3 |
+| review | ranked: rotation 4.0, runbook link 4.0, cross-Region restore 3.0, NAT 3.0, untagged 3.0, log retention 3.0, p99 2.0, multi-Region active/active 1.0 |
 
 Public IPs in examples come from `203.0.113.0/24` / `198.51.100.0/24` (documentation ranges). Extend this table — never change a value a
 slide already quotes.
@@ -256,6 +260,11 @@ slide already quotes.
 | `cost-allocation` | `cost_lines.py` + output above Cost Explorer CLI beside CreateBudget request | `optimisation-cost-allocation-and-budgets` |
 | `monthly-cost` | `monthly_cost.py` + output above the purchase-options table | `optimisation-total-cost-trade-offs` |
 | `sustainability-levers` | `footprint.py` + output above the lever/constraint table | `optimisation-sustainability-trade-offs` |
+| `decision-record` | requirements × options table above the illustrative ADR-007 | `architecture-requirements-and-decisions` |
+| `platform-alternatives` | three request-path columns (VMs, containers, serverless) above the what-moves table | `architecture-platform-comparison` |
+| `region-choices` | `region_failure.py` + output above the how-far-to-spread table | `architecture-regional-choices` |
+| `staged-cutover` | ModifyListener weights request → `cutover_gates.py` + output → rollback-boundaries table | `architecture-migration-and-cutover` |
+| `well-architected-review` | six-pillar evidence table above `priorities.py` + output | `architecture-well-architected-review` |
 
 ## Engine notes (flow 1.3.0 / shell 0.10)
 

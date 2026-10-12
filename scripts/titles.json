@@ -10,5 +10,6 @@
   "analytics": "AWS Data Lake Explained: S3, Glue, Athena, Kinesis, Redshift & EMR",
   "delivery": "AWS CloudFormation & CI/CD Explained: Stacks, Change Sets, Rollback, Blue/Green",
   "operations": "AWS Operations Explained: CloudWatch, CloudTrail, KMS, GuardDuty, Backup & DR",
-  "optimisation": "AWS Cost & Performance Optimisation Explained: CloudFront, Rightsizing, Budgets, Savings Plans"
+  "optimisation": "AWS Cost & Performance Optimisation Explained: CloudFront, Rightsizing, Budgets, Savings Plans",
+  "architecture": "AWS Architecture Explained: Decision Records, Platforms, Multi-Region, Migration & Well-Architected"
 }
