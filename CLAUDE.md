@@ -36,7 +36,7 @@ number; its `title` is the plan's wording **verbatim** (`scripts/check-plan.mjs`
 | 2 | `identity` | Identity, Permissions, and Account Governance | 7 | authored, awaiting owner review (no narration audio yet) |
 | 3 | `networking` | Networking and the Request Path | 9 | authored, awaiting owner review (no narration audio yet) |
 | 4 | `compute` | Compute and Elastic Application Capacity | 8 | authored, awaiting owner review (no narration audio yet) |
-| 5 | `storage` | Storage and the Data Lifecycle | 7 | — |
+| 5 | `storage` | Storage and the Data Lifecycle | 7 | authored, awaiting owner review (no narration audio yet) |
 | 6 | `databases` | Databases and Application Access Patterns | 8 | — |
 | 7 | `integration` | APIs, Serverless Execution, and Asynchronous Work | 9 | — |
 | 8 | `analytics` | Data Movement and Analytical Workloads | 7 | — |
@@ -112,6 +112,9 @@ the pages directly.
 | purchase month | baseline 3 × 24 h committed $60.48 + peak 3 × 6 h on-demand $21.60 + image worker 2 × 4 h Spot $3.84 = $85.92 (all on-demand $117.60) |
 | container | ECR `order-api:1.4.2`; Fargate task 512 CPU / 1024 MiB ARM64; roles OrderApiExecution (pull, logs) + OrderApi (task); stopTimeout 30 s |
 | statelessness | 300 carts on local disk across 3 servers: scale-in of app-2 loses 99; shared store loses 0 |
+| buckets | `shop-catalog-<acct>` (versioned: noncurrent expire 30 d; `exports/` → STANDARD_IA 30 d → GLACIER 90 d), `shop-uploads-111122223333` (review photos, presigned PUT 300 s, key `reviews/p-1001/photo-77.jpg`), `shop-reports-111122223333` (SSE-KMS `alias/shop-reports`, bucket key), `shop-releases-111122223333` |
+| S3 race | p-1001.json `{price 12.0, stock 40}`; price job → 10.0, stock job → 39; plain PUT ends `{12.0, 39}`, If-Match ends `{10.0, 39}` (moto) |
+| block / file | invoice service: 30 GiB gp3 in eu-west-2a → snapshot → restored in eu-west-2b (moto); EFS `shop-invoices-1` mounted at /mnt/invoices in all three AZs |
 
 Public IPs in examples come from `203.0.113.0/24` / `198.51.100.0/24` (documentation ranges). Extend this table — never change a value a
 slide already quotes.
@@ -171,6 +174,13 @@ slide already quotes.
 | `ecs-task` | RegisterTaskDefinition request above the VM-vs-container table | `compute-containers-ecr-ecs` |
 | `eks-choice` | illustrative Deployment manifest → worth-it/costs table → verdict | `compute-eks-and-kubernetes` |
 | `stateless-design` | `carts.py` + output, `drain.py` (SIGTERM) + output | `compute-stateless-and-graceful-shutdown` |
+| `storage-kinds` | S3/EBS/EFS row → choice table → persistence list | `storage-object-block-file` |
+| `presigned-upload` | 4-step upload column beside `presign_upload.py` (real SigV4) + output | `storage-s3-access-paths` |
+| `concurrent-writers` | `two_writers.py` (moto) + output | `storage-s3-consistency-and-concurrency` |
+| `version-timeline` | `versions.py` (moto) + output beside the lifecycle request | `storage-versioning-and-lifecycle` |
+| `ebs-snapshot` | `snapshot_restore.py` (moto) + output | `storage-ebs-and-snapshots` |
+| `shared-files` | EFS mount row → CreateFileSystem request → FSx table | `storage-shared-file-storage` |
+| `data-protection` | PutBucketEncryption request above the threat × protection table | `storage-encryption-and-backup` |
 
 ## Engine notes (flow 1.3.0 / shell 0.10)
 
@@ -189,7 +199,9 @@ slide already quotes.
 - **Edges are all-or-nothing on a board's top level.** If some top-level nodes have edges and others
   do not, the unconnected ones are placed in the first rank beside the chain and widen the board.
   Chain every node, or use none and let `cols` lay them out.
-- **Never re-indent a template literal when restructuring a scene.** Code-card text is the literal;
+- **Never re-indent a template literal when restructuring a scene** (done twice; the second time the
+  program still ran identically, so nothing caught it). Generate a scene with the literal inserted
+  verbatim, then compare the card text to its source program. Code-card text is the literal;
   re-indenting changed a `runs locally` card's output (caught by check:aws) and a `.sh` card's layout
   (not caught — look at the route).
 - The shell 0.10 catalog collapses courses, so section links are not in the DOM; `shot.mjs` reads
