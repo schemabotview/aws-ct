@@ -1,0 +1,11 @@
+/* AWS's design surface — the three tokens @graphlearning/shell leaves to the repo.
+   Imported AFTER the shell's stylesheet in main.tsx, so these win the cascade.
+
+   --brand is AWS's orange (#FF9900), which already holds on the shell's dark surface (#1a1d23) —
+   the same surface AWS's own "squid ink" console header sits on. --accent-2 is a cool sky-blue
+   counter tone for the slide's `###` subheading, the warm/cool inversion the other repos use. */
+:root {
+  --brand: #ff9900; /* AWS orange — eyebrow, links, the catalog card tint */
+  --brand-hover: #ffb84d; /* lighter — the eyebrow's hover state */
+  --accent-2: #5ab4f0; /* cool counter tone to --brand: the slide's `###` subheading */
+}

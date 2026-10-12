@@ -1,0 +1,8 @@
+{
+  "_comment": "Per-repo publishing identity, read by @graphlearning/shell's thumb / gen-descriptions scripts. Env vars (CONCEPT, SITE, APP_PATH, HASHTAGS, PANEL_BG) still override.",
+  "concept": "AWS",
+  "site": "https://graphl.in",
+  "appPath": "/aws-ct",
+  "hashtags": "#AWS #CloudComputing #AmazonWebServices #CloudArchitecture #DevOps #TechEducation",
+  "panelBg": "radial-gradient(118% 104% at 70% 34%, #ffb84d 0%, #ff9900 44%, #161e2d 100%)"
+}

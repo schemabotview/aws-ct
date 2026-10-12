@@ -1,0 +1,250 @@
+"""Verification-level guard for every code card in the AWS course.
+
+The course has no AWS account behind it, so "every result on screen came from a real run" — the
+rule the SQL and Spark repos hold — cannot be the rule here. Instead every code card DECLARES how it
+was verified, in its filename, after a middle dot:
+
+    cost_ledger.py · runs locally
+    head-object.sh · model-checked
+    s3.HeadObject.json · model-checked
+    versioning.py · emulated
+    failover.txt · doc-cited
+    sketch.txt · illustrative
+
+and this script proves the declaration is true. A card with no level, or an unknown one, fails.
+
+  runs locally    a `.py` card is executed with `python3 -I`; it must exit 0, and if the scene holds a
+                  code node with id `<id>-out`, that node's text must equal the program's stdout.
+  model-checked   checked against the AWS service models botocore ships (the same JSON the CLI and
+                  SDKs are generated from):
+                    `.sh`    every `aws <service> <operation> --param …` line names a real service,
+                             operation and input member; CLI customisations (`aws sso login`,
+                             `aws configure …`, high-level `aws s3 …`) are reported as unchecked.
+                    `<service>.<Operation>.json`   a response: valid JSON whose top-level keys are
+                             all members of that operation's output shape.
+                    other `.json`   valid JSON; an IAM-style policy (has "Statement") must give each
+                             statement an Effect of Allow/Deny and an Action/NotAction.
+                    `.yaml` / `.yml`   a CloudFormation template, linted with cfn-lint.
+  emulated        a `.py` card run against moto's in-process AWS emulator — executed like
+                  `runs locally`; the label tells the viewer the behaviour came from an emulator,
+                  not from AWS.
+  doc-cited       not executable; the scene file must carry a `// source: https://…` comment.
+  illustrative    nothing is checked. Reported, so the count of unverified cards stays visible.
+
+Run: npm run check:aws   (needs `pip install -r scripts/requirements-check.txt`)
+"""
+
+from __future__ import annotations
+
+import json
+import re
+import shlex
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+
+LEVELS = {"runs locally", "model-checked", "emulated", "doc-cited", "illustrative"}
+# Options the CLI accepts on every command; they are not input members of any operation.
+GLOBAL_OPTS = {
+    "region", "profile", "output", "query", "debug", "endpoint-url", "no-cli-pager", "no-paginate",
+    "no-verify-ssl", "cli-read-timeout", "cli-connect-timeout", "color", "no-sign-request",
+    "cli-input-json", "cli-input-yaml", "generate-cli-skeleton", "cli-binary-format",
+}
+# CLI service names that differ from the botocore service name.
+CLI_TO_BOTOCORE = {"s3api": "s3", "configservice": "config"}
+# Hand-written CLI commands with no single API operation behind them.
+CUSTOMISATIONS = {("sso", "login"), ("sso", "logout"), ("configure", None), ("s3", None)}
+
+ROOT = Path(__file__).resolve().parent.parent
+problems: list[str] = []
+tally: dict[str, int] = {lvl: 0 for lvl in LEVELS}
+notes: list[str] = []
+
+
+def load_scenes() -> dict:
+    out = subprocess.run(["node", "scripts/dump-scenes.mjs"], cwd=ROOT, capture_output=True, text=True)
+    if out.returncode:
+        sys.exit(f"✗ could not load scenes:\n{out.stderr}")
+    return json.loads(out.stdout)
+
+
+def walk(nodes):
+    for n in nodes:
+        yield n
+        yield from walk(n.get("children") or [])
+
+
+def scene_source(scene_id: str) -> str:
+    for f in (ROOT / "src/scenes").rglob("*.ts"):
+        text = f.read_text()
+        if re.search(rf"id:\s*'{re.escape(scene_id)}'", text):
+            return text
+    return ""
+
+
+# --- botocore models ------------------------------------------------------------------------------
+_session = None
+
+
+def model(service: str):
+    global _session
+    import botocore.session
+
+    _session = _session or botocore.session.get_session()
+    try:
+        return _session.get_service_model(service)
+    except Exception:
+        return None
+
+
+def xform(name: str) -> str:
+    from botocore import xform_name
+
+    return xform_name(name).replace("_", "-")
+
+
+def check_cli(where: str, text: str) -> None:
+    # Join backslash continuations, drop comments and prompts, keep the `aws …` lines.
+    joined = re.sub(r"\\\n\s*", " ", text)
+    for raw in joined.splitlines():
+        line = raw.strip().removeprefix("$ ").strip()
+        if not line.startswith("aws "):
+            continue
+        line = line.split(" #", 1)[0]
+        words = shlex.split(line)
+        cli_service = words[1]
+        op = words[2] if len(words) > 2 and not words[2].startswith("-") else None
+        if (cli_service, op) in CUSTOMISATIONS or (cli_service, None) in CUSTOMISATIONS:
+            notes.append(f"{where}: `aws {cli_service} {op or ''}`".rstrip() + " is a CLI customisation, not model-checked")
+            continue
+        svc = model(CLI_TO_BOTOCORE.get(cli_service, cli_service))
+        if svc is None:
+            problems.append(f"{where}: no AWS service model named '{cli_service}'")
+            continue
+        ops = {xform(o): o for o in svc.operation_names}
+        if op not in ops:
+            problems.append(f"{where}: '{cli_service}' has no operation '{op}'")
+            continue
+        shape = svc.operation_model(ops[op]).input_shape
+        members = {xform(m) for m in (shape.members if shape else {})}
+        for w in words[3:]:
+            if not w.startswith("--"):
+                continue
+            p = w[2:].split("=", 1)[0]
+            p = p.removeprefix("no-") if p.removeprefix("no-") in members else p
+            if p not in members and p not in GLOBAL_OPTS:
+                problems.append(f"{where}: `aws {cli_service} {op}` has no parameter --{p}")
+
+
+def check_response(where: str, service: str, operation: str, text: str) -> None:
+    svc = model(service)
+    if svc is None or operation not in svc.operation_names:
+        problems.append(f"{where}: no operation {service}.{operation} in the AWS models")
+        return
+    try:
+        body = json.loads(text)
+    except json.JSONDecodeError as e:
+        problems.append(f"{where}: not valid JSON ({e})")
+        return
+    out = svc.operation_model(operation).output_shape
+    members = set(out.members) if out else set()
+    for k in body:
+        if k not in members:
+            problems.append(f"{where}: '{k}' is not in the {service}.{operation} response shape")
+
+
+def check_json(where: str, text: str) -> None:
+    try:
+        doc = json.loads(text)
+    except json.JSONDecodeError as e:
+        problems.append(f"{where}: not valid JSON ({e})")
+        return
+    if isinstance(doc, dict) and "Statement" in doc:
+        stmts = doc["Statement"] if isinstance(doc["Statement"], list) else [doc["Statement"]]
+        for i, s in enumerate(stmts):
+            if s.get("Effect") not in ("Allow", "Deny"):
+                problems.append(f"{where}: statement {i} has Effect {s.get('Effect')!r}")
+            if "Action" not in s and "NotAction" not in s:
+                problems.append(f"{where}: statement {i} has no Action or NotAction")
+
+
+def run_python(where: str, text: str, expected: str | None) -> None:
+    with tempfile.TemporaryDirectory() as d:
+        f = Path(d) / "card.py"
+        f.write_text(text)
+        r = subprocess.run([sys.executable, "-I", str(f)], cwd=d, capture_output=True, text=True, timeout=120)
+    if r.returncode:
+        problems.append(f"{where}: exited {r.returncode}\n{r.stderr.strip()[-600:]}")
+        return
+    if expected is not None and r.stdout.rstrip() != expected.rstrip():
+        problems.append(
+            f"{where}: the output card does not match the program's real output\n"
+            f"--- card ---\n{expected.rstrip()}\n--- run ---\n{r.stdout.rstrip()}"
+        )
+
+
+def check_yaml(where: str, text: str) -> None:
+    with tempfile.TemporaryDirectory() as d:
+        f = Path(d) / "template.yaml"
+        f.write_text(text)
+        r = subprocess.run([sys.executable, "-m", "cfnlint", str(f)], capture_output=True, text=True)
+    if r.returncode:
+        problems.append(f"{where}: cfn-lint\n{r.stdout.strip()[-800:]}")
+
+
+def main() -> None:
+    scenes = load_scenes()
+    for sid, scene in scenes.items():
+        nodes = list(walk(scene["nodes"]))
+        by_id = {n["id"]: n for n in nodes}
+        for n in nodes:
+            if n.get("kind") != "code":
+                continue
+            where = f"{sid}/{n['id']}"
+            fname = n.get("filename") or ""
+            if n["id"].endswith("-out") and n["id"][:-4] in by_id:
+                continue  # an output card: checked through its program
+            if " · " not in fname:
+                problems.append(f"{where}: filename '{fname}' declares no verification level (`name · level`)")
+                continue
+            name, level = (s.strip() for s in fname.rsplit(" · ", 1))
+            if level not in LEVELS:
+                problems.append(f"{where}: unknown verification level '{level}' (one of {sorted(LEVELS)})")
+                continue
+            tally[level] += 1
+            text = n["label"]
+            if level in ("runs locally", "emulated"):
+                if not name.endswith(".py"):
+                    problems.append(f"{where}: '{level}' needs a .py card, got {name}")
+                    continue
+                out = by_id.get(n["id"] + "-out")
+                run_python(where, text, out["label"] if out else None)
+            elif level == "model-checked":
+                m = re.fullmatch(r"([a-z0-9-]+)\.([A-Z][A-Za-z0-9]+)\.json", name)
+                if m:
+                    check_response(where, m.group(1), m.group(2), text)
+                elif name.endswith(".sh"):
+                    check_cli(where, text)
+                elif name.endswith(".json"):
+                    check_json(where, text)
+                elif name.endswith((".yaml", ".yml")):
+                    check_yaml(where, text)
+                else:
+                    problems.append(f"{where}: nothing can model-check a '{name}' card")
+            elif level == "doc-cited":
+                if not re.search(r"//\s*source:\s*https://", scene_source(sid)):
+                    problems.append(f"{where}: doc-cited, but scene '{sid}' has no `// source: https://…` comment")
+
+    print("  " + "  ".join(f"{lvl}: {tally[lvl]}" for lvl in sorted(LEVELS)))
+    for n in notes:
+        print("  · " + n)
+    if problems:
+        print(f"\n✗ {len(problems)} verification problem(s):", file=sys.stderr)
+        for p in problems:
+            print("  " + p, file=sys.stderr)
+        sys.exit(1)
+    print("✓ every code card's verification level holds")
+
+
+main()
