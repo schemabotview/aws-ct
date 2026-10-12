@@ -35,7 +35,7 @@ number; its `title` is the plan's wording **verbatim** (`scripts/check-plan.mjs`
 | 1 | `foundations` | Cloud Foundations and a Safe First Workload | 6 | authored, awaiting owner review (no narration audio yet) |
 | 2 | `identity` | Identity, Permissions, and Account Governance | 7 | authored, awaiting owner review (no narration audio yet) |
 | 3 | `networking` | Networking and the Request Path | 9 | authored, awaiting owner review (no narration audio yet) |
-| 4 | `compute` | Compute and Elastic Application Capacity | 8 | — |
+| 4 | `compute` | Compute and Elastic Application Capacity | 8 | authored, awaiting owner review (no narration audio yet) |
 | 5 | `storage` | Storage and the Data Lifecycle | 7 | — |
 | 6 | `databases` | Databases and Application Access Patterns | 8 | — |
 | 7 | `integration` | APIs, Serverless Execution, and Asynchronous Work | 9 | — |
@@ -57,7 +57,7 @@ its `filename` after ` · `, and `npm run check:aws` (`scripts/check-aws.py`) pr
 | level | what it means | what check:aws does |
 | --- | --- | --- |
 | `runs locally` | real Python, really run | runs the `.py` card; a sibling node `<id>-out` must equal its stdout exactly |
-| `model-checked` | checked against the AWS service models (botocore, the source the CLI/SDKs are generated from) and AWS's IAM reference (parliament) | `.sh`: service, operation and every `--param` exist; `<service>.<Operation>.request.json`: the whole request validated by botocore's ParamValidator (nested members, required, types, enums); `<service>.<Operation>.json`: every top-level key is in that response shape; policy `.json`: Effect/Action present, and parliament finds no unknown action, prefix, condition key, bad ARN or action/resource mismatch (trust policies are recognised: all statements have a Principal and only `sts:` actions); `.yaml`: cfn-lint |
+| `model-checked` | checked against the AWS service models (botocore, the source the CLI/SDKs are generated from) and AWS's IAM reference (parliament) | `.sh`: parses with `bash -n`, and service, operation and every `--param` exist; `<service>.<Operation>.request.json`: the whole request validated by botocore's ParamValidator (nested members, required, types, enums); `<service>.<Operation>.json`: every top-level key is in that response shape; policy `.json`: Effect/Action present, and parliament finds no unknown action, prefix, condition key, bad ARN or action/resource mismatch (trust policies are recognised: all statements have a Principal and only `sts:` actions); `.yaml`: cfn-lint |
 | `emulated` | behaviour from moto's emulator, **not AWS** | runs the `.py` card like `runs locally` |
 | `doc-cited` | AWS documentation says so | the scene file must carry a `// source: https://…` comment |
 | `illustrative` | made-up but realistic; nothing checks it | counted, so unverified cards stay visible |
@@ -93,7 +93,7 @@ the pages directly.
 | people | **alex**, developer, permission set **ShopDeveloper**, profile `shop-dev`, portal `https://shop-example.awsapps.com/start` |
 | storage | bucket `shop-catalog-<account>`; product JSON at `products/p-1001.json` (1,834 bytes) |
 | traffic | 60 req/s 00–08 h, 240 req/s 08–18 h, 560 req/s 18–24 h; one app server = 150 req/s → 1 / 2 / 4 servers; elastic 52 vs fixed 96 server-hours a day; peak 4 servers → 2 per AZ (6) to survive an AZ |
-| rate card | **hypothetical**, USD: instance $0.04/h, block volume $0.08/GB-month, public IPv4/Elastic IP $0.005/h, snapshot $0.05/GB-month, object storage $0.023/GB-month, 730 h/month. Always labelled hypothetical on screen |
+| rate card | **hypothetical**, USD: instance $0.04/h, block volume $0.08/GB-month, public IPv4/Elastic IP $0.005/h, snapshot $0.05/GB-month, object storage $0.023/GB-month, 730 h/month; 1-year commitment $0.028/h (30% off), Spot $0.016/h. Always labelled hypothetical on screen |
 | dev ledger | running $36.21/month, instance stopped $7.01 |
 | organization | management **123456789012** at the root; OU Security → audit **777788889999**; OU Workloads → OU Prod (111122223333), OU Dev (444455556666); org id `o-a1b2c3d4e5` |
 | groups | Developers (alex): dev → ShopDeveloper, prod → ShopReadOnly; Operators (sam): prod → ShopOperator |
@@ -107,6 +107,11 @@ the pages directly.
 | DNS / TLS | Route 53 zone example.com, alias A shop.example.com → ALB `shop-alb-123.eu-west-2.elb.amazonaws.com`; ACM cert in eu-west-2, TLS 1.3 policy; ALB → app plain HTTP |
 | target group | `shop-app` HTTP 8080, /health every 10 s, unhealthy 2, healthy 3 → app-3 unhealthy at 15 s, back at 85 s; 560 req/s = 93 per target over 6, 112 over 5 |
 | payments | external API `api.payments.example.com` → 198.51.100.7 |
+| app servers | launch template `order-api` v14: m7g.large (Graviton, 2 vCPU, 8 GiB), instance profile OrderApi, IMDSv2 required, sg-app; release `order-api-1.4.2.jar` in `shop-releases-111122223333`; logs `/shop/order-api` |
+| scaling | ASG `order-api`, min 3 (one per AZ); scheduled action `evening-peak` 17:45 Europe/London → min 6; reactive-only model: 5 min short, worst 110 req/s (assumed 5 min to in service) |
+| purchase month | baseline 3 × 24 h committed $60.48 + peak 3 × 6 h on-demand $21.60 + image worker 2 × 4 h Spot $3.84 = $85.92 (all on-demand $117.60) |
+| container | ECR `order-api:1.4.2`; Fargate task 512 CPU / 1024 MiB ARM64; roles OrderApiExecution (pull, logs) + OrderApi (task); stopTimeout 30 s |
+| statelessness | 300 carts on local disk across 3 servers: scale-in of app-2 loses 99; shared store loses 0 |
 
 Public IPs in examples come from `203.0.113.0/24` / `198.51.100.0/24` (documentation ranges). Extend this table — never change a value a
 slide already quotes.
@@ -158,6 +163,14 @@ slide already quotes.
 | `tls-path` | browser → ALB → app → DB column beside the ACM/listener CLI and per-hop table | `networking-tls-and-certificates` |
 | `lb-health` | create-target-group CLI → `health_timeline.py` → output | `networking-load-balancers-and-health` |
 | `private-connectivity` | S3 gateway-endpoint policy above the private-paths table | `networking-private-connectivity` |
+| `compute-choice` | EC2/Fargate/Lambda/EKS 2×2 → comparison table → order-API shape list | `compute-compute-selection` |
+| `launch-template` | CreateLaunchTemplate request beside the instance-state column | `compute-ec2-and-launch-templates` |
+| `purchase-options` | m7g.large anatomy 2×2 → `purchase_mix.py` → output | `compute-instance-types-and-purchasing` |
+| `bootstrap-and-ssm` | user-data.sh → SSM session/patch CLI → "still ours" list | `compute-bootstrap-and-systems-manager` |
+| `scaling-timeline` | `surge.py` → output → PutScheduledUpdateGroupAction request | `compute-auto-scaling` |
+| `ecs-task` | RegisterTaskDefinition request above the VM-vs-container table | `compute-containers-ecr-ecs` |
+| `eks-choice` | illustrative Deployment manifest → worth-it/costs table → verdict | `compute-eks-and-kubernetes` |
+| `stateless-design` | `carts.py` + output, `drain.py` (SIGTERM) + output | `compute-stateless-and-graceful-shutdown` |
 
 ## Engine notes (flow 1.3.0 / shell 0.10)
 

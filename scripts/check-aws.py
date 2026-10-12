@@ -17,7 +17,7 @@ and this script proves the declaration is true. A card with no level, or an unkn
                   code node with id `<id>-out`, that node's text must equal the program's stdout.
   model-checked   checked against the AWS service models botocore ships (the same JSON the CLI and
                   SDKs are generated from):
-                    `.sh`    every `aws <service> <operation> --param …` line names a real service,
+                    `.sh`    parses with `bash -n`, and every `aws <service> <operation> --param …` line names a real service,
                              operation and input member; CLI customisations (`aws sso login`,
                              `aws configure …`, high-level `aws s3 …`) are reported as unchecked.
                     `<service>.<Operation>.request.json`   a request body, validated in full by
@@ -149,6 +149,14 @@ def check_cli(where: str, text: str) -> None:
                 problems.append(f"{where}: `aws {cli_service} {op}` has no parameter --{p}")
 
 
+def check_bash(where: str, text: str) -> None:
+    """Every shell card must at least parse: `bash -n` catches a broken continuation or quote."""
+    body = "\n".join(l[2:] if l.startswith("$ ") else l for l in text.split("\n"))
+    r = subprocess.run(["bash", "-n"], input=body, capture_output=True, text=True)
+    if r.returncode:
+        problems.append(f"{where}: bash -n: {r.stderr.strip()}")
+
+
 def check_response(where: str, service: str, operation: str, text: str) -> None:
     svc = model(service)
     if svc is None or operation not in svc.operation_names:
@@ -276,6 +284,7 @@ def main() -> None:
                 elif m:
                     check_response(where, m.group(1), m.group(2), text)
                 elif name.endswith(".sh"):
+                    check_bash(where, text)
                     check_cli(where, text)
                 elif name.endswith(".json"):
                     check_json(where, text)
