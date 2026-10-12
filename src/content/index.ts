@@ -4,6 +4,7 @@ import { networking } from './networking'
 import { compute } from './compute'
 import { storage } from './storage'
 import { databases } from './databases'
+import { integration } from './integration'
 import type { Course, Section } from './types'
 
 // Course registry, in syllabus order (AWS-COURSE-PLAN.md). A course is registered here only once
@@ -15,6 +16,7 @@ export const COURSES: Record<string, Course> = {
   [compute.id]: compute,
   [storage.id]: storage,
   [databases.id]: databases,
+  [integration.id]: integration,
 }
 
 export type { Course, Section }

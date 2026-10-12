@@ -38,7 +38,7 @@ number; its `title` is the plan's wording **verbatim** (`scripts/check-plan.mjs`
 | 4 | `compute` | Compute and Elastic Application Capacity | 8 | authored, awaiting owner review (no narration audio yet) |
 | 5 | `storage` | Storage and the Data Lifecycle | 7 | authored, awaiting owner review (no narration audio yet) |
 | 6 | `databases` | Databases and Application Access Patterns | 8 | authored, awaiting owner review (no narration audio yet) |
-| 7 | `integration` | APIs, Serverless Execution, and Asynchronous Work | 9 | — |
+| 7 | `integration` | APIs, Serverless Execution, and Asynchronous Work | 9 | authored, awaiting owner review (no narration audio yet) |
 | 8 | `analytics` | Data Movement and Analytical Workloads | 7 | — |
 | 9 | `delivery` | Repeatable Infrastructure and Delivery | 7 | — |
 | 10 | `operations` | Production Visibility, Security, and Recovery | 10 | — |
@@ -57,7 +57,7 @@ its `filename` after ` · `, and `npm run check:aws` (`scripts/check-aws.py`) pr
 | level | what it means | what check:aws does |
 | --- | --- | --- |
 | `runs locally` | real Python or SQL, really run | runs the `.py` card (or a `.sql` card in a fresh database on the local PostgreSQL 16 cluster, errors included); a sibling node `<id>-out` must equal its output exactly |
-| `model-checked` | checked against the AWS service models (botocore, the source the CLI/SDKs are generated from) and AWS's IAM reference (parliament) | `.sh`: parses with `bash -n`, and service, operation and every `--param` exist; `<service>.<Operation>.request.json`: the whole request validated by botocore's ParamValidator (nested members, required, types, enums); `<service>.<Operation>.json`: every top-level key is in that response shape; policy `.json`: Effect/Action present, and parliament finds no unknown action, prefix, condition key, bad ARN or action/resource mismatch (trust policies are recognised: all statements have a Principal and only `sts:` actions); `.yaml`: cfn-lint |
+| `model-checked` | checked against the AWS service models (botocore, the source the CLI/SDKs are generated from) and AWS's IAM reference (parliament) | `.sh`: parses with `bash -n`, and service, operation and every `--param` exist; `<service>.<Operation>.request.json`: the whole request validated by botocore's ParamValidator (nested members, required, types, enums); `<service>.<Operation>.json`: every top-level key is in that response shape; policy `.json`: Effect/Action present, and parliament finds no unknown action, prefix, condition key, bad ARN or action/resource mismatch (trust policies are recognised: all statements have a Principal and only `sts:` actions); `.asl.json`: Step Functions structure (StartAt, every Next/Default/Catch target, Task Resource, Next-or-End, Retry/Catch fields); `.yaml`: cfn-lint |
 | `emulated` | behaviour from moto's emulator, **not AWS** | runs the `.py` card like `runs locally` |
 | `doc-cited` | AWS documentation says so | the scene file must carry a `// source: https://…` comment |
 | `illustrative` | made-up but realistic; nothing checks it | counted, so unverified cards stay visible |
@@ -121,6 +121,9 @@ the pages directly.
 | DynamoDB | table `Orders` (PK customer, SK `<time>#<order>`), GSI `by-status` (2 values → hot key); `Stock`/`Orders` transaction: o-601 placed, o-602 ConditionalCheckFailed (moto) |
 | cache | p-1001 12.0 → 10.0 at t=10 s, TTL 60 s: stale 10–60 s; delete-on-write: fresh at 20 s |
 | migration | DMS task `orders-to-rds`, full-load-and-cdc, schema `shop` |
+| API | REST API, model `Order` + validator `body-only`, Cognito authorizer `shoppers`, stage `prod` throttle 600 rps |
+| functions | `place-order` (python3.13, arm64, 512 MB, timeout 10 s, role PlaceOrderFn, reserved concurrency 50; 0.12 s assumed → 67 needed at 560 req/s, 143/s throttled); also reserve-stock, charge-payment, ship-order, release-stock |
+| messaging | SQS `fulfilment`; SNS `order-events` → fulfilment, loyalty, fraud-check (total ≥ 500); EventBridge rules `uk-vat` (OrderPlaced, GB), `refunds`; DynamoDB `idempotency` (keys `ship#o-501`, `key#k-91`) |
 
 Public IPs in examples come from `203.0.113.0/24` / `198.51.100.0/24` (documentation ranges). Extend this table — never change a value a
 slide already quotes.
@@ -195,6 +198,15 @@ slide already quotes.
 | `dynamodb-conditions` | `last_unit.py` (moto) + output beside the read-consistency table | `databases-dynamodb-conditions-and-consistency` |
 | `cache-aside` | `cache_aside.py` above its two timelines | `databases-caching-and-stale-reads` |
 | `migration-and-specialists` | DMS CLI + table mappings above the specialist table | `databases-migration-and-specialist-databases` |
+| `api-contract` | order schema + API Gateway CLI; rejected responses + checks list | `integration-api-gateway` |
+| `lambda-handler` | `handler.py` + output beside the CreateFunction request | `integration-lambda-execution` |
+| `concurrency-limits` | `concurrency.py` + output above reserved-concurrency request + execution role | `integration-lambda-concurrency` |
+| `queue-consumer` | `consumer.py` (moto) + output above the standard/FIFO table | `integration-sqs-queues` |
+| `sns-fanout` | three-queue row above `fan_out.py` (moto) + output | `integration-sns-fanout` |
+| `event-routing` | `routing.py` (moto) + output | `integration-eventbridge-routing` |
+| `order-workflow` | state diagram beside the checked ASL definition | `integration-step-functions` |
+| `idempotency` | `idempotent.py` (moto) + output beside the retry-ownership table | `integration-idempotency-and-retries` |
+| `integration-choices` | end-to-end order flow above the which-mechanism table | `integration-choosing-integration` |
 
 ## Engine notes (flow 1.3.0 / shell 0.10)
 

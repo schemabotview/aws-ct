@@ -28,6 +28,8 @@ and this script proves the declaration is true. A card with no level, or an unkn
                     other `.json`   valid JSON; an IAM-style policy (has "Statement") must give each
                              statement an Effect of Allow/Deny and an Action/NotAction, and pass
                              parliament's checks for unknown actions, condition keys and ARNs.
+                    `.asl.json`   a Step Functions definition: StartAt, every Next/Default/Catch
+                             target, Task Resources, Next-or-End, Retry/Catch fields.
                     `.yaml` / `.yml`   a CloudFormation template, linted with cfn-lint.
   emulated        a `.py` card run against moto's in-process AWS emulator — executed like
                   `runs locally`; the label tells the viewer the behaviour came from an emulator,
@@ -194,6 +196,53 @@ def check_request(where: str, service: str, operation: str, text: str) -> None:
         problems.append(f"{where}: invalid {service}.{operation} request\n{report.generate_report()}")
 
 
+ASL_TYPES = {"Task", "Choice", "Wait", "Succeed", "Fail", "Parallel", "Map", "Pass"}
+RETRY_KEYS = {"ErrorEquals", "IntervalSeconds", "MaxAttempts", "BackoffRate", "MaxDelaySeconds", "JitterStrategy", "Comment"}
+CATCH_KEYS = {"ErrorEquals", "Next", "ResultPath", "Comment", "Output", "Assign"}
+
+
+def check_asl(where: str, text: str) -> None:
+    """Structural check of an Amazon States Language definition: what the console's validator would
+    reject first — a missing StartAt, a Next/Default/Catch target that names no state, a Task without
+    a Resource, a non-terminal state with neither Next nor End, or an unknown Retry/Catch field."""
+    try:
+        sm = json.loads(text)
+    except json.JSONDecodeError as e:
+        problems.append(f"{where}: not valid JSON ({e})")
+        return
+
+    def walk(machine, path):
+        states = machine.get("States") or {}
+        if machine.get("StartAt") not in states:
+            problems.append(f"{where}: {path}StartAt '{machine.get('StartAt')}' names no state")
+        for name, st in states.items():
+            at = f"{path}{name}"
+            t = st.get("Type")
+            if t not in ASL_TYPES:
+                problems.append(f"{where}: {at} has unknown Type {t!r}")
+                continue
+            targets = [st.get("Next"), st.get("Default")]
+            targets += [c.get("Next") for c in st.get("Catch", [])]
+            targets += [c.get("Next") for c in st.get("Choices", [])]
+            for tgt in filter(None, targets):
+                if tgt not in states:
+                    problems.append(f"{where}: {at} goes to '{tgt}', which is not a state")
+            if t == "Task" and "Resource" not in st:
+                problems.append(f"{where}: {at} is a Task without a Resource")
+            if t not in ("Succeed", "Fail", "Choice") and not st.get("Next") and st.get("End") is not True:
+                problems.append(f"{where}: {at} has neither Next nor End: true")
+            for r in st.get("Retry", []):
+                if set(r) - RETRY_KEYS or "ErrorEquals" not in r:
+                    problems.append(f"{where}: {at} Retry has fields {sorted(set(r) - RETRY_KEYS)} or no ErrorEquals")
+            for c in st.get("Catch", []):
+                if set(c) - CATCH_KEYS or "ErrorEquals" not in c or "Next" not in c:
+                    problems.append(f"{where}: {at} Catch is malformed")
+            for i, br in enumerate(st.get("Branches", [])):
+                walk(br, f"{at}.Branches[{i}].")
+
+    walk(sm, "")
+
+
 def check_json(where: str, text: str) -> None:
     try:
         doc = json.loads(text)
@@ -314,6 +363,8 @@ def main() -> None:
                 elif name.endswith(".sh"):
                     check_bash(where, text)
                     check_cli(where, text)
+                elif name.endswith(".asl.json"):
+                    check_asl(where, text)
                 elif name.endswith(".json"):
                     check_json(where, text)
                 elif name.endswith((".yaml", ".yml")):
