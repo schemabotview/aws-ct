@@ -60,7 +60,7 @@ GLOBAL_OPTS = {
     "cli-input-json", "cli-input-yaml", "generate-cli-skeleton", "cli-binary-format",
 }
 # CLI service names that differ from the botocore service name.
-CLI_TO_BOTOCORE = {"s3api": "s3", "configservice": "config"}
+CLI_TO_BOTOCORE = {"s3api": "s3", "configservice": "config", "deploy": "codedeploy"}
 # Hand-written CLI commands with no single API operation behind them.
 CUSTOMISATIONS = {("sso", "login"), ("sso", "logout"), ("configure", None), ("s3", None)}
 
@@ -315,12 +315,13 @@ def run_sql(where: str, text: str, expected: str | None) -> None:
 
 
 def check_yaml(where: str, text: str) -> None:
-    with tempfile.TemporaryDirectory() as d:
-        f = Path(d) / "template.yaml"
-        f.write_text(text)
-        r = subprocess.run([sys.executable, "-m", "cfnlint", str(f)], capture_output=True, text=True)
-    if r.returncode:
-        problems.append(f"{where}: cfn-lint\n{r.stdout.strip()[-800:]}")
+    """A CloudFormation template, linted in-process with cfn-lint for the course's Region. Any finding,
+    error or warning, fails: a template shown on screen should be one cfn-lint accepts as written."""
+    from cfnlint.api import ManualArgs, lint
+
+    found = lint(text, config=ManualArgs(regions=["eu-west-2"]))
+    for m in found:
+        problems.append(f"{where}: cfn-lint {m.rule.id} line {m.linenumber}: {m.message}")
 
 
 def main() -> None:

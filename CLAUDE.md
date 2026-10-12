@@ -40,7 +40,7 @@ number; its `title` is the plan's wording **verbatim** (`scripts/check-plan.mjs`
 | 6 | `databases` | Databases and Application Access Patterns | 8 | authored, awaiting owner review (no narration audio yet) |
 | 7 | `integration` | APIs, Serverless Execution, and Asynchronous Work | 9 | authored, awaiting owner review (no narration audio yet) |
 | 8 | `analytics` | Data Movement and Analytical Workloads | 7 | authored, awaiting owner review (no narration audio yet) |
-| 9 | `delivery` | Repeatable Infrastructure and Delivery | 7 | — |
+| 9 | `delivery` | Repeatable Infrastructure and Delivery | 7 | authored, awaiting owner review (no narration audio yet) |
 | 10 | `operations` | Production Visibility, Security, and Recovery | 10 | — |
 | 11 | `optimisation` | Performance, Cost, and Sustainability | 6 | — |
 | 12 | `architecture` | Architecture Evolution and Justified Decisions | 5 | — |
@@ -57,7 +57,7 @@ its `filename` after ` · `, and `npm run check:aws` (`scripts/check-aws.py`) pr
 | level | what it means | what check:aws does |
 | --- | --- | --- |
 | `runs locally` | real Python or SQL, really run | runs the `.py` card (or a `.sql` card in a fresh database on the local PostgreSQL 16 cluster, errors included); a sibling node `<id>-out` must equal its output exactly |
-| `model-checked` | checked against the AWS service models (botocore, the source the CLI/SDKs are generated from) and AWS's IAM reference (parliament) | `.sh`: parses with `bash -n`, and service, operation and every `--param` exist; `<service>.<Operation>.request.json`: the whole request validated by botocore's ParamValidator (nested members, required, types, enums); `<service>.<Operation>.json`: every top-level key is in that response shape; policy `.json`: Effect/Action present, and parliament finds no unknown action, prefix, condition key, bad ARN or action/resource mismatch (trust policies are recognised: all statements have a Principal and only `sts:` actions); `.asl.json`: Step Functions structure (StartAt, every Next/Default/Catch target, Task Resource, Next-or-End, Retry/Catch fields); `.yaml`: cfn-lint |
+| `model-checked` | checked against the AWS service models (botocore, the source the CLI/SDKs are generated from) and AWS's IAM reference (parliament) | `.sh`: parses with `bash -n`, and service, operation and every `--param` exist; `<service>.<Operation>.request.json`: the whole request validated by botocore's ParamValidator (nested members, required, types, enums); `<service>.<Operation>.json`: every top-level key is in that response shape; policy `.json`: Effect/Action present, and parliament finds no unknown action, prefix, condition key, bad ARN or action/resource mismatch (trust policies are recognised: all statements have a Principal and only `sts:` actions); `.asl.json`: Step Functions structure (StartAt, every Next/Default/Catch target, Task Resource, Next-or-End, Retry/Catch fields); `.yaml`: cfn-lint in-process for eu-west-2, any finding fails |
 | `emulated` | behaviour from moto's emulator, **not AWS** | runs the `.py` card like `runs locally` |
 | `doc-cited` | AWS documentation says so | the scene file must carry a `// source: https://…` comment |
 | `illustrative` | made-up but realistic; nothing checks it | counted, so unverified cards stay visible |
@@ -126,6 +126,9 @@ the pages directly.
 | lake | `s3://shop-lake-111122223333/order_history/`, Glue db `shop_lake`, table `order_history` (Parquet, partition dt); September 2026 history: 60,000 rows (2,000/day, seed 12); one day opens 629 KiB flat vs 24 KiB partitioned vs 220 KiB as 200 tiny files; 11–13 Sep sales 202,224.52 / 205,617.39 / 202,876.5 (DuckDB, labelled) |
 | CDC 12 Oct | 6 records → 4 orders (o-502 replayed; o-504 at 23:58 arrived 00:04), 756.50 = source → reconciled |
 | stream | Kinesis Data Streams `shop-clickstream`, provisioned, 2 shards; 1,800 rec/s vs consumer 1,600/s → ~11 min iterator age by 19:30, drains after 20:00 |
+| IaC | stack `shop-prod` v14 → v15 (v15 fails at 18:41, rolled back; its migration had already run); order-events template: waves topic+DLQ → queue → policy+subscription; replacement from schemas: RDS StorageEncrypted, SQS QueueName |
+| release | order-api 1.5.0 fails 2%: failed requests before a 2-min alarm at 560 req/s — all at once 1,344, linear 10%/min 202, canary 10% 134; CodeDeploy `CodeDeployDefault.ECSLinear10PercentEvery1Minutes` |
+| promotion | commit 9f3c2e1 → one image digest → dev, then prod; pipeline role `ShopPipeline` (dev 444455556666) is the only principal prod's `ShopDeploy` trusts |
 | messaging | SQS `fulfilment`; SNS `order-events` → fulfilment, loyalty, fraud-check (total ≥ 500); EventBridge rules `uk-vat` (OrderPlaced, GB), `refunds`; DynamoDB `idempotency` (keys `ship#o-501`, `key#k-91`) |
 
 Public IPs in examples come from `203.0.113.0/24` / `198.51.100.0/24` (documentation ranges). Extend this table — never change a value a
@@ -217,6 +220,13 @@ slide already quotes.
 | `athena-query` | `daily_sales_duckdb.py` + output → Athena CLI | `analytics-athena-queries-and-cost` |
 | `stream-lag` | `consumer_lag.py` + output → CreateStream request | `analytics-kinesis-streaming` |
 | `warehouse-or-cluster` | Athena/Redshift/EMR row → selection table → caution list | `analytics-redshift-and-emr` |
+| `declarative-vs-imperative` | script and template stacked above table + principles row | `delivery-declarative-infrastructure` |
+| `stack-template` | order-events template beside `create_order.py` (topological waves) | `delivery-cloudformation-stacks` |
+| `params-and-secrets` | config template beside `secrets_lint.py` (cfn-lint findings) | `delivery-parameters-outputs-secrets` |
+| `change-sets` | `replacement_preview.py` (AWS provider schemas) above the change-set limits table | `delivery-change-sets-and-drift` |
+| `rollback-and-protection` | protected orders-db template above illustrative failed-update events | `delivery-rollback-and-stateful-resources` |
+| `deployment-strategies` | blue/green row → `traffic_shift.py` → CodeDeploy CLI | `delivery-cicd-and-deployment-strategies` |
+| `promotion-and-tools` | build/dev/prod row → prod deploy trust policy → CFN/CDK/Terraform table | `delivery-promotion-and-provenance` |
 
 ## Engine notes (flow 1.3.0 / shell 0.10)
 

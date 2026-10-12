@@ -7,5 +7,6 @@
   "storage": "Amazon S3, EBS & EFS Explained: Consistency, Versioning, Snapshots & Backups",
   "databases": "AWS Databases Explained: RDS, Aurora, DynamoDB, ElastiCache & DMS",
   "integration": "AWS Serverless Explained: API Gateway, Lambda, SQS, SNS, EventBridge & Step Functions",
-  "analytics": "AWS Data Lake Explained: S3, Glue, Athena, Kinesis, Redshift & EMR"
+  "analytics": "AWS Data Lake Explained: S3, Glue, Athena, Kinesis, Redshift & EMR",
+  "delivery": "AWS CloudFormation & CI/CD Explained: Stacks, Change Sets, Rollback, Blue/Green"
 }
