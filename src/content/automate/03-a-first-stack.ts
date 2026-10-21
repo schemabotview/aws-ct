@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const aFirstStack: Section = {
+  id: 'a-first-stack',
+  title: 'A first stack',
+  scene: 'first-stack',
+  narration:
+    "The file in the editor is templates slash network dot yaml, the network from Course five, declared. It describes a resource called V P C, of type A W S E C two V P C, with the range ten dot twenty slash sixteen and the name shop prod. Then nine subnets, of which two are visible. Each names its V P C with Ref V P C, which is both a value and a dependency: CloudFormation creates the V P C first and passes its I D. And each picks its zone with Select over Get A Zs, the list of the Region's zones, rather than naming eu west two a, so the template works unchanged in another Region. In the terminal, in a fresh account, cfn lint checks the template first, against A W S's resource specifications, and finds nothing. An earlier draft that named the zones directly drew a warning for each one, which is why it changed. Then aws cloudformation deploy creates a stack called shop network: it makes a change set, executes it, and reports success. The same deploy, run again, makes a change set, finds it empty, and says there are no changes to deploy: the stack is up to date. Compare that with the last two sections. Describing the stack's resources counts ten: the V P C and nine subnets, all owned by the stack. The table on the right is that difference. The first deploy created ten resources. The second did nothing. After an edit, a deploy changes only the difference. The list adds the rest. cfn lint checks a template before A W S sees it. Ref orders the work. Get A Zs keeps zones out of the template. And deleting the stack removes all ten resources, in the right order, with nothing left behind. Next, parameters, outputs, and how one stack uses another's resources.",
+}

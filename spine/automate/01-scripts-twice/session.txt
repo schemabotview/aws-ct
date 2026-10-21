@@ -1,0 +1,19 @@
+$ bash infra/05-network.sh
+vpc-f567805bc5d60c5e7  shop-prod 10.20.0.0/16
+subnet-fd8ecfa1c688e0899  public-a  eu-west-2a  10.20.0.0/24
+subnet-db79155ccf63deb09  public-b  eu-west-2b  10.20.1.0/24
+subnet-7a1228cd8b67e3af8  public-c  eu-west-2c  10.20.2.0/24
+subnet-3e1cbb92f65695a36  app-a     eu-west-2a  10.20.10.0/24
+subnet-6a6a658984afec34c  app-b     eu-west-2b  10.20.11.0/24
+subnet-6dcdcc4c1aa6f316a  app-c     eu-west-2c  10.20.12.0/24
+subnet-dadf668b81f3ea59e  data-a    eu-west-2a  10.20.20.0/24
+subnet-5573025a2477f0e11  data-b    eu-west-2b  10.20.21.0/24
+subnet-3904e82466f5e9b7b  data-c    eu-west-2c  10.20.22.0/24
+$ aws ec2 describe-vpcs --filters Name=tag:Name,Values=shop-prod \
+> --query 'Vpcs[].[VpcId,CidrBlock]' --output text
+vpc-c8f25df7da1f67380	10.20.0.0/16
+vpc-f567805bc5d60c5e7	10.20.0.0/16
+$ bash infra/05-filters.sh
+
+aws: [ERROR]: An error occurred (InvalidGroup.Duplicate) when calling the CreateSecurityGroup operat
+ion: The security group 'sg-alb' already exists

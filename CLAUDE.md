@@ -39,7 +39,7 @@ so the plan is the only list of them.
 | 4 | `secure` | Lock it down | 8 | authored, awaiting owner review (no narration audio yet) |
 | 5 | `network` | Give it a network | 9 | authored, awaiting owner review (no narration audio yet) |
 | 6 | `run` | Run the app | 9 | authored, awaiting owner review (no narration audio yet) |
-| 7 | `automate` | Make it repeatable | 8 | planned |
+| 7 | `automate` | Make it repeatable | 8 | authored, awaiting owner review (no narration audio yet) |
 | 8 | `files` | Store its files | 7 | planned |
 | 9 | `orders` | Keep its orders | 9 | planned |
 | 10 | `decouple` | Decouple the checkout | 9 | planned |
@@ -101,6 +101,8 @@ What makes a replay deterministic, all of it about the machine:
 - A process a step starts in the background must have its output redirected (or the replay waits
   for it), and is stopped by its pid (`export SERVER=$!` … `kill $SERVER`) — `pkill -f` matches the
   replay's own shell. A typed line exactly the pane's width is refused as ambiguous.
+- moto's `cloudformation deploy` (a change set) records no outputs or exports; `create-stack` does —
+  use it where a later stack imports a value.
 - **Run one replay at a time** — every step takes port 5000.
 
 ## Verification levels — read before trusting a code card
@@ -171,7 +173,7 @@ the pages directly.
 | buckets | `shop-catalog-<acct>` (versioned: noncurrent expire 30 d; `exports/` → STANDARD_IA 30 d → GLACIER 90 d), `shop-uploads-111122223333` (review photos, presigned PUT 300 s, key `reviews/p-1001/photo-77.jpg`), `shop-reports-111122223333` (SSE-KMS `alias/shop-reports`, bucket key), `shop-releases-111122223333` |
 | S3 race | p-1001.json `{price 12.0, stock 40}`; price job → 10.0, stock job → 39; plain PUT ends `{12.0, 39}`, If-Match ends `{10.0, 39}` (moto) |
 | block / file | invoice service: 30 GiB gp3 in eu-west-2a → snapshot → restored in eu-west-2b (moto); EFS `shop-invoices-1` mounted at /mnt/invoices in all three AZs |
-| orders DB | RDS PostgreSQL 16 `shop-orders`, db.m7g.large, 100 GiB gp3, Multi-AZ (instance), encrypted, 7-day backups, deletion protection, password managed in Secrets Manager, subnet group `shop-data`, sg-db; max_connections 200 (assumed), 10 reserved, pool 20/server → 12 servers = 50 refused |
+| orders DB | RDS PostgreSQL 16.9 `shop-orders`, db.r7g.large (cfn-lint: 16.4 deprecated, db.m7g.large not offered here), 100 GiB gp3, Multi-AZ (instance), encrypted, 7-day backups, deletion protection, password managed in Secrets Manager, subnet group `shop-data`, sg-db; max_connections 200 (assumed), 10 reserved, pool 20/server → 12 servers = 50 refused |
 | order 501 | 2 × p-1001 (10.00, stock 40) + 2 × p-1002 (4.50, stock 1), total 29.00 → CHECK fails, rolled back (PostgreSQL 16) |
 | access mix | product by id ~450 reads/s, place order ~6 writes/s, a customer's orders ~40 reads/s (evening peak, assumed) |
 | DynamoDB | table `Orders` (PK customer, SK `<time>#<order>`), GSI `by-status` (2 values → hot key); `Stock`/`Orders` transaction: o-601 placed, o-602 ConditionalCheckFailed (moto) |
@@ -275,6 +277,14 @@ frame already quotes.
 | `ecs-task` | IDE: app/task-definition.json registered; ECR repo; two roles | `run-containers` |
 | `eks-choice` | illustrative Deployment manifest beside buys/costs and the verdict | `run-when-kubernetes-pays` |
 | `stateless-design` | IDE: carts.py (100 lost) then the real app's SIGTERM handling | `run-stateless-and-graceful` |
+| `scripts-twice` | map frame: 05-network.sh again → two shop-prod VPCs → InvalidGroup.Duplicate | `automate-when-the-scripts-stop-scaling` |
+| `declarative-vs-imperative` | script excerpt over template excerpt beside the comparison and what a stack holds | `automate-declarative-infrastructure` |
+| `first-stack` | IDE: templates/network.yaml, cfn-lint, deploy, deploy again (no changes) | `automate-a-first-stack` |
+| `params-and-secrets` | IDE: templates/filters.yaml (param, ImportValue, GetAtt, Export), create-stack, exports | `automate-parameters-outputs-and-references` |
+| `change-sets` | IDE: tools/replacement_preview.py (AWS resource schemas): /16 → /15 replaces 10 of 10 | `automate-change-sets-and-drift` |
+| `rollback-and-protection` | IDE: templates/orders-db.yaml; cfn-lint W3011 on a half-protected copy; illustrative events | `automate-rollback-and-stateful-resources` |
+| `deployment-strategies` | map frame: tools/traffic_shift.py (model): 1344 / 202 / 134 failed | `automate-releasing-the-app` |
+| `promotion-and-tools` | map frame: build → dev → prod, ShopDeploy trust policy, CFN / CDK / Terraform | `automate-one-artefact-two-accounts` |
 
 ## Engine notes (written against flow 1.3.0 / shell 0.10 — recheck on 2.2.0 / 0.14)
 

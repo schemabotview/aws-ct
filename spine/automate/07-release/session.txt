@@ -1,0 +1,4 @@
+$ python tools/traffic_shift.py
+all at once                    1344 failed requests before the alarm
+linear, 10% more a minute       202 failed requests before the alarm
+canary 10%, then the rest       134 failed requests before the alarm

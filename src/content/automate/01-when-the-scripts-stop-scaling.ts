@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const whenTheScriptsStopScaling: Section = {
+  id: 'when-the-scripts-stop-scaling',
+  title: 'When the scripts stop scaling',
+  scene: 'scripts-twice',
+  narration:
+    "Six courses of scripts have built the shop, and this one starts by running one of them again. The account already has the network and its security groups. In the terminal, infra zero five network runs a second time, and nothing stops it: create V P C does not ask whether a V P C called shop prod already exists, so the script makes a second one, with nine more subnets, and prints them all. Describing the V P Cs named shop prod now finds two, with the same range, and nothing but their I Ds to tell them apart. Then the filters script runs again. It looks up the V P C by name and takes the first of the two, which is the original, and tries to create s g a l b in it. That group already exists, and the call fails: invalid group dot duplicate. The table sums up what happened. The network script made a duplicate, because a create call never asks what exists. The lookup found two, because a name tag is a label, not an identity. And the filters script failed half way, because it picked a V P C that was already full. Now imagine this in production at night, with someone trying to fix one subnet. The list names the underlying problem. A script records steps to take, not the result you want. Run twice, it does the steps twice, or fails part of the way through and leaves things half built. And nothing records which resources the script made, so nothing can safely change or remove them later, short of a teardown script that has to be kept exactly in step. Every script in infra has this property. The rest of this course replaces them, starting with the network, with templates that describe the result instead. Next, what declaring infrastructure actually means.",
+}

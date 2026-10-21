@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const oneArtefactTwoAccounts: Section = {
+  id: 'one-artefact-two-accounts',
+  title: 'One artefact, two accounts',
+  scene: 'promotion-and-tools',
+  narration:
+    "The last piece is how a release crosses from the development account into production without anyone carrying credentials across. The first table follows commit nine f three c two e one. It is built once, in the dev account, into one image whose digest is recorded. That same digest is deployed to dev and tested. Then the pipeline deploys the same digest to production, by assuming a role there called ShopDeploy. What reaches production is byte for byte what was tested, never a rebuild. The policy in the middle is ShopDeploy's trust policy, and it is the gate. Its one statement, only the shop pipeline, allows s t s assume role, and its principal is a single role, ShopPipeline, in the dev account, four four four four, five five five five, six six six six. Its condition requires the caller to belong to the shop's organization. So no person can assume ShopDeploy, and no other role can either, not even another role in dev. ShopDeploy's own permissions, not shown, cover deploying the shop's stacks and services and nothing else. Production changes happen through this one door, which is also the door CloudTrail watches in Course twelve. The last table compares the tools for writing the templates themselves. CloudFormation is YAML or JSON, and its state is kept by the stack, in A W S. The C D K is code, in TypeScript or Python, that generates CloudFormation, so its state is also a stack. Terraform is its own language, works across providers, and keeps state in a file you must store and lock yourself. All three end in the same A P I calls; the choice is about the team, not A W S. That completes the infrastructure: declared, reviewed, promoted. Next course, where the shop's files live.",
+}

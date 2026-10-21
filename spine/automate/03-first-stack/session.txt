@@ -1,0 +1,17 @@
+$ cfn-lint templates/network.yaml && echo "lint: no findings"
+lint: no findings
+$ aws cloudformation deploy --stack-name shop-network \
+> --template-file templates/network.yaml
+
+Waiting for changeset to be created..
+Waiting for stack create/update to complete
+Successfully created/updated stack - shop-network
+$ aws cloudformation deploy --stack-name shop-network \
+> --template-file templates/network.yaml
+
+Waiting for changeset to be created..
+
+No changes to deploy. Stack shop-network is up to date
+$ aws cloudformation describe-stack-resources --stack-name shop-network \
+> --query 'length(StackResources)'
+10

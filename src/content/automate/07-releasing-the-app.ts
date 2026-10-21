@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const releasingTheApp: Section = {
+  id: 'releasing-the-app',
+  title: 'Releasing the app',
+  scene: 'deployment-strategies',
+  narration:
+    "Infrastructure changes rarely; the app changes all the time, and the stacks and the pipeline now light up on the map. Order A P I one point five point zero has a bug: two percent of its requests fail. How much damage that does depends on how it is released. The table gives the three ways. All at once, or rolling, replaces the old version on the servers in batches, and rolling back means deploying the old version again. Blue green with a linear shift starts a second set of servers and moves ten percent more of the traffic to it each minute; rolling back means shifting the traffic back. Blue green with a canary sends ten percent first, waits, then sends the rest. The terminal is a model, run locally, not a measurement. It assumes the evening peak of five hundred and sixty requests a second, and an error alarm that stops the release after two minutes. All at once, every request goes to the new version for those two minutes: one thousand three hundred and forty four failed requests before the alarm. Linear, ten then twenty percent of the traffic: two hundred and two. Canary, ten percent for both minutes: one hundred and thirty four. The same bug costs a tenth as much, because less traffic was exposed while the alarm made up its mind. The list is how the shop releases. Build once: one image with one digest, tested, and never rebuilt for production. Deploy with an identity of its own, never a person's credentials. Let CodeDeploy shift the load balancer's traffic, with a configuration such as E C S linear ten percent every one minute. And attach the error alarm, so the shift stops and reverses by itself. Next, how one artefact moves from the development account to production.",
+}

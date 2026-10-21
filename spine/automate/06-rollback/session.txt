@@ -1,0 +1,7 @@
+$ cfn-lint templates/orders-db.yaml && echo "lint: no findings"
+lint: no findings
+$ grep -v UpdateReplacePolicy templates/orders-db.yaml > half-protected.yaml
+$ cfn-lint half-protected.yaml
+W3011 Both 'UpdateReplacePolicy' and 'DeletionPolicy' are needed to protect resource
+ from deletion
+half-protected.yaml:11:3

@@ -1,0 +1,1 @@
+{"venv": true, "env": true, "setup": ["aws cloudformation create-stack --stack-name shop-network --template-body file://templates/network.yaml", "aws cloudformation wait stack-create-complete --stack-name shop-network"]}

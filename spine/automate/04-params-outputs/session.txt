@@ -1,0 +1,17 @@
+$ aws cloudformation create-stack --stack-name shop-filters \
+> --template-body file://templates/filters.yaml \
+> --parameters ParameterKey=AppPort,ParameterValue=8080 > /dev/null
+$ aws cloudformation wait stack-create-complete --stack-name shop-filters
+$ aws cloudformation describe-stacks --stack-name shop-filters \
+> --query 'Stacks[0].[StackStatus,Parameters[0].ParameterValue]' --output text
+CREATE_COMPLETE	8080
+$ aws cloudformation list-exports --query 'Exports[].[Name]' --output text
+shop-vpc-id
+shop-app-a-id
+shop-app-b-id
+shop-app-c-id
+shop-data-a-id
+shop-data-b-id
+shop-data-c-id
+shop-sg-app
+shop-sg-db

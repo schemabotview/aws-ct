@@ -1,0 +1,14 @@
+$ cp templates/network.yaml network-v14.yaml
+$ sed -i 's#10.20.0.0/16#10.20.0.0/15#' templates/network.yaml
+$ python tools/replacement_preview.py network-v14.yaml templates/network.yaml
+Vpc      Replace   CidrBlock
+PublicA  Replace   VpcId
+PublicB  Replace   VpcId
+PublicC  Replace   VpcId
+AppA     Replace   VpcId
+AppB     Replace   VpcId
+AppC     Replace   VpcId
+DataA    Replace   VpcId
+DataB    Replace   VpcId
+DataC    Replace   VpcId
+10 of 10 resources replaced

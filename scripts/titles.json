@@ -5,5 +5,6 @@
   "start": "AWS CLI Setup: Root User Safety, IAM Identity Center SSO Login, Your First S3 Bucket, Costs and Cleanup",
   "secure": "AWS IAM Explained: Identity Center, Roles and Trust Policies, Policy Evaluation, Cross-Account Access and SCPs",
   "network": "AWS VPC Networking: CIDR, Subnets, Route Tables, NAT Gateway, Security Groups, Route 53, TLS and Load Balancers",
-  "run": "Run Apps on AWS: EC2 Launch Templates, Instance Types and Spot, Systems Manager, Auto Scaling, ECS Fargate and EKS"
+  "run": "Run Apps on AWS: EC2 Launch Templates, Instance Types and Spot, Systems Manager, Auto Scaling, ECS Fargate and EKS",
+  "automate": "AWS CloudFormation Explained: Templates, Stacks, Exports, Change Sets, Rollback and Blue/Green Deployments"
 }
