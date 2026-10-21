@@ -193,7 +193,7 @@ is at the end.
 
 **1. `why-cloud` · Why the cloud · 5 sections**
 1. One shop, one server — the product page on a machine you own, and what an evening peak does to it · concept
-2. Renting instead of owning — on-demand capacity, elasticity, and the 1 / 2 / 4-server day · map
+2. Renting instead of owning — on-demand capacity, elasticity, and the 1 / 2 / 4-server day · concept
 3. Managed services — what AWS runs for you, from a virtual machine to a queue · concept
 4. Shared responsibility — infrastructure, configuration, application and data ownership across EC2, RDS, Lambda and S3 · concept
 5. What we will build — the finished shop on one map, and the course as its route · map

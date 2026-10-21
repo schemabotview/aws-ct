@@ -3,11 +3,11 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "description": "AWS content repo for GraphL \u2014 authors scenes (react-flow diagrams + code cards) and slides per section for the AWS course, renders them full-frame, and captures screenshots + coords for the compose pipeline. The render engine is @graphlearning/flow; the app shell is @graphlearning/shell.",
+  "description": "AWS content repo for GraphL \u2014 one project, shop-on-aws, built from an empty account to production. Scene-only sections (map, terminal and IDE frames); the render engine is @graphlearning/flow, the app shell @graphlearning/shell.",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "check": "node scripts/check-content.mjs && node scripts/check-icons.mjs && node scripts/check-plan.mjs",
+    "check": "node scripts/check-content.mjs && node scripts/check-icons.mjs && node scripts/check-plan.mjs && node scripts/check-render.mjs",
     "preview": "vite preview",
     "build:snapshot": "vite build --outDir dist-snapshot",
     "capture": "vite preview --outDir dist-snapshot --port 5181",
@@ -18,8 +18,7 @@
     "gen:audio": "graphl-gen-audio",
     "gen:desc": "graphl-gen-desc",
     "thumb": "graphl-thumb",
-    "check:aws": "python3 scripts/check-aws.py",
-    "shot": "node scripts/shot.mjs"
+    "check:aws": "python3 scripts/check-aws.py"
   },
   "dependencies": {
     "@graphlearning/flow": "^2.2.0",

@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const managedServices: Section = {
+  id: 'managed-services',
+  title: 'Managed services',
+  scene: 'managed-services',
+  narration:
+    "Renting servers moves the hardware to A W S, but the shop still runs everything on them. A managed service goes further: A W S runs the software too, and you use it through an A P I. The row across the top is a ladder, from the most work to the least. Each card lists what you still run, and underneath it, what A W S runs for you. On the far left is your own server, where you run all of it: the building, the power, the hardware, the operating system, the database software, and finally your own code and data. One step right is E C two, A W S's virtual machines. The building and hardware are gone from your list, but the operating system, its security patches and any database you install are still yours. Next is R D S, a managed relational database. You no longer install or patch the database engine; you choose its size, its backup settings and the weekly window in which A W S applies patches, and you own the tables, the queries and the data. Then Lambda, which runs a function when something calls it. There are no servers to see at all: you supply the code, its memory, its timeout and its permissions, and A W S keeps the runtime patched. On the right is S Q S, a message queue that is purely a service. You choose its settings and who may use it, and send it messages. Nothing else is yours. The table below says what moving right costs as well as buys. You do fewer jobs, but you give up control: versions, operating system access, deep tuning. You inherit the service's limits, which A W S documents as quotas. And you pay closer to what you use, per request or per gigabyte rather than per machine. The shop uses all four, each where it fits, and the list says where they arrive. Next, how security is split between you and A W S along this same ladder.",
+}

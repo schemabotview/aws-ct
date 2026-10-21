@@ -26,10 +26,40 @@ surface is `src/content/`, `src/scenes/`, `src/main.tsx`, `src/theme.css` and `s
 ## Course arc and status
 
 **Reset on 2026-10-21**: every course, scene, hidden verification and wav of the previous
-12-chapter, slide-based course was deleted, for a re-plan around one project built step by step
-(the python-ct / apache-spark-ct method). The new plan is in `AWS-COURSE-PLAN.md`; nothing is
-registered in `src/content/index.ts` / `src/scenes/index.ts` yet. `scripts/check-plan.mjs` reads
-the course ids, titles and section titles from the plan, so the plan is the only list of them.
+12-chapter, slide-based course was deleted, and the subject re-planned in `AWS-COURSE-PLAN.md`
+around one project built step by step (the python-ct / apache-spark-ct method).
+`scripts/check-plan.mjs` reads the course ids, titles, section titles and frame tags from the plan,
+so the plan is the only list of them.
+
+| # | Course id | Course | Sections | Status |
+| --- | --- | --- | --- | --- |
+| 1 | `why-cloud` | Why the cloud | 5 | authored, awaiting owner review (no narration audio yet) |
+| 2 | `how-aws-runs` | How AWS runs a request | 6 | planned |
+| 3 | `start` | Start the project | 6 | planned |
+| 4 | `secure` | Lock it down | 8 | planned |
+| 5 | `network` | Give it a network | 9 | planned |
+| 6 | `run` | Run the app | 9 | planned |
+| 7 | `automate` | Make it repeatable | 8 | planned |
+| 8 | `files` | Store its files | 7 | planned |
+| 9 | `orders` | Keep its orders | 9 | planned |
+| 10 | `decouple` | Decouple the checkout | 9 | planned |
+| 11 | `report` | Report on sales | 7 | planned |
+| 12 | `operate` | Operate it | 10 | planned |
+| 13 | `evolve` | Measure, tune and evolve it | 11 | planned |
+
+## Frames
+
+Sections are **scene-only** (no `slide`; `check-content.mjs` fails on one). Four kinds, tagged per
+section in the plan:
+
+- **Map frame** — `mapFrame(id, built, side)` in `src/scenes/map.ts`: the shop's ONE architecture map
+  (`shopMap`) at its natural size on the left, a side pane pinned to fill a 16:9 frame on the right.
+  Every part is always drawn with the same label, so the map never moves; a part not built yet trades
+  its AWS logo for a grey `box` outline (an AWS logo ignores `pattern`, so the logo itself has to go).
+  `BUILT_BY[n]` is what the shop has at the end of course n. `MAP_W` × `MAP_H` (924 × 1078) is the
+  map as `computeLayout` places it — re-measure if a part's label changes. `check-render.mjs` fails a
+  map frame whose map or side pane moves.
+- **Concept frame** — any scene; author wide, not tall (the frame is 16:9).
 
 ## Verification levels — read before trusting a code card
 
@@ -66,7 +96,7 @@ verified through web search of those pages, and the URLs cited are the AWS pages
 Allowing `docs.aws.amazon.com` in the environment's network settings would let later chapters read
 the pages directly.
 
-## The fixed example — the shop (frozen: slides quote these numbers)
+## The fixed example — the shop (frozen: frames quote these numbers)
 
 | fact | value |
 | --- | --- |
@@ -132,32 +162,38 @@ the pages directly.
 | review | ranked: rotation 4.0, runbook link 4.0, cross-Region restore 3.0, NAT 3.0, untagged 3.0, log retention 3.0, p99 2.0, multi-Region active/active 1.0 |
 
 Public IPs in examples come from `203.0.113.0/24` / `198.51.100.0/24` (documentation ranges). Extend this table — never change a value a
-slide already quotes.
+frame already quotes.
 
 ## Authoring conventions
 
-- **Section shape:** objective → mental model → worked example → misconception → explanation
-  summary (headings on the slide), bridge at the chapter's end. Explain a term before relying on it.
-  Following along is optional; no exercises, assessments or "your tasks". Never claim the learner has
-  achieved competence.
+- **Section shape:** objective → mental model → worked example → misconception or contrast →
+  bridge. One idea per frame. Explain a term before relying on it. Following along is optional; no
+  exercises, assessments or "your tasks". Never claim the learner has achieved competence.
 - **Introduce access, logs, cost and failure boundaries with their first operation**, deepen later.
 - **Label variants before claiming behaviour** (RDS Multi-AZ instance vs cluster vs Aurora; DynamoDB
   table/index, regional/global; Lambda sync/async/event-source mapping; which Kinesis service).
-- **Slides:** target 860–1020 rendered px (the `shot` script's 80–95 %). One line per bullet wherever
-  possible — a wrapped bullet costs ~38 px. Inline code **wraps badly** (`eu-west-2` broke across two
-  lines); write identifiers as plain text on slides when they would sit at a line end.
+- **Narration is flowing prose, 90–180 s**, that walks the frame left to right and never reads code
+  aloud character by character. Every fact on the frame gets its sentence. It ends with a one-line
+  bridge to the next section.
 - **Narration is written for the speech engine:** spell acronyms as letters — "A W S", "E C two",
   "S three", "I A M", "V P C", "A R N", "S D K", "C L I", "A P I", "D N S", "H T T P S", "M F A",
-  "S T S", "R D S", "J S O N"; "Route fifty three"; "E U west two"; account ids digit by digit in
-  groups ("four four four four, five five five five, six six six six"); prices as words. Every fact
-  on a slide gets its sentence in the narration.
+  "S T S", "R D S", "S Q S", "K M S", "J S O N"; "Route fifty three"; "E U west two"; account ids digit
+  by digit in groups ("four four four four, five five five five, six six six six"); prices as words.
+- **A claim that is not computed on screen** (a default, a quota, who patches what) carries its
+  source URL as a `// source:` comment in the scene file.
 - **Out of scope** (per the plan): advanced Kubernetes, landing-zone implementation, specialised
   networking, database internals, full data-engineering platforms, ML/AI, IoT, media, HPC; SQL, Python,
   Spark, system design and Databricks have their own courses.
 
 ## Scene inventory
 
-Empty since the 2026-10-21 reset.
+| Scene id | Shape | Used by |
+| --- | --- | --- |
+| `one-server` | one-server request path + owning list beside the demand-day plot and two tables | `why-cloud-one-shop-one-server` |
+| `elastic-day` | shopper → load balancer → 1/2/4 servers beside the elastic-capacity plot and the day's bill | `why-cloud-renting-instead-of-owning` |
+| `managed-services` | own server → EC2 → RDS → Lambda → SQS, each "you run" over "AWS runs", above the trade | `why-cloud-managed-services` |
+| `shared-responsibility` | IN the cloud (you) over OF the cloud (AWS) beside the who-patches matrix and incidents | `why-cloud-shared-responsibility` |
+| `shop-on-aws` | map frame: the finished shop beside the course-as-route table | `why-cloud-what-we-will-build` |
 
 ## Engine notes (written against flow 1.3.0 / shell 0.10 — recheck on 2.2.0 / 0.14)
 
@@ -190,6 +226,8 @@ Empty since the 2026-10-21 reset.
 
 - **Never write `x` or `y`.** Scenes are declarative: nodes, edges, nesting.
 - **Do not reimplement the shell** (`SectionView`, `CourseIndex`, `SlidePanel`, hooks).
+- **Node ids are unique within a scene** — a map frame owns the bare part ids (`lb`, `app`, `db`, …),
+  so a side pane must not reuse them (`check-render.mjs` catches it before the browser hangs).
 - **`SiteHeader` goes on the catalog page only.**
 - **Three stylesheets, in cascade order** in `main.tsx`: flow, shell, then `./theme.css` last.
 - **`file:../ui-flow` / `file:../ui-shell` must never be committed.**
@@ -200,16 +238,16 @@ Empty since the 2026-10-21 reset.
 
 ```sh
 npx tsc --noEmit && npm run build && npm run check && npm run check:aws
-npm run dev &                        # then:
-node scripts/shot.mjs <outDir> [slug …]   # 1920×1080 renders; reports clipping, density, eyebrow
+node scripts/snap.mjs <outDir> [slug-prefix …]   # 1920×1080 captures to look at
 ```
 
-`check` = layout budgets + icon names + plan conformance. `node scripts/measure-slides.mjs` models
-slide height offline (±3.5 %). All of these are a **floor, not proof** — look at the rendered route.
+`check` = scene-only content + icon names + plan conformance + `check-render.mjs` (every section at
+3840×2160: text leaving its node, clipped content, IDE panes and the map that move). All of these are
+a **floor, not proof** — look at the rendered route.
 
 ## Working agreement
 
-- **Author the whole unit, then hand over the route.** Scenes, slides and narration together.
+- **Author the whole unit, then hand over the route.** Scenes, spine steps and narration together.
 - **No ASCII sketches of scenes.**
 - **No silent scaffolding**, no work outside the ask. Say plainly what was built, what was verified,
   and what was left out.
