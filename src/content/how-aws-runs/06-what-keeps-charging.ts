@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const whatKeepsCharging: Section = {
+  id: 'what-keeps-charging',
+  title: 'What keeps charging',
+  scene: 'what-keeps-charging',
+  narration:
+    "Every resource has a meter, and the meters do not all stop together. The table on the left lists the ones the shop will use, at this course's hypothetical rates: invented, realistic numbers, labelled whenever they appear, because real prices change and differ by Region. An E C two instance bills by the hour while it runs, at four cents an hour, and nothing while it is stopped. Its E B S volume bills for every gigabyte you have provisioned, eight cents a gigabyte-month, whether the instance is running, stopped, or the volume is not attached at all. A public I P version four address bills half a cent an hour for as long as you hold it. A snapshot bills five cents a gigabyte-month for as long as it is kept. S three bills for what it stores, plus a charge per request. Data leaving A W S for the internet bills by the gigabyte, and data coming in is free. The table on the right is the shop's development account for one month. Running all month, the instance costs twenty nine dollars twenty. The volume adds one sixty, the address three sixty five, a snapshot one dollar, and thirty three gigabytes in S three seventy six cents: thirty six dollars twenty one. Stop the instance, and only its line goes to zero. The month still costs seven dollars and one cent, because stopping is not deleting, and everything that was provisioned is still there. The list gives the three shapes every bill takes: per hour for things that exist, like servers, addresses and gateways; per gigabyte for storage and for data leaving; and per request for calls to services like S three, queues and functions. Course three turns this into the shop's own cost ledger and its cleanup script, from the first resource it creates. Next, the project itself.",
+}

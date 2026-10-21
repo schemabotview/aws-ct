@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const anatomyOfARequest: Section = {
+  id: 'anatomy-of-a-request',
+  title: 'Anatomy of a request',
+  scene: 'request-anatomy',
+  narration:
+    "Here is one request, taken apart, against the shop's map. The map is all grey except the buckets, because the shop builds nothing until Course three; for this one section a catalog bucket already exists, holding one product file. The terminal is emulated. Every command in this course runs the real A W S C L I and the real boto three, pointed at a local emulator rather than at A W S, and the pane's title says so whenever that is true. The first command is the head object call from the last section. The answer is the object's details, not its contents: its length, one thousand eight hundred and thirty four bytes; its type, J S O N; its E tag, a fingerprint of the content; and when it was last modified. The second command makes the same call through boto three, with a small hook that prints the request just before it is sent. The method is HEAD, and the U R L is S three's endpoint in E U west two, followed by the bucket and the key. Then comes the signature. The algorithm is A W S four H M A C S H A two fifty six, signature version four. The access key is the public half of a credential, here A W S's own documentation example. The scope ties the signature to one day, one Region and one service, so a captured request cannot be replayed elsewhere or later. The signed headers list what the signature covers, including the host and the time. And the signature itself is a keyed hash of the whole request, made with the secret half of the key, which never leaves your machine. Then the answer: status two hundred, and the same length. The table at the bottom names the six parts. An endpoint, an action, a resource, an identity, a scope and a signature are in every request you will ever send. Next, the names that resources go by: A R Ns.",
+}

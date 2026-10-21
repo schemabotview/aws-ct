@@ -1,4 +1,5 @@
 {
   "_comment": "Curated publish titles (YouTube title + thumbnail header) per course, keyed by course id. Search-first: what someone would actually type, never 'Course 4'. One entry per course in src/content/index.ts.",
-  "why-cloud": "Why the Cloud? AWS Elasticity, Managed Services and the Shared Responsibility Model"
+  "why-cloud": "Why the Cloud? AWS Elasticity, Managed Services and the Shared Responsibility Model",
+  "how-aws-runs": "How AWS Works: Regions, Availability Zones, API Calls, SigV4 Request Signing, ARNs and Billing"
 }

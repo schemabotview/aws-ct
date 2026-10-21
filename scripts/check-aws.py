@@ -73,7 +73,7 @@ PARLIAMENT_ERRORS = {
     "BAD_PATTERN_FOR_MFA", "NO_VERSION", "INVALID_VERSION",
 }
 problems: list[str] = []
-tally: dict[str, int] = {lvl: 0 for lvl in LEVELS}
+tally: dict[str, int] = {lvl: 0 for lvl in LEVELS | {"replayed"}}
 notes: list[str] = []
 
 
@@ -354,6 +354,29 @@ def check_yaml(where: str, text: str) -> None:
         problems.append(f"{where}: cfn-lint {m.rule.id} line {m.linenumber}: {m.message}")
 
 
+_spine: set[str] | None = None
+
+
+def spine_files() -> set[str]:
+    global _spine
+    if _spine is None:
+        _spine = {f.read_text(errors="replace").rstrip("\n") for f in (ROOT / "spine").rglob("*") if f.is_file() and "project" in f.parts}
+    return _spine
+
+
+def static_check(where: str, name: str, text: str) -> None:
+    """The checks a spine file's type allows without running it (the replay already ran it)."""
+    if name.endswith(".sh"):
+        check_bash(where, text)
+        check_cli(where, text)
+    elif name.endswith(".asl.json"):
+        check_asl(where, text)
+    elif name.endswith(".json") and '"Statement"' in text:
+        check_json(where, text)
+    elif name.endswith((".yaml", ".yml")) and "Resources:" in text:
+        check_yaml(where, text)
+
+
 def main() -> None:
     scenes = load_scenes()
     for sid, scene in scenes.items():
@@ -367,7 +390,13 @@ def main() -> None:
             if n["id"].endswith("-out") and n["id"][:-4] in by_id:
                 continue  # an output card: checked through its program
             if " · " not in fname:
-                problems.append(f"{where}: filename '{fname}' declares no verification level (`name · level`)")
+                # A card cut from the spine needs no level: scripts/spine.py replays the session that
+                # runs it. It must BE a spine file, byte for byte, and gets its file type's static check.
+                if n["label"].rstrip("\n") in spine_files():
+                    tally["replayed"] += 1
+                    static_check(where, fname, n["label"])
+                else:
+                    problems.append(f"{where}: filename '{fname}' declares no verification level (`name · level`) and is not a spine file")
                 continue
             name, level = (s.strip() for s in fname.rsplit(" · ", 1))
             if level not in LEVELS:
@@ -415,7 +444,7 @@ def main() -> None:
         r = subprocess.run([sys.executable, "-I", str(f)], capture_output=True, text=True, timeout=300)
         if r.returncode:
             problems.append(f"{f.relative_to(ROOT)}: failed\n{(r.stdout + r.stderr).strip()[-800:]}")
-    print("  " + "  ".join(f"{lvl}: {tally[lvl]}" for lvl in sorted(LEVELS)) + f"  hidden verifications: {len(hidden)}")
+    print("  " + "  ".join(f"{lvl}: {tally[lvl]}" for lvl in sorted(tally)) + f"  hidden verifications: {len(hidden)}")
     for n in notes:
         print("  · " + n)
     if problems:

@@ -1,0 +1,19 @@
+$ aws s3api head-object --bucket shop-catalog-111122223333 --key products/p-1001.json
+{
+    "AcceptRanges": "bytes",
+    "LastModified": "2026-10-12T09:30:00+00:00",
+    "ContentLength": 1834,
+    "ETag": "\"e1daca0441a4c6a172455c1b1bd7570f\"",
+    "ContentType": "application/json",
+    "Metadata": {}
+}
+$ python request_parts.py
+method        HEAD
+url           https://s3.eu-west-2.amazonaws.com/shop-catalog-111122223333/products/p-1001.json
+algorithm     AWS4-HMAC-SHA256
+access key    AKIAIOSFODNN7EXAMPLE
+scope         20261012 eu-west-2 s3
+signed        host;x-amz-content-sha256;x-amz-date
+signature     8464cb48c86e27ea0ad845bc0c4ea7c22f0a0a5c5c1fe79c29e4746e7bd86df3
+status        200
+length        1834 bytes

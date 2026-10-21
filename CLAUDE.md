@@ -34,7 +34,7 @@ so the plan is the only list of them.
 | # | Course id | Course | Sections | Status |
 | --- | --- | --- | --- | --- |
 | 1 | `why-cloud` | Why the cloud | 5 | authored, awaiting owner review (no narration audio yet) |
-| 2 | `how-aws-runs` | How AWS runs a request | 6 | planned |
+| 2 | `how-aws-runs` | How AWS runs a request | 6 | authored, awaiting owner review (no narration audio yet) |
 | 3 | `start` | Start the project | 6 | planned |
 | 4 | `secure` | Lock it down | 8 | planned |
 | 5 | `network` | Give it a network | 9 | planned |
@@ -61,6 +61,27 @@ section in the plan:
   map frame whose map or side pane moves.
 - **Concept frame** — any scene; author wide, not tall (the frame is 16:9).
 
+## The spine: commands are replayed, not pasted
+
+Every terminal pane, and every file shown in an editor, comes from `spine/<course>/<NN-step>/`:
+`project/` is a snapshot of `shop-on-aws/` (or a Course 2 demo, `project` key), `session.txt` is the
+transcript, `step.json` the step's settings (documented in `scripts/spine.py`). Scenes import these
+with `?raw`. `npm run check:spine` replays every step in a fresh copy and fails on any difference;
+`python3 scripts/spine.py --write [course/NN]` regenerates after an edit.
+
+What makes a replay deterministic, all of it about the machine:
+- **The real AWS CLI v2 (2.38.4) and boto3, against a fresh moto server per step** on
+  `localhost:5000` — the address `env.sh` names. A pane that shows one is titled `· emulated`.
+- **moto is seeded** (`/moto-api/seed`), so `vpc-…`, `i-…` and request ids repeat exactly.
+- **The clock is frozen** by libfaketime at the step's `time` (default 2026-10-12 09:30:00 UTC),
+  running at 1/1000 speed, so timestamps, `X-Amz-Date` and SigV4 signatures repeat exactly.
+- **In output, `http://localhost:5000` becomes the regional endpoint** the same call has on AWS
+  (`https://<service>.eu-west-2.amazonaws.com`), except on a line that sets `AWS_ENDPOINT_URL`.
+- Output is hard-wrapped at the pane's width: 84 columns in an IDE terminal, `"columns": 100` in a
+  map frame's side pane. A command longer than that wraps too, and the replay rejoins it.
+- Use `AWS_DEFAULT_REGION`, not `AWS_REGION`: boto3 1.43 ignores the latter and signs for us-east-1.
+- **Run one replay at a time** — every step takes port 5000.
+
 ## Verification levels — read before trusting a code card
 
 There is no AWS account behind this course, so the SQL/Spark rule "every result was produced by a
@@ -74,6 +95,7 @@ its `filename` after ` · `, and `npm run check:aws` (`scripts/check-aws.py`) pr
 | `emulated` | behaviour from moto's emulator, **not AWS** | runs the `.py` card like `runs locally` |
 | `doc-cited` | AWS documentation says so | the scene file must carry a `// source: https://…` comment |
 | `illustrative` | made-up but realistic; nothing checks it | counted, so unverified cards stay visible |
+| `replayed` | a spine file; its filename carries no level | the card's text must equal a file under `spine/**/project/` byte for byte, and gets its type's static check (`.sh` bash -n + CLI model, policy `.json` parliament, `.yaml` cfn-lint, `.asl.json`) — `check:spine` already ran it |
 
 **Hidden verifications — `verify/<course>/*.py`.** Claims a board makes that no card can show (which
 request a policy allows, implicitly denies or explicitly denies) are asserted there, usually against
@@ -194,6 +216,12 @@ frame already quotes.
 | `managed-services` | own server → EC2 → RDS → Lambda → SQS, each "you run" over "AWS runs", above the trade | `why-cloud-managed-services` |
 | `shared-responsibility` | IN the cloud (you) over OF the cloud (AWS) beside the who-patches matrix and incidents | `why-cloud-shared-responsibility` |
 | `shop-on-aws` | map frame: the finished shop beside the course-as-route table | `why-cloud-what-we-will-build` |
+| `region-boundaries` | eu-west-2's three AZs (c lost) above the boundaries list and two failure tables | `how-aws-runs-regions-and-availability-zones` |
+| `service-scopes` | global / Regional / zonal tiles above the what-it-means table | `how-aws-runs-global-regional-and-zonal-services` |
+| `api-everywhere` | console / CLI / SDK → endpoint → S3 beside the same call as CLI and boto3 | `how-aws-runs-every-action-is-an-api-call` |
+| `request-anatomy` | map frame: replayed head-object + request_parts.py (`spine/how-aws-runs/04-anatomy`) | `how-aws-runs-anatomy-of-a-request` |
+| `arn-anatomy` | the queue ARN's six fields beside the shop's ARNs table | `how-aws-runs-arns-and-resource-identity` |
+| `what-keeps-charging` | the hypothetical meters table beside the dev account's month, running vs stopped | `how-aws-runs-what-keeps-charging` |
 
 ## Engine notes (written against flow 1.3.0 / shell 0.10 — recheck on 2.2.0 / 0.14)
 

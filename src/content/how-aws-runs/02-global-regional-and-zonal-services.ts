@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const globalRegionalAndZonalServices: Section = {
+  id: 'global-regional-and-zonal-services',
+  title: 'Global, Regional and zonal services',
+  scene: 'service-scopes',
+  narration:
+    "Every A W S resource lives at one of three scopes, and the scope decides what a failure takes with it. On the left are the global services, one for the whole account wherever you work: I A M, which holds identities and permissions; Route fifty three, the D N S service; CloudFront, the content delivery network; and Organizations, which groups accounts. In the middle are Regional resources, which live in one Region and spread themselves across its zones: an S three bucket, a DynamoDB table, an S Q S queue, a Lambda function, and a V P C, the shop's private network. On the right are zonal resources, which live in exactly one Availability Zone: an E C two instance, an E B S volume, which is the instance's disk, and a subnet, the slice of a V P C that sits in one zone. The table below says what each scope means when a zone fails. An I A M role is global, so you choose nothing, and a zone failure does not touch it. An S three bucket and a DynamoDB table are Regional: you choose the Region, and A W S keeps copies in several zones, so a zone failure loses no data. A subnet, an instance and a volume are zonal, and go down with their zone. A volume also attaches only to an instance in its own zone, which is why moving a disk between zones means a snapshot, as Course eight shows. The list on the right is how to choose a Region at all. Close to the shoppers, for lower latency. Where the data is allowed to live. The price, which differs by Region. And whether every service you need is offered there. The practical rule is simple: zonal resources are where you must spread for availability yourself; Regional services do much of that spreading for you. Next, how you actually ask A W S for any of this.",
+}

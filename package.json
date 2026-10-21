@@ -18,7 +18,8 @@
     "gen:audio": "graphl-gen-audio",
     "gen:desc": "graphl-gen-desc",
     "thumb": "graphl-thumb",
-    "check:aws": "python3 scripts/check-aws.py"
+    "check:aws": "python3 scripts/check-aws.py",
+    "check:spine": "python3 scripts/spine.py"
   },
   "dependencies": {
     "@graphlearning/flow": "^2.2.0",

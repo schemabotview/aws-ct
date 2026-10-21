@@ -1,0 +1,11 @@
+{
+  "project": "how-aws-runs",
+  "venv": true,
+  "env": true,
+  "endpoint": "s3",
+  "setup": [
+    "aws s3api create-bucket --bucket shop-catalog-111122223333 --create-bucket-configuration LocationConstraint=eu-west-2",
+    "aws s3api put-object --bucket shop-catalog-111122223333 --key products/p-1001.json --body products/p-1001.json --content-type application/json"
+  ],
+  "columns": 100
+}

@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const regionsAndAvailabilityZones: Section = {
+  id: 'regions-and-availability-zones',
+  title: 'Regions and Availability Zones',
+  scene: 'region-boundaries',
+  narration:
+    "Renting a server raises a question owning one never did: where is it? A W S answers with two boundaries, and both are about failure. The larger is the Region. A Region is a separate geographic area with its own copy of the services and its own endpoints, and the shop lives in one: E U west two, in London, close to its shoppers. Inside a Region are Availability Zones. E U west two has three, called a, b and c. Each zone is one or more data centres with their own power, cooling and network, far enough apart that a fire or a flood in one should not reach another, and close enough to be joined by fast private links. One detail in the list matters later: the names are per account. Your zone two a may be a different building from mine; the zone I D is the name that means the same place for everyone. The table on the right reads each failure against its boundary. A server fails, and the shop survives on another server. A data centre fails, and it survives on servers in other zones. A whole zone fails, drawn here as zone c in red, and the shop survives only if it has servers in the other two. A Region fails, and only a second Region helps, which is the last course's question. The second table makes this concrete with the shop's evening. The peak needs four servers. Put two in each of two zones and lose one zone, and two are left: not enough. Put two in each of three zones, six in all, and losing any zone still leaves four. That is the price of surviving a zone: capacity you hold in reserve, which the shop will pay for deliberately in Course six. Next, which services live in a zone, which in a Region, and which are global.",
+}

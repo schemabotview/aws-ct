@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const arnsAndResourceIdentity: Section = {
+  id: 'arns-and-resource-identity',
+  title: 'ARNs and resource identity',
+  scene: 'arn-anatomy',
+  narration:
+    "A request named its bucket and its key. Policies, logs and other services need a name that is unique across every account and Region in the world, and that name is an A R N, an Amazon Resource Name. On the left is the A R N of the shop's order queue, split into its six fields, read in pairs from the top. Every A R N starts with the letters arn. Then the partition, a w s for the ordinary commercial Regions. Then the service, S Q S. Then the Region, E U west two. Then the account, one one one one, two two two two, three three three three. And last, the resource, the queue called order events. The table on the right shows the whole queue A R N in its first row, then more of the shop's resources, and they are not all the same shape. The order queue has every field. The app's I A M role has no Region, because I A M is global, so that field is simply empty. The catalog bucket has neither a Region nor an account, because bucket names are already unique worldwide. One product file is the bucket's A R N, a slash, and the object's key. Every product file is the same with a star in place of the file name, which is how a policy will say all of these at once. And a server is an E C two instance A R N, with its Region, its account and its instance I D. The list says how to read one. An empty field means the service does not need it. I A M has no Region. Bucket names need no Region and no account. A star matches many resources. And in Course four the shop's policies will name exactly what they allow by A R N, so getting one wrong grants the wrong thing, or nothing at all. Next, the last idea before the project starts: what these resources cost, and which ones keep costing when you think you have stopped them.",
+}
