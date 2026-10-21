@@ -10,8 +10,8 @@ The GraphL concept app for **AWS**, authored from **`AWS-COURSE-PLAN.md`** (appr
 One section = one slide. The plan is not edited here: it is reviewed upstream in `toc`
 (`toc/src/AWS-COURSE-PLAN.md`, identical at the time of scaffolding).
 
-Engine `@graphlearning/flow@^1.2.0` (resolves 1.3.0, which ships AWS service icons); shell
-`@graphlearning/shell@^0.10.1` (the SQL repo's version, not the template's 0.8). This repo's own
+Engine `@graphlearning/flow@^2.2.0` (own renderer, react-flow removed); shell
+`@graphlearning/shell@^0.14.0` (headerless section frames, `SCENE_ASPECT`). This repo's own
 surface is `src/content/`, `src/scenes/`, `src/main.tsx`, `src/theme.css` and `scripts/`.
 
 ## Route contract
@@ -25,28 +25,10 @@ surface is `src/content/`, `src/scenes/`, `src/main.tsx`, `src/theme.css` and `s
 
 ## Course arc and status
 
-Chapters are authored one at a time, each reviewed by the owner on its rendered routes before the next
-begins. A course is registered in `src/content/index.ts` / `src/scenes/index.ts` only once authored.
-Each numbered plan item is exactly one section, in plan order, file `NN-<id>.ts` with `NN` = the item
-number; its `title` is the plan's wording **verbatim** (`scripts/check-plan.mjs` enforces this).
-
-| # | Course id | Chapter | Sections | Status |
-| --- | --- | --- | --- | --- |
-| 1 | `foundations` | Cloud Foundations and a Safe First Workload | 6 | authored, awaiting owner review (no narration audio yet) |
-| 2 | `identity` | Identity, Permissions, and Account Governance | 7 | authored, awaiting owner review (no narration audio yet) |
-| 3 | `networking` | Networking and the Request Path | 9 | authored, awaiting owner review (no narration audio yet) |
-| 4 | `compute` | Compute and Elastic Application Capacity | 8 | authored, awaiting owner review (no narration audio yet) |
-| 5 | `storage` | Storage and the Data Lifecycle | 7 | authored, awaiting owner review (no narration audio yet) |
-| 6 | `databases` | Databases and Application Access Patterns | 8 | authored, awaiting owner review (no narration audio yet) |
-| 7 | `integration` | APIs, Serverless Execution, and Asynchronous Work | 9 | authored, awaiting owner review (no narration audio yet) |
-| 8 | `analytics` | Data Movement and Analytical Workloads | 7 | authored, awaiting owner review (no narration audio yet) |
-| 9 | `delivery` | Repeatable Infrastructure and Delivery | 7 | authored, awaiting owner review (no narration audio yet) |
-| 10 | `operations` | Production Visibility, Security, and Recovery | 10 | authored, awaiting owner review (no narration audio yet) |
-| 11 | `optimisation` | Performance, Cost, and Sustainability | 6 | authored, awaiting owner review (no narration audio yet) |
-| 12 | `architecture` | Architecture Evolution and Justified Decisions | 5 | authored, awaiting owner review (no narration audio yet) |
-
-Each course's `index.ts` carries the plan's objective, worked illustrations, outcome and bridge as a
-comment; the bridge is also the last words of the chapter's final narration.
+**Reset on 2026-10-21**: every course, scene, hidden verification and wav of the previous
+12-chapter, slide-based course was deleted, for a re-plan around one project built step by step
+(the python-ct / apache-spark-ct method). `AWS-COURSE-PLAN.md` still holds the previous plan until
+the new one replaces it; nothing is registered in `src/content/index.ts` / `src/scenes/index.ts`.
 
 ## Verification levels — read before trusting a code card
 
@@ -174,99 +156,9 @@ slide already quotes.
 
 ## Scene inventory
 
-| Scene id | Shape | Used by |
-| --- | --- | --- |
-| `product-page` | **shared.** Request container (shopper → Route 53 / load balancer → app servers → orders DB / images) above a demand-vs-capacity plot. Later chapters reuse it with `focus:` on `browser`, `dns`, `lb`, `app`, `db`, `images` — keep those ids stable | `foundations-cloud-operating-model` |
-| `responsibility-matrix` | job × EC2/RDS/Lambda/S3 table above an incident → owner list | `foundations-shared-responsibility` |
-| `region-boundaries` | Region container (3 AZ containers of app chips, AZ c red, + Regional services) above global services and the N+1 list | `foundations-regions-and-availability-zones` |
-| `first-session` | `~/.aws/config` → sso login / get-caller-identity → STS response | `foundations-accounts-and-first-session` |
-| `api-call-anatomy` | request container (head-object CLI + call-path list) above the HeadObject response and ARN shapes | `foundations-api-request-walkthrough` |
-| `cost-ledger` | `cost_ledger.py` → its real output | `foundations-billing-and-cleanup` |
-| `identity-center-map` | identity source → Identity Center → assignments table → AWSReservedSSO roles per account; principal kinds list | `identity-principals-and-federation` |
-| `order-api-role` | trust + permissions JSON → create-role CLI → "on the app server" list | `identity-roles-and-trust` |
-| `policy-anatomy` | the 3-statement OrderApiAccess policy above a four-questions list | `identity-policy-statements` |
-| `evaluation-flow` | decision row (explicit Deny / Allow / nothing) → DenyDrafts JSON → permission matrix (moto-verified) → illustrative AccessDenied | `identity-policy-evaluation` |
-| `cross-account-read` | bucket policy + Auditor policy side by side above the which-Allows table | `identity-resource-policies-cross-account` |
-| `org-structure` | org root → Security OU / Workloads OU (Prod, Dev) above the isolation table | `identity-organizations-and-isolation` |
-| `guardrails` | region SCP + org-only RCP side by side above the policy-kinds table | `identity-guardrails-and-audit` |
-| `cidr-plan` | `cidr_plan.py` → output, above a ports table | `networking-addresses-and-cidr` |
-| `vpc-layout` | VPC container: 3 AZ columns × public/app/data subnets; placement-rules list | `networking-vpc-and-subnet-layout` |
-| `route-selection` | rt-public + rt-app-a tables → `route_pick.py` beside its output | `networking-route-tables` |
-| `private-egress` | timeout symptom → NAT fix CLI → who-can-start-a-connection table | `networking-public-and-private-connectivity` |
-| `traffic-filters` | sg-alb / sg-app / sg-db row → AuthorizeSecurityGroupIngress request → SG vs NACL table | `networking-security-groups-and-nacls` |
-| `dns-resolution` | resolution chain (TB) beside the alias UPSERT request; routing-policy list | `networking-dns-and-route-53` |
-| `tls-path` | browser → ALB → app → DB column beside the ACM/listener CLI and per-hop table | `networking-tls-and-certificates` |
-| `lb-health` | create-target-group CLI → `health_timeline.py` → output | `networking-load-balancers-and-health` |
-| `private-connectivity` | S3 gateway-endpoint policy above the private-paths table | `networking-private-connectivity` |
-| `compute-choice` | EC2/Fargate/Lambda/EKS 2×2 → comparison table → order-API shape list | `compute-compute-selection` |
-| `launch-template` | CreateLaunchTemplate request beside the instance-state column | `compute-ec2-and-launch-templates` |
-| `purchase-options` | m7g.large anatomy 2×2 → `purchase_mix.py` → output | `compute-instance-types-and-purchasing` |
-| `bootstrap-and-ssm` | user-data.sh → SSM session/patch CLI → "still ours" list | `compute-bootstrap-and-systems-manager` |
-| `scaling-timeline` | `surge.py` → output → PutScheduledUpdateGroupAction request | `compute-auto-scaling` |
-| `ecs-task` | RegisterTaskDefinition request above the VM-vs-container table | `compute-containers-ecr-ecs` |
-| `eks-choice` | illustrative Deployment manifest → worth-it/costs table → verdict | `compute-eks-and-kubernetes` |
-| `stateless-design` | `carts.py` + output, `drain.py` (SIGTERM) + output | `compute-stateless-and-graceful-shutdown` |
-| `storage-kinds` | S3/EBS/EFS row → choice table → persistence list | `storage-object-block-file` |
-| `presigned-upload` | 4-step upload column beside `presign_upload.py` (real SigV4) + output | `storage-s3-access-paths` |
-| `concurrent-writers` | `two_writers.py` (moto) + output | `storage-s3-consistency-and-concurrency` |
-| `version-timeline` | `versions.py` (moto) + output beside the lifecycle request | `storage-versioning-and-lifecycle` |
-| `ebs-snapshot` | `snapshot_restore.py` (moto) + output | `storage-ebs-and-snapshots` |
-| `shared-files` | EFS mount row → CreateFileSystem request → FSx table | `storage-shared-file-storage` |
-| `data-protection` | PutBucketEncryption request above the threat × protection table | `storage-encryption-and-backup` |
-| `access-patterns` | access-pattern table → data-model row → questions list | `databases-data-requirements` |
-| `rds-instance` | CreateDBInstance request above the who-does-what table | `databases-rds-and-aurora` |
-| `order-transaction` | `place_order.sql` (PostgreSQL) + output beside `connections.py` + output | `databases-transactions-and-connections` |
-| `rds-availability` | five-option capability table → which-one-saves-you list | `databases-availability-read-scaling-restore` |
-| `dynamodb-keys` | `orders_table.py` (moto) + output | `databases-dynamodb-keys-and-indexes` |
-| `dynamodb-conditions` | `last_unit.py` (moto) + output beside the read-consistency table | `databases-dynamodb-conditions-and-consistency` |
-| `cache-aside` | `cache_aside.py` above its two timelines | `databases-caching-and-stale-reads` |
-| `migration-and-specialists` | DMS CLI + table mappings above the specialist table | `databases-migration-and-specialist-databases` |
-| `api-contract` | order schema + API Gateway CLI; rejected responses + checks list | `integration-api-gateway` |
-| `lambda-handler` | `handler.py` + output beside the CreateFunction request | `integration-lambda-execution` |
-| `concurrency-limits` | `concurrency.py` + output above reserved-concurrency request + execution role | `integration-lambda-concurrency` |
-| `queue-consumer` | `consumer.py` (moto) + output above the standard/FIFO table | `integration-sqs-queues` |
-| `sns-fanout` | three-queue row above `fan_out.py` (moto) + output | `integration-sns-fanout` |
-| `event-routing` | `routing.py` (moto) + output | `integration-eventbridge-routing` |
-| `order-workflow` | state diagram beside the checked ASL definition | `integration-step-functions` |
-| `idempotency` | `idempotent.py` (moto) + output beside the retry-ownership table | `integration-idempotency-and-retries` |
-| `integration-choices` | end-to-end order flow above the which-mechanism table | `integration-choosing-integration` |
-| `state-vs-history` | DB → S3 → Glue → Athena row above `history.py` + output | `analytics-operational-vs-analytical` |
-| `cdc-reconcile` | `reconcile.py` + output above the ingestion-choices table | `analytics-ingestion-and-reconciliation` |
-| `lake-layout` | `layout.py` (real Parquet) + output | `analytics-lake-layout` |
-| `glue-catalog` | Glue CreateTable request above the three-promises table | `analytics-glue-catalog-and-governance` |
-| `athena-query` | `daily_sales_duckdb.py` + output → Athena CLI | `analytics-athena-queries-and-cost` |
-| `stream-lag` | `consumer_lag.py` + output → CreateStream request | `analytics-kinesis-streaming` |
-| `warehouse-or-cluster` | Athena/Redshift/EMR row → selection table → caution list | `analytics-redshift-and-emr` |
-| `declarative-vs-imperative` | script and template stacked above table + principles row | `delivery-declarative-infrastructure` |
-| `stack-template` | order-events template beside `create_order.py` (topological waves) | `delivery-cloudformation-stacks` |
-| `params-and-secrets` | config template beside `secrets_lint.py` (cfn-lint findings) | `delivery-parameters-outputs-secrets` |
-| `change-sets` | `replacement_preview.py` (AWS provider schemas) above the change-set limits table | `delivery-change-sets-and-drift` |
-| `rollback-and-protection` | protected orders-db template above illustrative failed-update events | `delivery-rollback-and-stateful-resources` |
-| `deployment-strategies` | blue/green row → `traffic_shift.py` → CodeDeploy CLI | `delivery-cicd-and-deployment-strategies` |
-| `promotion-and-tools` | build/dev/prod row → prod deploy trust policy → CFN/CDK/Terraform table | `delivery-promotion-and-provenance` |
-| `telemetry-correlation` | metric/log/trace row above `latency_incident.py` + output | `operations-telemetry-and-correlation` |
-| `slos-and-alarms` | `error_budget.py` + output above the PutMetricAlarm request | `operations-objectives-and-alarms` |
-| `cloudtrail-evidence` | illustrative CloudTrail record → lookup CLI → which-evidence table | `operations-cloudwatch-versus-cloudtrail` |
-| `ops-access` | SSM fleet CLI → PutConfigRule request → questions table | `operations-operational-access-and-inventory` |
-| `keys-and-rotation` | KMS key policy beside `rotation.py` + output | `operations-keys-secrets-and-rotation` |
-| `edge-and-detection` | CreateWebACL request beside the prevents-or-detects table | `operations-layered-exposure-and-detection` |
-| `incident-containment` | five-step timeline beside the revoke-older-sessions policy | `operations-incident-triage-and-containment` |
-| `backup-and-restore` | CreateBackupPlan request → `restore_drill.py` → output | `operations-backup-and-restore-validation` |
-| `disaster-recovery` | `rpo_by_incident.py` + output above the DR strategies table | `operations-disaster-recovery-and-failover` |
-| `quotas-and-resilience` | quotas table → `backoff_jitter.py` + output → quotas CLI | `operations-quotas-throttling-and-resilience` |
-| `saturation-curve` | `saturation.py` above its output beside the saturation-signals table | `optimisation-measurement-and-saturation` |
-| `edge-caching` | `edge_latency.py` → output beside cache-key table → CreateCachePolicy request | `optimisation-cloudfront-and-caching` |
-| `capacity-plans` | AZ-safe capacity vs demand plot → `capacity_plans.py` → output | `optimisation-rightsizing-and-idle-capacity` |
-| `cost-allocation` | `cost_lines.py` + output above Cost Explorer CLI beside CreateBudget request | `optimisation-cost-allocation-and-budgets` |
-| `monthly-cost` | `monthly_cost.py` + output above the purchase-options table | `optimisation-total-cost-trade-offs` |
-| `sustainability-levers` | `footprint.py` + output above the lever/constraint table | `optimisation-sustainability-trade-offs` |
-| `decision-record` | requirements × options table above the illustrative ADR-007 | `architecture-requirements-and-decisions` |
-| `platform-alternatives` | three request-path columns (VMs, containers, serverless) above the what-moves table | `architecture-platform-comparison` |
-| `region-choices` | `region_failure.py` + output above the how-far-to-spread table | `architecture-regional-choices` |
-| `staged-cutover` | ModifyListener weights request → `cutover_gates.py` + output → rollback-boundaries table | `architecture-migration-and-cutover` |
-| `well-architected-review` | six-pillar evidence table above `priorities.py` + output | `architecture-well-architected-review` |
+Empty since the 2026-10-21 reset.
 
-## Engine notes (flow 1.3.0 / shell 0.10)
+## Engine notes (written against flow 1.3.0 / shell 0.10 — recheck on 2.2.0 / 0.14)
 
 - **Icons resolve AWS → Azure → lucide → the pattern's default.** AWS service keys exist (`ec2`,
   `s3`, `rds`, `elb`, `route53`, `iam`, `cloudfront`, `lambda`, `dynamodb`, `sqs`, `sns`,

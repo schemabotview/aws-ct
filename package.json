@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "description": "AWS content repo for GraphL — authors scenes (react-flow diagrams + code cards) and slides per section for the AWS course, renders them full-frame, and captures screenshots + coords for the compose pipeline. The render engine is @graphlearning/flow; the app shell is @graphlearning/shell.",
+  "description": "AWS content repo for GraphL \u2014 authors scenes (react-flow diagrams + code cards) and slides per section for the AWS course, renders them full-frame, and captures screenshots + coords for the compose pipeline. The render engine is @graphlearning/flow; the app shell is @graphlearning/shell.",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -22,9 +22,8 @@
     "shot": "node scripts/shot.mjs"
   },
   "dependencies": {
-    "@graphlearning/flow": "^1.2.0",
-    "@graphlearning/shell": "^0.10.1",
-    "@xyflow/react": "^12.11.2",
+    "@graphlearning/flow": "^2.2.0",
+    "@graphlearning/shell": "^0.14.0",
     "lucide-react": "^1.28.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",

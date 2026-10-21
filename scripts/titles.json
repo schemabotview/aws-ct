@@ -1,15 +1,3 @@
 {
-  "_comment": "Curated publish titles (YouTube title + thumbnail header) per course, keyed by course id. Search-first: what someone would actually type, never 'Course 4'. One entry per course in src/content/index.ts.",
-  "foundations": "AWS Cloud Foundations: Regions, Accounts, IAM Sessions & Billing",
-  "identity": "AWS IAM Explained: Roles, Policies, Cross-Account Access & SCPs",
-  "networking": "AWS VPC Networking Explained: Subnets, Routes, NAT, Security Groups & DNS",
-  "compute": "AWS Compute Explained: EC2, Auto Scaling, ECS Fargate, EKS & Spot",
-  "storage": "Amazon S3, EBS & EFS Explained: Consistency, Versioning, Snapshots & Backups",
-  "databases": "AWS Databases Explained: RDS, Aurora, DynamoDB, ElastiCache & DMS",
-  "integration": "AWS Serverless Explained: API Gateway, Lambda, SQS, SNS, EventBridge & Step Functions",
-  "analytics": "AWS Data Lake Explained: S3, Glue, Athena, Kinesis, Redshift & EMR",
-  "delivery": "AWS CloudFormation & CI/CD Explained: Stacks, Change Sets, Rollback, Blue/Green",
-  "operations": "AWS Operations Explained: CloudWatch, CloudTrail, KMS, GuardDuty, Backup & DR",
-  "optimisation": "AWS Cost & Performance Optimisation Explained: CloudFront, Rightsizing, Budgets, Savings Plans",
-  "architecture": "AWS Architecture Explained: Decision Records, Platforms, Multi-Region, Migration & Well-Architected"
+  "_comment": "Curated publish titles (YouTube title + thumbnail header) per course, keyed by course id. Search-first: what someone would actually type, never 'Course 4'. One entry per course in src/content/index.ts."
 }
