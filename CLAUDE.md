@@ -5,10 +5,10 @@
 
 ## What this repo is
 
-The GraphL concept app for **AWS**, authored from **`AWS-COURSE-PLAN.md`** (approved; 12 chapters,
-89 sections). A **section** is `(scene, slide, narration)` and is one segment of the course video.
-One section = one slide. The plan is not edited here: it is reviewed upstream in `toc`
-(`toc/src/AWS-COURSE-PLAN.md`, identical at the time of scaffolding).
+The GraphL concept app for **AWS — from an empty account to a running shop**, authored from
+**`AWS-COURSE-PLAN.md`** (re-planned 2026-10-21: 13 courses, 104 sections, one project `shop-on-aws`
+built step by step; awaiting owner review). A **section** is `(scene, narration)` — one full-screen
+frame, no slide — and one segment of the course video. The previous 12-chapter plan is in git history.
 
 Engine `@graphlearning/flow@^2.2.0` (own renderer, react-flow removed); shell
 `@graphlearning/shell@^0.14.0` (headerless section frames, `SCENE_ASPECT`). This repo's own
@@ -27,8 +27,9 @@ surface is `src/content/`, `src/scenes/`, `src/main.tsx`, `src/theme.css` and `s
 
 **Reset on 2026-10-21**: every course, scene, hidden verification and wav of the previous
 12-chapter, slide-based course was deleted, for a re-plan around one project built step by step
-(the python-ct / apache-spark-ct method). `AWS-COURSE-PLAN.md` still holds the previous plan until
-the new one replaces it; nothing is registered in `src/content/index.ts` / `src/scenes/index.ts`.
+(the python-ct / apache-spark-ct method). The new plan is in `AWS-COURSE-PLAN.md`; nothing is
+registered in `src/content/index.ts` / `src/scenes/index.ts` yet. `scripts/check-plan.mjs` reads
+the course ids, titles and section titles from the plan, so the plan is the only list of them.
 
 ## Verification levels — read before trusting a code card
 

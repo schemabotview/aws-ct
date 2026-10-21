@@ -1,8 +1,8 @@
 // Plan conformance guard. AWS-COURSE-PLAN.md is the syllabus; this holds src/content to it so the
 // app cannot drift from the reviewed plan. It reads the plan, then checks every authored section:
 //
-//   1. the plan parses: 12 chapters, and the section counts its header declares match the lists
-//   2. each course folder is a plan chapter (by order), and its Course title is the chapter title
+//   1. the plan parses: every course header's section count matches its list, and the totals match
+//   2. each course folder is a plan course (by id), and its Course title is the plan's course title
 //   3. each section file is `NN-<id>.ts`, NN is a real section number of that chapter, no NN twice
 //   4. the section's title is the plan's section title, word for word
 //
@@ -14,38 +14,47 @@
 import { readFileSync, readdirSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
 
-const COURSE_IDS = ['foundations', 'identity', 'networking', 'compute', 'storage', 'databases', 'integration', 'analytics', 'delivery', 'operations', 'optimisation', 'architecture']
-
+// Course headers read: **3. `start` · Start the project · 6 sections**, and each numbered item under
+// one reads `N. <title> — <what it shows> · <frame>`. The section title is the text before ` — `.
+const FRAMES = ['map', 'map+term', 'ide', 'concept']
 const plan = readFileSync('AWS-COURSE-PLAN.md', 'utf8')
 const chapters = []
+const problems = []
+const bad = (m) => problems.push(m)
 let cur = null
 for (const line of plan.split('\n')) {
-  const h = line.match(/^## Chapter (\d+) — (.+)$/)
+  const h = line.match(/^\*\*(\d+)\. `([\w-]+)` · (.+) · (\d+) sections\*\*$/)
   if (h) {
-    cur = { n: Number(h[1]), title: h[2].trim(), sections: [] }
+    cur = { n: Number(h[1]), id: h[2], title: h[3].trim(), declared: Number(h[4]), sections: [] }
     chapters.push(cur)
     continue
   }
-  if (line.startsWith('## ')) cur = null // Sources and scope etc.
-  const s = line.match(/^(\d+)\. (.+)$/)
-  if (cur && s) cur.sections.push({ n: Number(s[1]), title: s[2].trim() })
+  if (line.startsWith('## ')) cur = null // Old chapter → new course, Decisions, etc.
+  const s = cur && line.match(/^(\d+)\. (.+?) — .+ · ([\w+]+)$/)
+  if (s) {
+    cur.sections.push({ n: Number(s[1]), title: s[2].trim() })
+    if (!FRAMES.includes(s[3])) bad(`plan course ${cur.n} item ${s[1]}: frame '${s[3]}' is not one of ${FRAMES.join(', ')}`)
+  } else if (cur && /^\d+\. /.test(line)) bad(`plan course ${cur.n}: item does not read 'N. title — description · frame': ${line}`)
 }
+const COURSE_IDS = chapters.map((c) => c.id)
 
-const problems = []
-const bad = (m) => problems.push(m)
-
-// The header reads: Structure: **12 chapters**, with **6, 7, 9, … and 5 sections**.
-const declared = (plan.match(/chapters\*\*, with \*\*([^*]+) sections\*\*/)?.[1] ?? '').match(/\d+/g)?.map(Number) ?? []
-if (chapters.length !== COURSE_IDS.length) bad(`plan has ${chapters.length} chapters, this guard knows ${COURSE_IDS.length} course ids`)
-if (declared.join() !== chapters.map((c) => c.sections.length).join()) {
-  bad(`plan header declares section counts [${declared}] but the lists have [${chapters.map((c) => c.sections.length)}]`)
+// The header reads: ## The courses — 13 courses, 104 sections
+const head = plan.match(/^## The courses — (\d+) courses, (\d+) sections$/m)
+const total = chapters.reduce((a, c) => a + c.sections.length, 0)
+if (!head) bad('plan has no "## The courses — N courses, M sections" header')
+else if (Number(head[1]) !== chapters.length || Number(head[2]) !== total) {
+  bad(`plan header declares ${head[1]} courses / ${head[2]} sections but lists ${chapters.length} / ${total}`)
 }
+chapters.forEach((c, i) => {
+  if (c.n !== i + 1) bad(`plan course '${c.id}' is numbered ${c.n}, expected ${i + 1}`)
+  if (c.declared !== c.sections.length) bad(`plan course '${c.id}' declares ${c.declared} sections but lists ${c.sections.length}`)
+  c.sections.forEach((s, j) => { if (s.n !== j + 1) bad(`plan course '${c.id}': item ${s.n} out of order`) })
+})
 
 let authored = 0
-const total = chapters.reduce((a, c) => a + c.sections.length, 0)
 const rows = []
 chapters.forEach((ch, i) => {
-  const id = COURSE_IDS[i]
+  const id = ch.id
   const dir = join('src/content', id)
   let done = 0
   if (existsSync(dir)) {
@@ -67,7 +76,7 @@ chapters.forEach((ch, i) => {
     }
   }
   authored += done
-  rows.push(`  ch ${String(ch.n).padStart(2)}  ${id.padEnd(13)} ${String(done).padStart(2)} / ${String(ch.sections.length).padStart(2)}   ${ch.title}`)
+  rows.push(`  ch ${String(ch.n).padStart(2)}  ${id.padEnd(14)} ${String(done).padStart(2)} / ${String(ch.sections.length).padStart(2)}   ${ch.title}`)
 })
 for (const d of existsSync('src/content') ? readdirSync('src/content', { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => e.name) : []) {
   if (!COURSE_IDS.includes(d)) bad(`src/content/${d} is not a course in the plan (expected one of ${COURSE_IDS.join(', ')})`)
