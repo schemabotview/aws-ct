@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const theLoadBalancer: Section = {
+  id: 'the-load-balancer',
+  title: 'The load balancer',
+  scene: 'lb-health',
+  narration:
+    "The load balancer now lights up on the map. In the terminal, infra zero five l b creates two things. First a target group, shop app: the set of servers the load balancer may send to, and how it checks them. Then the load balancer itself, shop a l b, an application load balancer across the three public subnets, behind the s g a l b security group. The table holds the target group's settings. It sends H T T P to port eight zero eight zero. It checks every target by asking for slash health every ten seconds, and the app answers two hundred when it is ready. Two failures in a row mark a target unhealthy; three successes mark it healthy again. The second half of the terminal is a model, not A W S: health timeline, a small program that plays those settings forward for one server, app three, which stops answering at zero seconds and recovers at sixty. Checks run at five seconds, fifteen, twenty five and so on. The first failed check is not enough; at fifteen seconds the second is, and app three is marked unhealthy, so the load balancer stops sending it requests. It keeps checking. From sixty five seconds app three answers again, and after the third success, at eighty five seconds, it is healthy and back in service. The last two lines are the cost of losing it. At the evening's five hundred and sixty requests a second, six servers carry ninety three each; with app three out, the other five carry one hundred and twelve, still under the one hundred and fifty one server can take, which is why the shop runs six. For those fifteen seconds before it was marked down, though, some requests still went to app three and failed. Health checks limit the damage; they do not prevent it. Next, private paths that leave the V P C without crossing the internet.",
+}

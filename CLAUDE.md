@@ -37,7 +37,7 @@ so the plan is the only list of them.
 | 2 | `how-aws-runs` | How AWS runs a request | 6 | authored, awaiting owner review (no narration audio yet) |
 | 3 | `start` | Start the project | 6 | authored, awaiting owner review (no narration audio yet) |
 | 4 | `secure` | Lock it down | 8 | authored, awaiting owner review (no narration audio yet) |
-| 5 | `network` | Give it a network | 9 | planned |
+| 5 | `network` | Give it a network | 9 | authored, awaiting owner review (no narration audio yet) |
 | 6 | `run` | Run the app | 9 | planned |
 | 7 | `automate` | Make it repeatable | 8 | planned |
 | 8 | `files` | Store its files | 7 | planned |
@@ -249,6 +249,15 @@ frame already quotes.
 | `denied` | IDE: + DenyDrafts; tools/probe.py under IAM enforcement (mutation-tested) | `secure-why-a-request-is-denied` |
 | `cross-account` | IDE: reports bucket policy for the audit account's Auditor; both sides must allow | `secure-resource-policies-and-cross-account-access` |
 | `guardrails` | IDE: StayInLondon SCP attached to Workloads in an emulated organization | `secure-guardrails-and-audit-ownership` |
+| `cidr-plan` | IDE: tools/cidr_plan.py (local, not emulated); ports; CIDR rules | `network-addresses-cidr-and-ports` |
+| `vpc-layout` | map frame: infra/05-network.sh (VPC + 9 subnets) and its run; tier placement | `network-a-vpc-across-three-azs` |
+| `route-selection` | map frame: 05-routes.sh + tools/route_pick.py (reads the emulator's tables) | `network-route-tables` |
+| `private-egress` | map frame: no route → 05-egress.sh (NAT in public-a) → via nat; who can start a connection | `network-going-out-from-a-private-subnet` |
+| `traffic-filters` | map frame: 05-filters.sh sg chain; SG vs NACL | `network-security-groups-and-network-acls` |
+| `dns-resolution` | map frame: shop-alias.json, 05-dns.sh; resolution steps; routing policies | `network-a-name-for-the-shop` |
+| `tls-path` | map frame: hop-by-hop encryption, the HTTPS listener (doc-cited) | `network-tls-along-the-path` |
+| `lb-health` | map frame: 05-lb.sh then tools/health_timeline.py (a model): out at 15 s, back at 85 s | `network-the-load-balancer` |
+| `private-connectivity` | endpoints / peering / TGW / VPN / DX beside the comparison table | `network-private-paths-and-hybrid-links` |
 
 ## Engine notes (written against flow 1.3.0 / shell 0.10 — recheck on 2.2.0 / 0.14)
 

@@ -1,0 +1,7 @@
+$ bash infra/05-filters.sh
+sg-alb sg-65722206e9f4bd9d9  sg-app sg-58ad829a572695e67  sg-db sg-300663ceb0c51f0ce
+$ aws ec2 describe-security-groups --filters Name=group-name,Values=sg-alb,sg-app,sg-db \
+> --query 'SecurityGroups[].[GroupName,IpPermissions[0].ToPort]' --output text
+sg-alb	443
+sg-app	8080
+sg-db	5432

@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const securityGroupsAndNetworkAcls: Section = {
+  id: 'security-groups-and-network-acls',
+  title: 'Security groups and network ACLs',
+  scene: 'traffic-filters',
+  narration:
+    "Routes decide where a packet can go; filters decide whether it is accepted when it arrives. The shop's filters are security groups, and the terminal runs infra zero five filters, which creates three and prints their I Ds, then lists each group with the port it allows. The first table is the design: a chain. s g a l b admits T C P four four three from anywhere, because shoppers come from anywhere. s g app admits T C P eight zero eight zero, but only from members of s g a l b: the source is not an address range but another security group. And s g d b admits T C P five four three two, PostgreSQL, only from members of s g app. Each tier admits only the tier before it. Because sources are groups rather than addresses, the rule keeps working when servers are replaced and their addresses change, which Course six does constantly. The second table compares security groups with the other filter a V P C offers, the network A C L. A security group is attached to a network interface, holds only allow rules, and is stateful: a reply to an allowed request is let back out automatically. A network A C L is attached to a subnet, holds numbered allow and deny rules, and is stateless: return traffic must be allowed explicitly, in the other direction, including the high-numbered ports replies use. Its source can only be an address range, never a group. The shop leaves its network A C Ls at the default, which allows everything, and does its filtering with security groups. A network A C L earns its place when you need a deny, such as blocking one address range from a whole subnet. Next, the name shoppers type: shop dot example dot com.",
+}

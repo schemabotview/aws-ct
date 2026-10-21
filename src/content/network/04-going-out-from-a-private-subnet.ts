@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const goingOutFromAPrivateSubnet: Section = {
+  id: 'going-out-from-a-private-subnet',
+  title: 'Going out from a private subnet',
+  scene: 'private-egress',
+  narration:
+    "The app servers must call the payments A P I, at one nine eight dot fifty one dot one hundred dot seven, but they live in a private subnet. The terminal starts with that call's route from app a, and the answer is no route: app a has no table of its own, so it uses the V P C's main table, which knows only the local range, and the packet is dropped. On a real server this is the classic symptom: the payment call times out rather than failing with a clear error. The fix is infra zero five egress. It allocates an elastic I P address, creates a NAT gateway called nat a in the public subnet public a, waits for it to be available, and creates r t app a, with a default route pointing at the NAT gateway, for the app a subnet. Asked again, route pick finds the default route via the NAT gateway. The table says who can start a connection, and this is the point of a private subnet. From the internet to the load balancer in a public subnet: yes, through the internet gateway. From the internet to a server in app a: no, there is no route in. From a server in app a to the payments A P I: yes, through the NAT gateway and then the internet gateway. And from the payments A P I back to the server, starting a new connection: no, a NAT gateway only carries connections that started inside, plus their replies. The list is about cost and failure. A NAT gateway lives in one zone, so if zone a fails, servers in b and c lose the internet too. Production therefore runs one per zone: three, at five cents an hour each on the hypothetical rate card, is one hundred and nine dollars fifty a month before any data, and Course thirteen finds that is the shop's largest single line. Next, the filters that decide which connections are accepted at all.",
+}

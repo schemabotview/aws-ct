@@ -1,0 +1,6 @@
+$ python tools/route_pick.py app-a 198.51.100.7
+app-a → 198.51.100.7 in the main table: no route, the packet is dropped
+$ bash infra/05-egress.sh
+rtb-0b8e0a92498f9610a  rt-app-a: local, 0.0.0.0/0 via nat-836520c1983b7a122
+$ python tools/route_pick.py app-a 198.51.100.7
+app-a → 198.51.100.7 in rt-app-a: 0.0.0.0/0 via nat-836520c1983b7a122

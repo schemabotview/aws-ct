@@ -1,0 +1,3 @@
+$ bash infra/05-dns.sh
+INSYNC
+shop.example.com.	shop-alb-123.eu-west-2.elb.amazonaws.com

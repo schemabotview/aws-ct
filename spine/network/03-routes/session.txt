@@ -1,0 +1,6 @@
+$ bash infra/05-routes.sh
+rtb-95e6760ee6eb69f8e  rt-public: local, 0.0.0.0/0 via igw-65722206e9f4bd9d9
+$ python tools/route_pick.py public-a 10.20.11.37
+public-a → 10.20.11.37 in rt-public: 10.20.0.0/16 via local
+$ python tools/route_pick.py public-a 198.51.100.7
+public-a → 198.51.100.7 in rt-public: 0.0.0.0/0 via igw-65722206e9f4bd9d9

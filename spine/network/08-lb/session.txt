@@ -1,0 +1,16 @@
+$ bash infra/05-lb.sh
+shop-app
+shop-alb	application
+$ python tools/health_timeline.py
+  5 s  /health no answer
+ 15 s  /health no answer   app-3 now unhealthy
+ 25 s  /health no answer
+ 35 s  /health no answer
+ 45 s  /health no answer
+ 55 s  /health no answer
+ 65 s  /health 200
+ 75 s  /health 200
+ 85 s  /health 200         app-3 now healthy
+ 95 s  /health 200
+560 req/s over 6 targets: 93 each
+560 req/s over 5 targets: 112 each

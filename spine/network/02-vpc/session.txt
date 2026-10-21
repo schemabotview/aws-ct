@@ -1,0 +1,11 @@
+$ bash infra/05-network.sh
+vpc-c8f25df7da1f67380  shop-prod 10.20.0.0/16
+subnet-95aba1264c89f68f0  public-a  eu-west-2a  10.20.0.0/24
+subnet-297ae66b22ab482bf  public-b  eu-west-2b  10.20.1.0/24
+subnet-18ccae28d8f5c7034  public-c  eu-west-2c  10.20.2.0/24
+subnet-47ded340fbf065383  app-a     eu-west-2a  10.20.10.0/24
+subnet-138d34e370a6d4d2e  app-b     eu-west-2b  10.20.11.0/24
+subnet-a0f135b0b1dc203db  app-c     eu-west-2c  10.20.12.0/24
+subnet-4ad00f7a030a20b32  data-a    eu-west-2a  10.20.20.0/24
+subnet-e48bba43443abc638  data-b    eu-west-2b  10.20.21.0/24
+subnet-d01f9cd371607bc45  data-c    eu-west-2c  10.20.22.0/24

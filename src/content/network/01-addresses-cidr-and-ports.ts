@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const addressesCidrAndPorts: Section = {
+  id: 'addresses-cidr-and-ports',
+  title: 'Addresses, CIDR and ports',
+  scene: 'cidr-plan',
+  narration:
+    "Before the shop has a network, it needs an address plan, and this course starts with one small Python file. A private network's addresses are written in C I D R notation: an address, a slash, and a number of fixed bits. The editor shows tools slash c i d r plan. Line four takes the shop's whole range, ten dot twenty dot zero dot zero slash sixteen. Sixteen fixed bits leave sixteen free, so the terminal's first line says it holds sixty five thousand five hundred and thirty six addresses. Lines seven to twelve cut it into nine slash twenty four subnets, one for each of three tiers in each of three Availability Zones. Public uses third numbers zero to two, app ten to twelve, and data twenty to twenty two, so a glance at an address says its tier. Line ten checks that every subnet sits inside the V P C's range. Line twelve is the A W S detail: a slash twenty four has two hundred and fifty six addresses, but A W S keeps five in every subnet, for the network address, the V P C's router, D N S, a reserved one and the last address, so each subnet has two hundred and fifty one usable. The last check places one real address, ten dot twenty dot eleven dot thirty seven, the app server in zone b, inside app b. This run is plain Python on the laptop: nothing here touched the emulator, and the terminal's title says so. On the right are the ports the shop uses: four four three for H T T P S from shoppers, eight zero eight zero for the app behind the load balancer, five four three two for PostgreSQL, and fifty three for D N S. The list adds the one rule that is hard to fix later. Ranges that may ever connect must not overlap, which is why development uses ten dot thirty. Next, the V P C itself, built across three zones.",
+}

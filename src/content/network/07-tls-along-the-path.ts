@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const tlsAlongThePath: Section = {
+  id: 'tls-along-the-path',
+  title: 'TLS along the path',
+  scene: 'tls-path',
+  narration:
+    "Reaching the shop is one question; whether anyone on the way can read the traffic is another, and this frame answers it hop by hop. The first table follows a request. From the shopper to the load balancer, the connection is H T T P S, T L S version one point three, using a certificate for shop dot example dot com from A W S Certificate Manager, so nobody on the way can read it. From the load balancer to an app server, inside the V P C, the shop sends plain H T T P on port eight zero eight zero, with no certificate: anything on that internal path could read it. From the app to the orders database, the PostgreSQL connection uses T L S with the R D S certificate authority, which Course nine sets up. The second table is the listener that does the first hop. It listens on four four three, uses the A C M certificate, which must be requested in the load balancer's own Region, E U west two, and is validated by a D N S record in example dot com, so A C M can renew it automatically before it expires. Its security policy, E L B security policy T L S thirteen, allows only T L S one point two and one point three. The list is what to take away. Encryption ends where the certificate is, here at the load balancer, so the load balancer sees the request in clear. Reaching a server tells you nothing about whether the path to it was encrypted; reachability is routing and filtering, encryption is a separate decision. A load balancer's certificate lives in its own Region, while CloudFront, in Course thirteen, needs its certificate in U S east one. And encrypting the last hop too is possible, at the cost of a certificate on every server. Next, the load balancer itself, and how it decides a server is healthy.",
+}
