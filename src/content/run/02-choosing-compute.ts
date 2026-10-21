@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const choosingCompute: Section = {
+  id: 'choosing-compute',
+  title: 'Choosing compute',
+  scene: 'compute-choice',
+  narration:
+    "The order A P I could run on A W S in four different ways, and on the left is one card for each. E C two gives virtual machines: you choose the instance, the operating system and its patching, and it runs anything for as long as you like. E C S on Fargate runs containers with no servers to see: you supply an image and a size, and A W S runs the hosts underneath. Lambda runs a function per request: you supply a handler, each call may last up to fifteen minutes, and a call that finds no warm environment pays a cold start. E K S is managed Kubernetes: A W S runs the control plane, and you run Kubernetes workloads and the nodes beneath them. The table compares them for this app. Control is greatest on E C two and least on Lambda. Operational work follows control: on E C two you own the operating system, patches and scaling; on Fargate, mostly just the image; on Lambda, the least; on E K S, a cluster and its nodes. Latency is steady for the three that keep processes running, while Lambda has occasional cold starts. And each bills differently: E C two per second while running, Fargate per second per task, Lambda per request and duration, E K S per cluster hour plus its nodes. The list matches the choice to the app. The order A P I is a long running H T T P server with steady traffic, which fits E C two or Fargate. This course builds it first on E C two, in sections three to six, because there every layer is visible: the image, the boot, the scaling. Then section seven runs the same app as a Fargate task. Lambda arrives for the checkout in Course ten, E K S is weighed in section eight, and Course thirteen compares all three for the whole platform. Next, the first server, from a template.",
+}

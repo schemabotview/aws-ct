@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const bootstrapAndSystemsManager: Section = {
+  id: 'bootstrap-and-systems-manager',
+  title: 'Bootstrap and Systems Manager',
+  scene: 'bootstrap-and-ssm',
+  narration:
+    "A server launched from the template has an operating system and nothing else. The file in the editor, app slash user data dot s h, is what turns it into an app server, and it runs once, as root, on the server's first boot. Lines six and seven install pip and boto three. Line eight copies the release, order api one point four point two, from the releases bucket, using the server's OrderApi role. Line nine unpacks it. Line ten creates a system user for the app, and the lines after that write a service definition, so the operating system starts the app, restarts it if it crashes, and starts it again after a reboot. Line nineteen enables and starts it. In the terminal, bash checks the script's syntax, which it passes. Then a new template version is created from version one, with this script added as user data, base sixty four encoded, and the new version is number two. The last command uses Systems Manager Run Command to apply security updates on every server tagged app order api. It returns a command I D. The emulator records the command and runs nothing, so all that is shown is that the call was accepted. The table is why Systems Manager matters. Running a command on many servers is Run Command. A shell on one server is Session Manager. Patching on a schedule is Patch Manager. And none of them needs an inbound port or an S S H key: the S S M agent on the server connects out, using the server's role, and every session can be logged. The list is the other half of the shared responsibility model from Course one: on E C two, the operating system and its patches, the Python runtime, and starting, restarting and logging the app are all still the shop's job. Next, a group of these servers that grows and shrinks on its own.",
+}

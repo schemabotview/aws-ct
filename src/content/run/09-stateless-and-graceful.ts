@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const statelessAndGraceful: Section = {
+  id: 'stateless-and-graceful',
+  title: 'Stateless and graceful',
+  scene: 'stateless-design',
+  narration:
+    "Auto Scaling removes servers as well as adding them, so a server must hold nothing that matters. The terminal starts with a model, carts dot p y. Three hundred shoppers fill carts behind a round robin load balancer, so each of three servers creates one hundred. Then a scale-in terminates app two, and its disk with it. With carts on each server's own disk, two hundred are kept and one hundred are lost, a hundred shoppers whose carts vanish mid-purchase. With carts in a shared store, all three hundred are kept and none are lost. The table on the right is the rule that follows: product data lives in S three, carts in a shared store and orders in the database, both from Course nine, and the server's own disk holds nothing that matters. The second half is about how a server leaves. The editor shows the end of app server dot p y, now with a stop function on line thirty six. When the process receives SIGTERM, the signal E C S, Auto Scaling and systemd all send before stopping something, it prints that it accepts no new requests and finishes those in flight, and line thirty eight shuts the server down from another thread. Line forty three installs the handler. Line forty six, after the server loop ends, waits for request threads to finish before exiting. In the terminal, the real app starts, answers a health check, and is sent SIGTERM; its log shows the request, the message, and stopped cleanly. The list puts the sequence together. The load balancer stops sending new requests first, through deregistration. SIGTERM tells the app to finish what is in flight. It exits before the timeout kills it. And since any server may be the one that goes, none may hold a cart. That completes the compute course. Next course, making all of this repeatable.",
+}

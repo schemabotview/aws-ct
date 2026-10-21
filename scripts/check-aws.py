@@ -121,13 +121,29 @@ def xform(name: str) -> str:
 
 def check_cli(where: str, text: str) -> None:
     # Join backslash continuations, drop comments and prompts, keep the `aws …` lines.
+    # An `aws` call may also sit inside $( … ), and a quoted argument (a JSON document) may span
+    # lines: keep reading until the quotes balance.
     joined = re.sub(r"\\\n\s*", " ", text)
-    for raw in joined.splitlines():
-        line = raw.strip().removeprefix("$ ").strip()
-        if not line.startswith("aws "):
+    lines = joined.splitlines()
+    i = 0
+    while i < len(lines):
+        raw = lines[i].strip().removeprefix("$ ").removeprefix("> ").strip()
+        i += 1
+        found = re.search(r"(?:^|\$\()\s*(aws\s.*)", raw)
+        if not found:
             continue
-        line = line.split(" #", 1)[0]
-        words = shlex.split(line)
+        line = found.group(1)
+        words = None
+        while words is None:
+            try:
+                words = shlex.split(line.split(" #", 1)[0])
+            except ValueError:
+                if i >= len(lines):
+                    break
+                line += "\n" + lines[i]
+                i += 1
+        if not words:
+            continue
         cli_service = words[1]
         op = words[2] if len(words) > 2 and not words[2].startswith("-") else None
         if (cli_service, op) in CUSTOMISATIONS or (cli_service, None) in CUSTOMISATIONS:

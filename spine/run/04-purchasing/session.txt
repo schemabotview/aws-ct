@@ -1,0 +1,6 @@
+$ python tools/purchase_mix.py
+baseline, all day       2160 h  1-year commitment $  60.48
+evening peak             540 h  on-demand         $  21.60
+image worker, nightly    240 h  Spot              $   3.84
+the month                                         $  85.92
+all on-demand                                     $ 117.60

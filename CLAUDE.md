@@ -38,7 +38,7 @@ so the plan is the only list of them.
 | 3 | `start` | Start the project | 6 | authored, awaiting owner review (no narration audio yet) |
 | 4 | `secure` | Lock it down | 8 | authored, awaiting owner review (no narration audio yet) |
 | 5 | `network` | Give it a network | 9 | authored, awaiting owner review (no narration audio yet) |
-| 6 | `run` | Run the app | 9 | planned |
+| 6 | `run` | Run the app | 9 | authored, awaiting owner review (no narration audio yet) |
 | 7 | `automate` | Make it repeatable | 8 | planned |
 | 8 | `files` | Store its files | 7 | planned |
 | 9 | `orders` | Keep its orders | 9 | planned |
@@ -93,6 +93,14 @@ What makes a replay deterministic, all of it about the machine:
   moto does NOT evaluate condition keys (`s3:prefix` was ignored), cross-account policies or SCPs:
   those claims stay doc-cited, and the frame says so. Mutate the policy and watch the replay fail
   before trusting an enforced step.
+- moto places every Auto Scaling instance in the first AZ, reports instances `running` at once,
+  ignores a template's metadata options on launch, records SSM commands without running them, and
+  its CloudFormation change sets and failed updates are not faithful (no Replacement detail, no
+  rollback). Frames show what is true (the group's sizes, the template, cfn-lint, the resource
+  schemas) and say what the emulator skipped.
+- A process a step starts in the background must have its output redirected (or the replay waits
+  for it), and is stopped by its pid (`export SERVER=$!` … `kill $SERVER`) — `pkill -f` matches the
+  replay's own shell. A typed line exactly the pane's width is refused as ambiguous.
 - **Run one replay at a time** — every step takes port 5000.
 
 ## Verification levels — read before trusting a code card
@@ -155,11 +163,11 @@ the pages directly.
 | DNS / TLS | Route 53 zone example.com, alias A shop.example.com → ALB `shop-alb-123.eu-west-2.elb.amazonaws.com`; ACM cert in eu-west-2, TLS 1.3 policy; ALB → app plain HTTP |
 | target group | `shop-app` HTTP 8080, /health every 10 s, unhealthy 2, healthy 3 → app-3 unhealthy at 15 s, back at 85 s; 560 req/s = 93 per target over 6, 112 over 5 |
 | payments | external API `api.payments.example.com` → 198.51.100.7 |
-| app servers | launch template `order-api` v14: m7g.large (Graviton, 2 vCPU, 8 GiB), instance profile OrderApi, IMDSv2 required, sg-app; release `order-api-1.4.2.jar` in `shop-releases-111122223333`; logs `/shop/order-api` |
+| app servers | launch template `order-api` v14: m7g.large (Graviton, 2 vCPU, 8 GiB), instance profile OrderApi, IMDSv2 required, sg-app; release `order-api-1.4.2.tar.gz` in `shop-releases-111122223333`; logs `/shop/order-api` |
 | scaling | ASG `order-api`, min 3 (one per AZ); scheduled action `evening-peak` 17:45 Europe/London → min 6; reactive-only model: 5 min short, worst 110 req/s (assumed 5 min to in service) |
 | purchase month | baseline 3 × 24 h committed $60.48 + peak 3 × 6 h on-demand $21.60 + image worker 2 × 4 h Spot $3.84 = $85.92 (all on-demand $117.60) |
 | container | ECR `order-api:1.4.2`; Fargate task 512 CPU / 1024 MiB ARM64; roles OrderApiExecution (pull, logs) + OrderApi (task); stopTimeout 30 s |
-| statelessness | 300 carts on local disk across 3 servers: scale-in of app-2 loses 99; shared store loses 0 |
+| statelessness | 300 carts, round robin over 3 servers: carts on local disk, scale-in of app-2 loses 100; shared store loses 0 |
 | buckets | `shop-catalog-<acct>` (versioned: noncurrent expire 30 d; `exports/` → STANDARD_IA 30 d → GLACIER 90 d), `shop-uploads-111122223333` (review photos, presigned PUT 300 s, key `reviews/p-1001/photo-77.jpg`), `shop-reports-111122223333` (SSE-KMS `alias/shop-reports`, bucket key), `shop-releases-111122223333` |
 | S3 race | p-1001.json `{price 12.0, stock 40}`; price job → 10.0, stock job → 39; plain PUT ends `{12.0, 39}`, If-Match ends `{10.0, 39}` (moto) |
 | block / file | invoice service: 30 GiB gp3 in eu-west-2a → snapshot → restored in eu-west-2b (moto); EFS `shop-invoices-1` mounted at /mnt/invoices in all three AZs |
@@ -258,6 +266,15 @@ frame already quotes.
 | `tls-path` | map frame: hop-by-hop encryption, the HTTPS listener (doc-cited) | `network-tls-along-the-path` |
 | `lb-health` | map frame: 05-lb.sh then tools/health_timeline.py (a model): out at 15 s, back at 85 s | `network-the-load-balancer` |
 | `private-connectivity` | endpoints / peering / TGW / VPN / DX beside the comparison table | `network-private-paths-and-hybrid-links` |
+| `order-api` | IDE: app/server.py run locally against the emulated bucket (200, 404, /health, log) | `run-the-order-api` |
+| `compute-choice` | EC2 / Fargate / Lambda / EKS cards beside the comparison table | `run-choosing-compute` |
+| `launch-template` | map frame: 06-template.sh, one instance through its lifecycle | `run-a-server-from-a-template` |
+| `purchase-options` | IDE: tools/purchase_mix.py ($85.92 vs $117.60, local); m7g.large anatomy | `run-instance-types-and-paying-for-them` |
+| `bootstrap-and-ssm` | IDE: app/user-data.sh, template v2, send-command (recorded, not run) | `run-bootstrap-and-systems-manager` |
+| `scaling-timeline` | map frame: 06-scaling.sh, group sizes, evening-peak, tools/surge.py (model) | `run-auto-scaling` |
+| `ecs-task` | IDE: app/task-definition.json registered; ECR repo; two roles | `run-containers` |
+| `eks-choice` | illustrative Deployment manifest beside buys/costs and the verdict | `run-when-kubernetes-pays` |
+| `stateless-design` | IDE: carts.py (100 lost) then the real app's SIGTERM handling | `run-stateless-and-graceful` |
 
 ## Engine notes (written against flow 1.3.0 / shell 0.10 — recheck on 2.2.0 / 0.14)
 

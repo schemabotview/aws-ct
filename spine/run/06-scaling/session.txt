@@ -1,0 +1,12 @@
+$ bash infra/06-scaling.sh
+$ aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names order-api \
+> --query 'AutoScalingGroups[0].[MinSize,DesiredCapacity,MaxSize,length(Instances)]' \
+> --output text
+3	3	9	3
+$ aws autoscaling describe-scheduled-actions --auto-scaling-group-name order-api \
+> --query 'ScheduledUpdateGroupActions[].[ScheduledActionName,Recurrence,TimeZone,MinSize]' \
+> --output text
+evening-peak	45 17 * * *	Europe/London	6
+$ python tools/surge.py
+reactive only  short 110 req/s, 18:00 to 18:04
+evening-peak   never short: 6 in service before 18:00

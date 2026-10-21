@@ -1,0 +1,6 @@
+{
+  "venv": true,
+  "env": true,
+  "endpoint": "s3",
+  "setup": ["bash infra/01-bucket.sh"]
+}

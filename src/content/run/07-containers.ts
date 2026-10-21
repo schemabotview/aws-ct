@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const containers: Section = {
+  id: 'containers',
+  title: 'Containers',
+  scene: 'ecs-task',
+  narration:
+    "The user data script from section five builds a server in minutes, every time a server starts. A container image does that work once, at build time, and two new files hold it. The Dockerfile, in the explorer, starts from a slim Python image, installs boto three, copies the app in and runs it as an unprivileged user. The file in the editor is the task definition, which tells E C S how to run that image. It is for Fargate, so there are no servers to manage. Lines five and six ask for five hundred and twelve C P U units, half a virtual C P U, and one gibibyte of memory, and line seven asks for the Arm architecture, Graviton again. Lines nine and ten name two roles, which is the part people most often confuse. The execution role, OrderApiExecution, is what E C S itself uses to pull the image from E C R and to write the container's logs. The task role, OrderApi, the same role as before, is what the app's own code may call. The container's image is in the shop's E C R repository, tag one point four point two, and line sixteen sets a stop timeout of thirty seconds: when E C S stops a task it sends SIGTERM, waits thirty seconds, and only then kills it. In the terminal, an E C R repository is created and its U R I printed, and the task definition is registered: family order api, revision one, five hundred and twelve, one thousand and twenty four. The table compares a server and a task. The unit is a server or a task. A server is built from an image and user data; a task from a container image. Operating system patches are the shop's on E C two and A W S's on Fargate. Next, whether the shop should run Kubernetes instead.",
+}

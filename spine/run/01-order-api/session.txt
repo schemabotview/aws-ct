@@ -1,0 +1,12 @@
+$ python app/server.py > server.log 2>&1 & export SERVER=$!; sleep 1
+$ curl -s localhost:8080/products/p-1001 | jq -c '{id, name, price, stock}'
+{"id":"p-1001","name":"Ceramic pour-over coffee dripper","price":12.0,"stock":40}
+$ curl -s -o /dev/null -w '%{http_code}\n' localhost:8080/products/p-9999
+404
+$ curl -s localhost:8080/health; echo
+{"status": "ok"}
+$ kill $SERVER; cat server.log
+order API listening on :8080
+127.0.0.1 - - [12/Oct/2026 09:30:00] "GET /products/p-1001 HTTP/1.1" 200 -
+127.0.0.1 - - [12/Oct/2026 09:30:00] "GET /products/p-9999 HTTP/1.1" 404 -
+127.0.0.1 - - [12/Oct/2026 09:30:00] "GET /health HTTP/1.1" 200 -

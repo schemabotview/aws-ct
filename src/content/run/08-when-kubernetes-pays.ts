@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const whenKubernetesPays: Section = {
+  id: 'when-kubernetes-pays',
+  title: 'When Kubernetes pays',
+  scene: 'eks-choice',
+  narration:
+    "Kubernetes is the other common way to run containers, and on A W S it is E K S. On the left is what the order A P I would look like as a Kubernetes deployment. It is illustrative, not run. It asks for three replicas of a container named app, from the same image in E C R, on port eight zero eight zero. It is not much longer than the task definition, and that is not where the cost is. The table is the honest trade. Kubernetes buys one A P I that works the same across clouds and data centres; it costs a cluster that has to be upgraded several times a year, because each Kubernetes version is supported for a limited time. It buys a large ecosystem, Helm charts and operators for almost anything; it costs add-ons, node groups and networking plugins that someone must choose, configure and keep current. It buys fine control over scheduling; it costs a second permission system, Kubernetes R B A C, beside I A M. And it buys a platform that many teams can share; it costs people who know it well. E K S runs the control plane for you, for a fee per cluster hour, but everything else on that list stays with you. The list is the verdict for the shop. One service, one team, one cloud: Kubernetes is not the requirement. E C S on Fargate runs the same image with no cluster to upgrade and no second permission system. Choose E K S when the requirement is Kubernetes itself: many teams sharing a platform, portability across environments, or an ecosystem the business depends on. Picking it because it is popular means paying its costs without collecting its benefits. Next, the property every one of these options assumes: servers that can disappear without losing anything.",
+}

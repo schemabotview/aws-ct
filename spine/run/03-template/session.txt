@@ -1,0 +1,17 @@
+$ bash infra/06-template.sh
+order-api	1
+$ aws ec2 describe-launch-template-versions --launch-template-name order-api --output text \
+> --query 'LaunchTemplateVersions[0].LaunchTemplateData.[InstanceType,MetadataOptions.HttpTokens]'
+m7g.large	required
+$ export ID=$(aws ec2 run-instances --launch-template LaunchTemplateName=order-api \
+> --subnet-id $(aws ec2 describe-subnets --filters Name=tag:Name,Values=app-b \
+> --query 'Subnets[0].SubnetId' --output text) --query 'Instances[0].InstanceId' --output text)
+$ aws ec2 describe-instances --instance-ids $ID --output text \
+> --query 'Reservations[0].Instances[0].[InstanceId,State.Name,Placement.AvailabilityZone]'
+i-409e5e9796bc43738	running	eu-west-2b
+$ aws ec2 stop-instances --instance-ids $ID --output text \
+> --query 'StoppingInstances[0].[PreviousState.Name,CurrentState.Name]'
+running	stopping
+$ aws ec2 terminate-instances --instance-ids $ID --output text \
+> --query 'TerminatingInstances[0].[PreviousState.Name,CurrentState.Name]'
+stopped	shutting-down

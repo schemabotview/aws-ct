@@ -1,0 +1,11 @@
+$ python tools/carts.py
+carts on each server's disk  kept 200, lost 100
+carts in a shared store      kept 300, lost 0
+$ python app/server.py > server.log 2>&1 & export SERVER=$!; sleep 1
+$ curl -s -o /dev/null -w '%{http_code}\n' localhost:8080/health
+200
+$ kill -TERM $SERVER; sleep 1; cat server.log
+order API listening on :8080
+127.0.0.1 - - [12/Oct/2026 09:30:00] "GET /health HTTP/1.1" 200 -
+SIGTERM: no new requests; finishing those in flight
+stopped cleanly

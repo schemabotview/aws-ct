@@ -1,0 +1,10 @@
+{
+  "venv": true,
+  "env": true,
+  "setup": [
+    "bash infra/05-network.sh",
+    "bash infra/05-filters.sh",
+    "head -n -2 infra/04-roles.sh | bash",
+    "bash infra/06-template.sh"
+  ]
+}

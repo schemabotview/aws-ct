@@ -116,7 +116,7 @@ def tools() -> Path:
 def faketime_env(venv: Path, start: str) -> dict:
     src = next(venv.glob('lib/python3*/site-packages/libfaketime/vendor/libfaketime/src'))
     return {'LD_LIBRARY_PATH': str(src), 'LD_PRELOAD': 'libfaketime.so.1', 'DONT_FAKE_MONOTONIC': '1',
-            'FAKETIME_NO_CACHE': '1', 'FAKETIME': start}
+            'FAKETIME_NO_CACHE': '1', 'FAKETIME_DISABLE_SHM': '1', 'FAKETIME': start}
 
 
 def start_moto(venv: Path, config: dict) -> subprocess.Popen:
@@ -253,13 +253,16 @@ def replay(step: Path) -> tuple[str, dict[str, str]]:
                 script = f'cd {cwd!s}\n{{ {cmd}\n}} 2>&1\necho "{MARK}$PWD"\n'
                 if state.exists():
                     script = state.read_text() + '\n' + script
-                r = subprocess.run(['bash', '-c', script + f'export -p > {state}'], env={**env, **faketime_env(venv, config.get('time', CLOCK))},
+                r = subprocess.run(['bash', '-c', script + f'unset FAKETIME_SHARED; export -p > {state}'], env={**env, **faketime_env(venv, config.get('time', CLOCK))},
                                    capture_output=True, text=True)
                 output, _, after = r.stdout.partition(MARK)
                 if after:
                     cwd = Path(after.split('\n')[0])
                 output = real_endpoints(output.rstrip('\n'), cmd, config)
                 typed = '\n'.join([f'$ {first}', *(f'> {m}' for m in more)])
+                width = config.get('columns', COLUMNS)
+                if any(len(t) == width for t in typed.split('\n')):
+                    raise SystemExit(f'{step}: a typed line exactly {width} wide reads as wrapped — reword it:\n{typed}')
                 blocks.append(typed + (f'\n{output}' if output else ''))
             transcript = '\n'.join(blocks)
             captured = {n: (project / n).read_text() for n in config.get('capture', [])}

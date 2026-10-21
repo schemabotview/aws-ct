@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const theOrderApi: Section = {
+  id: 'the-order-api',
+  title: 'The order API',
+  scene: 'order-api',
+  narration:
+    "Before choosing where the app runs, here is the app. The editor shows app slash server dot p y, version one of the order A P I, built on Python's standard library H T T P server. Line fourteen answers slash health with two hundred, the check the load balancer from the last course will make. Lines fifteen to twenty one answer a product request: they turn slash products slash p dash one thousand and one into the key products slash p dash one thousand and one dot json, read that object from the catalog bucket through boto three, and return it, or a four oh four if there is no such product. Nothing in the file is a key or a password: boto three finds its credentials the way the C L I did, which on a server will be the OrderApi role. In the terminal, the server starts in the background on port eight zero eight zero, on the laptop. The first request asks for product one thousand and one, and jq keeps four fields: its I D, its name, a ceramic pour over coffee dripper, its price, twelve pounds, and its stock, forty. The catalog bucket here is the emulator's, while the server and curl are real. A product that does not exist returns four oh four. The health check returns status ok. Stopping the server shows its log: one line per request, with the status. On the right, the table lists what the app answers, and the list says why it is shaped this way. Products come from S three, so any server can answer any request, which is what the rest of this course depends on. There is no key in the code. It listens on eight zero eight zero, the one port s g app admits from the load balancer. And orders and carts arrive later, deliberately. Next, the four places this app could run on A W S.",
+}

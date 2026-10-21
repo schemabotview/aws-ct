@@ -1,0 +1,12 @@
+$ bash -n app/user-data.sh && echo "syntax ok"
+syntax ok
+$ export DATA=$(base64 -w0 app/user-data.sh)
+$ aws ec2 create-launch-template-version --launch-template-name order-api \
+> --source-version 1 --launch-template-data "{\"UserData\": \"$DATA\"}" \
+> --query LaunchTemplateVersion.VersionNumber
+2
+$ aws ssm send-command --document-name AWS-RunShellScript \
+> --targets Key=tag:app,Values=order-api \
+> --parameters 'commands=["dnf -y upgrade --security"]' \
+> --query Command.CommandId --output text
+bb20ed15-01a6-4dfb-a0f4-089c131b1743

@@ -1,0 +1,7 @@
+$ aws ecr create-repository --repository-name order-api \
+> --query repository.repositoryUri --output text
+111122223333.dkr.ecr.eu-west-2.amazonaws.com/order-api
+$ aws ecs register-task-definition \
+> --cli-input-json file://app/task-definition.json \
+> --query 'taskDefinition.[family,revision,cpu,memory]' --output text
+order-api	1	512	1024

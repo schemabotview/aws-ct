@@ -31,7 +31,8 @@ function mapContaining(anchor) {
 const aws = mapContaining('ec2')
 const azure = mapContaining('keyvault')
 const lucide = mapContaining('gitbranch')
-const valid = new Set([...aws, ...azure, ...lucide, 'none'])
+const brand = mapContaining('kafka')
+const valid = new Set([...aws, ...azure, ...brand, ...lucide, 'none'])
 
 const files = (dir) =>
   readdirSync(dir).flatMap((f) => {
@@ -50,4 +51,4 @@ if (problems.length) {
   for (const p of problems) console.error('  ' + p)
   process.exit(1)
 }
-console.log(`✓ icons resolve (${aws.length} AWS, ${azure.length} Azure, ${lucide.length} lucide keys known)`)
+console.log(`✓ icons resolve (${aws.length} AWS, ${azure.length} Azure, ${brand.length} brand, ${lucide.length} lucide keys known)`)
