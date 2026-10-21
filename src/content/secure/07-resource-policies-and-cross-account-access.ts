@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const resourcePoliciesAndCrossAccountAccess: Section = {
+  id: 'resource-policies-and-cross-account-access',
+  title: 'Resource policies and cross-account access',
+  scene: 'cross-account',
+  narration:
+    "So far every policy was attached to an identity. Some services also accept a policy attached to the resource itself, and S three's bucket policy is the shop's first. The shop's sales reports live in a bucket in production, shop reports, and the auditor, working from the audit account, must be able to read them. The file in the editor is the bucket policy. Its one statement, AuditorReads, allows get object and list bucket, on the bucket and on everything in it. What makes it a resource policy is the principal: it names who is allowed, here the role Auditor in account seven seven seven seven, eight eight eight eight, nine nine nine nine. In the terminal, put bucket policy attaches it to the bucket, and get bucket policy status confirms the bucket is not public, because the principal is one named role rather than a star. The table on the right is the rule that makes this work, and it differs by where the caller comes from. Within one account, an allow in either the caller's identity policy or the resource's policy is enough. Across accounts, both must allow. The bucket policy here is production saying the Auditor may come in. The second new file, auditor reads, is the identity policy in the audit account, the audit account saying the Auditor may go out and read this bucket. The list spells out the consequence: remove either one, and the read is denied. That two-sided rule is what keeps one account from granting itself access to another's data. The emulator does not model cross-account evaluation, so the both-sides rule here is A W S's documented behaviour. Next, guardrails that cap what any policy can grant, and who owns the audit trail.",
+}

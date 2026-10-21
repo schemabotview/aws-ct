@@ -1,0 +1,8 @@
+$ bash infra/04-roles.sh
+arn:aws:iam::111122223333:role/OrderApi
+arn:aws:iam::111122223333:instance-profile/OrderApi
+$ aws iam get-role --role-name OrderApi \
+> --query 'Role.AssumeRolePolicyDocument.Statement[0].Principal'
+{
+    "Service": "ec2.amazonaws.com"
+}

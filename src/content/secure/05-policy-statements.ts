@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const policyStatements: Section = {
+  id: 'policy-statements',
+  title: 'Policy statements',
+  scene: 'policy-statements',
+  narration:
+    "The second document is the permissions policy, open in the editor: OrderApiAccess. It has three statements, and each one answers the same four questions. ReadProducts allows the action s three get object, on every object whose key starts with products slash in the catalog bucket. That is read, never write. ListProducts, highlighted, allows s three list bucket. Its resource is the bucket itself, not the objects in it, because listing is an action on the bucket. And it has a condition: the listing may only ask for keys that start with products slash, so the app can browse products but not anything else stored in the same bucket. SendOrderEvents allows s q s send message on one queue, order events, in the production account. Send, but not receive, and not delete: another component will consume those events. In the terminal, put role policy attaches this document to OrderApi as an inline policy, and the same line is now the last line of infra zero four roles, so a rebuild includes it. Reading it back lists the three statements: their I Ds, their effect, which is allow for all three, and their action. The table on the right is the four questions. Effect: allow or deny. Action: which A P I calls. Resource: on which A R Ns. And condition: only when, which is optional. The list reads the policy as least privilege, one line at a time. Read products, never write them. List the bucket, but only under products. Send to one queue, not receive from it. And notice that list bucket names the bucket while get object names objects; giving one A R N where the other is expected is the most common reason a policy that looks right allows nothing. Next, a request that is denied, and exactly why.",
+}

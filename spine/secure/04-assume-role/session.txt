@@ -1,0 +1,12 @@
+$ aws sts assume-role --role-arn arn:aws:iam::111122223333:role/OrderApi \
+> --role-session-name app-b --query 'Credentials.[AccessKeyId,Expiration]'
+[
+    "ASIARTX3GSDSYLGTMJXK",
+    "2026-10-12T10:30:00+00:00"
+]
+$ aws sts get-caller-identity --profile order-api
+{
+    "UserId": "AROARTX3GSDSTBRPOIGF3:app-b",
+    "Account": "111122223333",
+    "Arn": "arn:aws:sts::111122223333:assumed-role/OrderApi/app-b"
+}

@@ -23,7 +23,7 @@ What makes a replay deterministic — all of it about the MACHINE, never the com
     (moto server, boto3, libfaketime) once into .spine-cache/tools from spine/requirements.txt. A
     step's .venv, when it asks for one, borrows that site-packages through a .pth file.
   - The clock is FROZEN by libfaketime for the emulator and for every command: it starts at the
-    step's `time` (default 2026-10-12 09:30:00 UTC) and runs at 1/1000 speed, so a timestamp, an
+    step's `time` (default 2026-10-12 09:30:00 UTC) and does not move, so a timestamp, an
     X-Amz-Date and a SigV4 signature come out the same on every run.
   - moto's random ids are SEEDED (POST /moto-api/seed), so vpc-…, i-… and request ids repeat exactly.
   - The emulator listens on localhost:5000, the address `env.sh` names. In OUTPUT, that address is
@@ -44,6 +44,8 @@ step.json (all keys optional):
   {"endpoint": "s3"}            the service whose endpoint a non-`aws` command (a Python script) prints
   {"capture": ["path", ...]}    files the session creates that a scene shows; saved to captured/
   {"columns": 100}              the pane's width: 84 in an IDE frame's terminal (default), 100 in a map frame's side pane
+  {"assume": {"profile": "role-arn#session"}}  after setup, assume a role and keep its credentials as a profile
+  {"enforce_iam": true}         after setup, the emulator authorises every request against IAM
 """
 import json
 import os
@@ -114,7 +116,7 @@ def tools() -> Path:
 def faketime_env(venv: Path, start: str) -> dict:
     src = next(venv.glob('lib/python3*/site-packages/libfaketime/vendor/libfaketime/src'))
     return {'LD_LIBRARY_PATH': str(src), 'LD_PRELOAD': 'libfaketime.so.1', 'DONT_FAKE_MONOTONIC': '1',
-            'FAKETIME_NO_CACHE': '1', 'FAKETIME': f'@{start} x0.001'}
+            'FAKETIME_NO_CACHE': '1', 'FAKETIME': start}
 
 
 def start_moto(venv: Path, config: dict) -> subprocess.Popen:
@@ -136,19 +138,54 @@ def start_moto(venv: Path, config: dict) -> subprocess.Popen:
     return server
 
 
-def commands(session: str, columns: int) -> list[str]:
-    """The `$ ` lines of a transcript. A command longer than the pane was wrapped like any other
-    line, so a `$ ` line exactly `columns` long continues on the next line."""
+def assume(home: Path, name: str, role: str, config: dict) -> None:
+    """Stand in for an instance profile: assume `role` once, before IAM enforcement starts, and keep
+    the temporary credentials in ~/.aws/credentials as profile `name` — as EC2 would hand them to a
+    server. (moto crashes when it checks a service-only trust policy against a user, so the call
+    cannot be made after enforcement starts; AWS would simply refuse it.)"""
+    arn, _, session_name = role.partition('#')
+    env = {'PATH': f"{awscli()}:/usr/bin:/bin", 'HOME': str(home), 'AWS_ENDPOINT_URL': ENDPOINT, 'AWS_DEFAULT_REGION': REGION,
+           'AWS_ACCESS_KEY_ID': 'AKIAIOSFODNN7EXAMPLE', 'AWS_SECRET_ACCESS_KEY': 'x', **faketime_env(tools(), config.get('time', CLOCK))}
+    out = subprocess.run(['aws', 'sts', 'assume-role', '--role-arn', arn, '--role-session-name', session_name or name, '--output', 'json'],
+                         env=env, check=True, capture_output=True, text=True).stdout
+    c = json.loads(out)['Credentials']
+    creds = home / '.aws' / 'credentials'
+    creds.parent.mkdir(parents=True, exist_ok=True)
+    with creds.open('a') as f:
+        f.write(f"[{name}]\naws_access_key_id = {c['AccessKeyId']}\naws_secret_access_key = {c['SecretAccessKey']}\n"
+                f"aws_session_token = {c['SessionToken']}\n")
+
+
+def enforce_iam() -> None:
+    """From now on the emulator authorises every request against IAM (moto's reset-auth)."""
+    req = urllib.request.Request(f'http://127.0.0.1:{PORT}/moto-api/reset-auth', data=b'0', method='POST',
+                                 headers={'Content-Type': 'application/octet-stream'})
+    urllib.request.urlopen(req).read()
+
+
+def commands(session: str, columns: int) -> list[tuple[str, list[str]]]:
+    """The `$ ` lines of a transcript, each with the `> ` lines that continue it after a trailing
+    backslash, as bash shows a continued command. A line longer than the pane was wrapped like any
+    other, so a command line exactly `columns` long continues on the next line."""
     lines = session.splitlines()
-    out = []
-    for i, line in enumerate(lines):
-        if line.startswith('$ '):
-            cmd = line
-            j = i
-            while len(lines[j]) == columns and j + 1 < len(lines):
-                j += 1
-                cmd += lines[j]
-            out.append(cmd[2:])
+    out: list[tuple[str, list[str]]] = []
+    i = 0
+    while i < len(lines):
+        if not lines[i].startswith('$ '):
+            i += 1
+            continue
+        typed = [lines[i]]
+        while len(lines[i]) == columns and i + 1 < len(lines):
+            i += 1
+            typed[-1] += lines[i]
+        while typed[-1].rstrip().endswith('\\') and i + 1 < len(lines) and lines[i + 1].startswith('> '):
+            i += 1
+            typed.append(lines[i])
+            while len(lines[i]) == columns and i + 1 < len(lines):
+                i += 1
+                typed[-1] += lines[i]
+        out.append((typed[0][2:], [t[2:] for t in typed[1:]]))
+        i += 1
     return out
 
 
@@ -203,11 +240,16 @@ def replay(step: Path) -> tuple[str, dict[str, str]]:
             for cmd in config.get('setup', []):
                 subprocess.run(['bash', '-c', prelude + cmd], cwd=project, env={**env, **faketime_env(venv, config.get('time', CLOCK))},
                                check=True, capture_output=True)
+            for name, role in config.get('assume', {}).items():
+                assume(home, name, role, config)
+            if config.get('enforce_iam'):
+                enforce_iam()
             if prelude:
                 subprocess.run(['bash', '-c', f'cd {project}\n{prelude}export -p > {state}'], env=env, check=True)
             cwd = project
             blocks: list[str] = []
-            for cmd in commands(session, config.get('columns', COLUMNS)):
+            for first, more in commands(session, config.get('columns', COLUMNS)):
+                cmd = '\n'.join([first, *more])
                 script = f'cd {cwd!s}\n{{ {cmd}\n}} 2>&1\necho "{MARK}$PWD"\n'
                 if state.exists():
                     script = state.read_text() + '\n' + script
@@ -217,7 +259,8 @@ def replay(step: Path) -> tuple[str, dict[str, str]]:
                 if after:
                     cwd = Path(after.split('\n')[0])
                 output = real_endpoints(output.rstrip('\n'), cmd, config)
-                blocks.append(f'$ {cmd}' + (f'\n{output}' if output else ''))
+                typed = '\n'.join([f'$ {first}', *(f'> {m}' for m in more)])
+                blocks.append(typed + (f'\n{output}' if output else ''))
             transcript = '\n'.join(blocks)
             captured = {n: (project / n).read_text() for n in config.get('capture', [])}
         finally:

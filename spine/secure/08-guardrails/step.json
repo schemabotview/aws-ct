@@ -1,0 +1,10 @@
+{
+  "venv": true,
+  "env": true,
+  "account": "123456789012",
+  "setup": [
+    "aws organizations create-organization --feature-set ALL",
+    "ROOT=$(aws organizations list-roots --query 'Roots[0].Id' --output text) && aws organizations create-organizational-unit --parent-id $ROOT --name Security && aws organizations create-organizational-unit --parent-id $ROOT --name Workloads",
+    "aws organizations enable-policy-type --root-id $(aws organizations list-roots --query 'Roots[0].Id' --output text) --policy-type SERVICE_CONTROL_POLICY"
+  ]
+}

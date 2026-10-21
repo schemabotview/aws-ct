@@ -1,0 +1,7 @@
+$ aws iam put-role-policy --role-name OrderApi --policy-name OrderApiAccess \
+> --policy-document file://policies/order-api-access.json
+$ aws iam get-role-policy --role-name OrderApi --policy-name OrderApiAccess \
+> --query 'PolicyDocument.Statement[].[Sid,Effect,Action]' --output text
+ReadProducts	Allow	s3:GetObject
+ListProducts	Allow	s3:ListBucket
+SendOrderEvents	Allow	sqs:SendMessage

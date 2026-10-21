@@ -2,5 +2,6 @@
   "_comment": "Curated publish titles (YouTube title + thumbnail header) per course, keyed by course id. Search-first: what someone would actually type, never 'Course 4'. One entry per course in src/content/index.ts.",
   "why-cloud": "Why the Cloud? AWS Elasticity, Managed Services and the Shared Responsibility Model",
   "how-aws-runs": "How AWS Works: Regions, Availability Zones, API Calls, SigV4 Request Signing, ARNs and Billing",
-  "start": "AWS CLI Setup: Root User Safety, IAM Identity Center SSO Login, Your First S3 Bucket, Costs and Cleanup"
+  "start": "AWS CLI Setup: Root User Safety, IAM Identity Center SSO Login, Your First S3 Bucket, Costs and Cleanup",
+  "secure": "AWS IAM Explained: Identity Center, Roles and Trust Policies, Policy Evaluation, Cross-Account Access and SCPs"
 }

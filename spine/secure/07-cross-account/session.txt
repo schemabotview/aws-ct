@@ -1,0 +1,8 @@
+$ aws s3api put-bucket-policy --bucket shop-reports-111122223333 \
+> --policy file://policies/reports-bucket.json
+$ aws s3api get-bucket-policy-status --bucket shop-reports-111122223333
+{
+    "PolicyStatus": {
+        "IsPublic": false
+    }
+}

@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const assumingTheRole: Section = {
+  id: 'assuming-the-role',
+  title: 'Assuming the role',
+  scene: 'assume-role',
+  narration:
+    "Assuming a role is one call to S T S, the security token service, and its answer is a set of temporary credentials. In the terminal, the call is made by hand, naming the OrderApi role and a session called app dash b, after the server it stands for. The answer, cut to two fields, is an access key I D starting with A S I A, which marks a temporary key, and an expiry exactly one hour after the emulator's clock, the default duration. The full answer also carries a secret and a session token. The second command uses a profile that assumes the role automatically, and asks who am I. The answer is an assumed role: OrderApi, session app b, in the production account. That A R N is what every request from the server will be signed as, and what every log will record. The table compares what a server holds with and without a role. An I A M user's key starts A K I A, lives until someone rotates it, and if it leaks, it works until someone notices. A role session starts A S I A, carries a session token, lives an hour and is refreshed, and if it leaks, it stops working at its expiry. The list is the honest part. The emulator ran this with I A M enforcement off, so it did not check the trust policy from the last section. On A W S, this exact call, made by a person, is refused, because only E C two may assume OrderApi. On a real server, E C two makes this call itself, through the instance profile, and hands the credentials to the server through its instance metadata service, refreshing them before they expire. The application code never sees a key at all; the S D K finds the credentials. Next, what the role is allowed to do.",
+}

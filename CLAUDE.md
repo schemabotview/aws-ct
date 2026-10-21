@@ -36,7 +36,7 @@ so the plan is the only list of them.
 | 1 | `why-cloud` | Why the cloud | 5 | authored, awaiting owner review (no narration audio yet) |
 | 2 | `how-aws-runs` | How AWS runs a request | 6 | authored, awaiting owner review (no narration audio yet) |
 | 3 | `start` | Start the project | 6 | authored, awaiting owner review (no narration audio yet) |
-| 4 | `secure` | Lock it down | 8 | planned |
+| 4 | `secure` | Lock it down | 8 | authored, awaiting owner review (no narration audio yet) |
 | 5 | `network` | Give it a network | 9 | planned |
 | 6 | `run` | Run the app | 9 | planned |
 | 7 | `automate` | Make it repeatable | 8 | planned |
@@ -81,12 +81,18 @@ What makes a replay deterministic, all of it about the machine:
   `localhost:5000` — the address `env.sh` names. A pane that shows one is titled `· emulated`.
 - **moto is seeded** (`/moto-api/seed`), so `vpc-…`, `i-…` and request ids repeat exactly.
 - **The clock is frozen** by libfaketime at the step's `time` (default 2026-10-12 09:30:00 UTC),
-  running at 1/1000 speed, so timestamps, `X-Amz-Date` and SigV4 signatures repeat exactly.
+  and does not move, so timestamps, `X-Amz-Date` and SigV4 signatures repeat exactly.
 - **In output, `http://localhost:5000` becomes the regional endpoint** the same call has on AWS
   (`https://<service>.eu-west-2.amazonaws.com`), except on a line that sets `AWS_ENDPOINT_URL`.
 - Output is hard-wrapped at the pane's width: 84 columns in an IDE terminal, `"columns": 100` in a
   map frame's side pane. A command longer than that wraps too, and the replay rejoins it.
 - Use `AWS_DEFAULT_REGION`, not `AWS_REGION`: boto3 1.43 ignores the latter and signs for us-east-1.
+- **IAM enforcement** (`"enforce_iam": true`) starts after setup, through moto's `reset-auth`. Before
+  it, `"assume"` obtains role credentials (standing in for an instance profile) — moto 5.2.4 crashes
+  (500) if a user assumes a service-only role while enforcement is on, where AWS would refuse it.
+  moto does NOT evaluate condition keys (`s3:prefix` was ignored), cross-account policies or SCPs:
+  those claims stay doc-cited, and the frame says so. Mutate the policy and watch the replay fail
+  before trusting an enforced step.
 - **Run one replay at a time** — every step takes port 5000.
 
 ## Verification levels — read before trusting a code card
@@ -235,6 +241,14 @@ frame already quotes.
 | `emulator` | IDE: env.sh, emulated identity and empty account; shows / cannot show | `start-the-emulator-beside-aws` |
 | `first-bucket` | map frame: infra/01-bucket.sh, its run, and BucketAlreadyOwnedByYou on the second run | `start-the-first-resource` |
 | `cleanup` | IDE: tools/cost_ledger.py (36.21 / 7.01) then teardown; budget is not a cap | `start-billing-budgets-and-cleanup` |
+| `principals` | map frame: principal kinds, Identity Center assignments, authn vs authz | `secure-principals-authentication-and-federation` |
+| `org-structure` | map frame: the organization as a tree, what an account isolates | `secure-accounts-and-environments` |
+| `role-trust` | IDE: order-api-trust.json, infra/04-roles.sh run; trust vs permissions | `secure-a-role-for-the-app` |
+| `assume-role` | map frame: assume-role by hand (enforcement off, trust unchecked — said on screen) | `secure-assuming-the-role` |
+| `policy-statements` | IDE: OrderApiAccess (3 statements) put and read back | `secure-policy-statements` |
+| `denied` | IDE: + DenyDrafts; tools/probe.py under IAM enforcement (mutation-tested) | `secure-why-a-request-is-denied` |
+| `cross-account` | IDE: reports bucket policy for the audit account's Auditor; both sides must allow | `secure-resource-policies-and-cross-account-access` |
+| `guardrails` | IDE: StayInLondon SCP attached to Workloads in an emulated organization | `secure-guardrails-and-audit-ownership` |
 
 ## Engine notes (written against flow 1.3.0 / shell 0.10 — recheck on 2.2.0 / 0.14)
 

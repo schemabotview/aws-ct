@@ -1,0 +1,7 @@
+$ python tools/probe.py
+arn:aws:sts::111122223333:assumed-role/OrderApi/app-b
+read products/p-1001.json            allowed
+read products/drafts/p-2001.json     AccessDenied
+read orders/o-501.json               AccessDenied
+overwrite products/p-1001.json       AccessDenied
+send to order-events                 allowed

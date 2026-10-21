@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const accountsAndEnvironments: Section = {
+  id: 'accounts-and-environments',
+  title: 'Accounts and environments',
+  scene: 'org-structure',
+  narration:
+    "The shop does not live in one account. It lives in an organization, and on the map the accounts now light up beside the roles. The tree on the right is that organization, managed with A W S Organizations. At its root is the management account, one two three four five six seven eight nine zero one two. Under the root are organisational units, or O Us, which are folders for accounts. The Security O U holds the audit account, seven seven seven seven, eight eight eight eight, nine nine nine nine. The Workloads O U holds two more O Us, Prod and Dev, and in each is one account: production, one one one one, two two two two, three three three three, which the map describes, and development, four four four four, five five five five, six six six six, where Course three began. The table says why these are separate accounts rather than separate folders in one. An account is the strongest boundary A W S has. Resources in it are its own, so a development script cannot touch production. I A M is per account, so an administrator in development is nobody in production unless deliberately given access. Quotas are per account, so a load test in development cannot use up production's limits. The bill is per account by default, so cost follows the boundary. And the blast radius of a leaked development key is development. The list describes the management account's special job. It creates accounts and O Us and pays the consolidated bill, and it runs no workloads, partly because the guardrails in the last section of this course never apply to it. The audit account owns the logs that record what everyone did, so the people being audited cannot edit the record. Next, the app's own identity: a role for OrderApi, and the policy that says who may use it.",
+}
