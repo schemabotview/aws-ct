@@ -35,7 +35,7 @@ so the plan is the only list of them.
 | --- | --- | --- | --- | --- |
 | 1 | `why-cloud` | Why the cloud | 5 | authored, awaiting owner review (no narration audio yet) |
 | 2 | `how-aws-runs` | How AWS runs a request | 6 | authored, awaiting owner review (no narration audio yet) |
-| 3 | `start` | Start the project | 6 | planned |
+| 3 | `start` | Start the project | 6 | authored, awaiting owner review (no narration audio yet) |
 | 4 | `secure` | Lock it down | 8 | planned |
 | 5 | `network` | Give it a network | 9 | planned |
 | 6 | `run` | Run the app | 9 | planned |
@@ -59,7 +59,14 @@ section in the plan:
   `BUILT_BY[n]` is what the shop has at the end of course n. `MAP_W` × `MAP_H` (924 × 1078) is the
   map as `computeLayout` places it — re-measure if a part's label changes. `check-render.mjs` fails a
   map frame whose map or side pane moves.
+- **IDE frame** — `ideFrame()` in `src/scenes/ide.ts`, the python-ct / Spark template: explorer 300 |
+  editor 80 cols × 18 rows over terminal | side 520, 1632 × 918. A side pane holds tables and lists
+  only, with SHORT cells: a code card has a minimum column count and can never fit 520, and a long
+  table cell widens the pane — both move every panel, and `check-render.mjs` fails it. A file longer
+  than 18 rows is folded with `show` or rewritten shorter; code lines stay within 80 columns.
 - **Concept frame** — any scene; author wide, not tall (the frame is 16:9).
+- **Ids:** `ideFrame` and `mapFrame` name their wrappers `<id>-explorer`, `<id>-centre`, `<id>-side`,
+  `<id>-map`; a side pane's own root must not reuse one (use `<id>-pane`).
 
 ## The spine: commands are replayed, not pasted
 
@@ -222,6 +229,12 @@ frame already quotes.
 | `request-anatomy` | map frame: replayed head-object + request_parts.py (`spine/how-aws-runs/04-anatomy`) | `how-aws-runs-anatomy-of-a-request` |
 | `arn-anatomy` | the queue ARN's six fields beside the shop's ARNs table | `how-aws-runs-arns-and-resource-identity` |
 | `what-keeps-charging` | the hypothetical meters table beside the dev account's month, running vs stopped | `how-aws-runs-what-keeps-charging` |
+| `project-tour` | IDE: the finished tree, what-each-part-is-for table in the editor's place | `start-the-finished-project-toured` |
+| `root-user` | the dev account's identities (root in red) beside root-only jobs and lock-it-away | `start-the-account-and-its-root-user` |
+| `first-session` | map frame: real CLI, no SSO token (not emulated) + sso login steps + shape-checked identity | `start-a-first-session` |
+| `emulator` | IDE: env.sh, emulated identity and empty account; shows / cannot show | `start-the-emulator-beside-aws` |
+| `first-bucket` | map frame: infra/01-bucket.sh, its run, and BucketAlreadyOwnedByYou on the second run | `start-the-first-resource` |
+| `cleanup` | IDE: tools/cost_ledger.py (36.21 / 7.01) then teardown; budget is not a cap | `start-billing-budgets-and-cleanup` |
 
 ## Engine notes (written against flow 1.3.0 / shell 0.10 — recheck on 2.2.0 / 0.14)
 

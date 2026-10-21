@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const theEmulatorBesideAws: Section = {
+  id: 'the-emulator-beside-aws',
+  title: 'The emulator beside AWS',
+  scene: 'emulator',
+  narration:
+    "This course has no A W S account behind it, and you do not need one to follow it. Instead, every command runs against an emulator: a local server called moto that answers the same A P I calls A W S does. The file open in the editor, env dot sh, is the whole switch. Line two sets the Region, E U west two, for every command in the project. Lines six to eight are the emulator: an endpoint U R L on localhost, and a key pair that the emulator accepts and that is, in fact, A W S's own documentation example. The comment says how to run the same scripts against A W S itself: delete those three lines, and use the shop dev profile from the last section instead. Nothing else in the project changes. In the terminal, sourcing the file and asking who am I now succeeds. The emulator answers in the dev account, four four four four, five five five five, six six six six, as a placeholder user called moto, because it has no Identity Center. Listing buckets returns an empty list: a brand new account. The table on the right is the honest boundary. The emulator shows A P I answers and errors, resources and their state, I A M policy decisions, and the behaviour of queues, conditional writes and retries. It cannot show packets crossing a network, software running on a server, organization guardrails and cross-account checks, or failover, edge caching and quotas. The list is how the course handles that. The C L I and boto three are real; only the endpoint changes. Every pane run against the emulator says emulated in its title. Whatever the emulator cannot show is shown by a small model, run for real, or by cited documentation, and the frame says which. Next, the shop's first real resource.",
+}

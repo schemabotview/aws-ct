@@ -31,6 +31,8 @@ What makes a replay deterministic — all of it about the MACHINE, never the com
     the service read from `aws <service>` or step.json's `endpoint`) — except on a line that sets
     AWS_ENDPOINT_URL, which is shown as written. Nothing else in an output is edited.
 
+A step's home/ folder, if any, is copied into the temp home first (~/.aws/config, for one).
+
 step.json (all keys optional):
   {"project": "name"}           the folder's name (default shop-on-aws): Course 2's demo is not the spine
   {"venv": true}                create .venv (borrowing boto3) and start with it activated
@@ -177,6 +179,8 @@ def replay(step: Path) -> tuple[str, dict[str, str]]:
         name = config.get('project', PROJECT)
         project = home / name
         home.mkdir()
+        if (step / 'home').exists():
+            shutil.copytree(step / 'home', home, dirs_exist_ok=True)
         if (step / 'project').exists():
             shutil.copytree(step / 'project', project)
         else:

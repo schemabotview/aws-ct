@@ -1,5 +1,6 @@
 import { whyCloud } from './why-cloud'
 import { howAwsRuns } from './how-aws-runs'
+import { start } from './start'
 import type { Course, Section } from './types'
 
 // Course registry, in plan order (AWS-COURSE-PLAN.md). A course is registered here only once
@@ -7,6 +8,7 @@ import type { Course, Section } from './types'
 export const COURSES: Record<string, Course> = {
   [whyCloud.id]: whyCloud,
   [howAwsRuns.id]: howAwsRuns,
+  [start.id]: start,
 }
 
 export type { Course, Section }

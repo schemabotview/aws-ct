@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const aFirstSession: Section = {
+  id: 'a-first-session',
+  title: 'A first session',
+  scene: 'first-session',
+  narration:
+    "Here is how alex, the shop's developer, starts work, with the map still nearly empty. The terminal shows the real A W S C L I, not the emulator, and its first command prints alex's configuration file. It holds one profile, shop dev, that names the development account, four four four four, five five five five, six six six six, and a permission set called ShopDeveloper, in E U west two. The profile points at an S S O session called shop, which names the shop's access portal. There is no key in this file. The second command asks the simplest question there is: who am I? It fails before any request is sent, because there is no S S O token yet: alex has not logged in. The table is what aws s s o login does, from A W S's documentation, because a sign-in needs a browser and a real Identity Center, and the emulator has neither. A browser opens the shop's portal. Alex signs in, with M F A, and approves the C L I. The C L I caches a token in the home folder. From then on, each command trades that token for credentials of the ShopDeveloper role in the dev account. And those credentials expire, so no long-lived key ever sits on the laptop. Underneath is what the same who am I question returns after login. Its shape is checked against S T S's own model, and its values are invented. The account is the dev account. The A R N is an assumed role: an Identity Center role named after the permission set, with a random suffix, and the session is named alex. That one line answers who, in which account, with which permissions. It is the first thing to run when anything is denied. Next, the emulator this course runs its commands against, and why.",
+}

@@ -1,0 +1,13 @@
+$ python tools/cost_ledger.py
+item                       running   stopped
+dev server, 730 h            29.20      0.00
+its volume, 20 GB             1.60      1.60
+public IPv4, 730 h            3.65      3.65
+snapshot, 20 GB               1.00      1.00
+catalog bucket, 33 GB         0.76      0.76
+total a month                36.21      7.01
+$ bash infra/teardown.sh
+delete: s3://shop-catalog-444455556666/products/p-1001.json
+deleted shop-catalog-444455556666
+$ aws s3api list-buckets --query 'Buckets[].Name'
+[]

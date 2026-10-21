@@ -1,0 +1,1 @@
+{"venv": true, "env": true, "account": "444455556666", "setup": ["bash infra/01-bucket.sh"]}

@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const theAccountAndItsRootUser: Section = {
+  id: 'the-account-and-its-root-user',
+  title: 'The account and its root user',
+  scene: 'root-user',
+  narration:
+    "Every A W S resource belongs to an account, and the shop's development work happens in one: account four four four four, five five five five, six six six six. On the left are the identities inside it. At the top, in red, is the root user: the email address and password that opened the account. Root can do anything in the account, and no I A M policy can limit it, which is exactly why it is dangerous. Below are the identities that should do the work. The shop's people, alex and sam, sign in through I A M Identity Center, and the app itself will act through an I A M role called OrderApi. Both arrive in Course four. The table lists the few jobs that genuinely need root: changing the account's email, name or root password; closing the account; restoring access when no administrator can sign in any more; and a handful of billing and tax settings. Everything else should be done by someone else. The list on the right is how to lock it away. Turn on multi-factor authentication for root before you do anything else in a new account, so a stolen password is not enough. Never create access keys for root, because a key in a script or on a laptop would be a permanent copy of the most powerful credential you own. Sign in as root only for the jobs in the table. Do everyday work through Identity Center instead. And in an organization, which Course four builds, member accounts can have no root password at all, with the few root tasks run centrally. The mistake to avoid is the convenient one: using root because it never says access denied. That convenience is the risk. Next, a first session that is not root: a person signing in with temporary credentials.",
+}

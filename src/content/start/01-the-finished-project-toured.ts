@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const theFinishedProjectToured: Section = {
+  id: 'the-finished-project-toured',
+  title: 'The finished project, toured',
+  scene: 'project-tour',
+  narration:
+    "From here on, the shop is a real project on disk, called shop on A W S, and this is the layout every lesson uses. On the left is the project as an editor shows it, finished, as it will be at the end of the course. In the centre, where code will normally be, is what each part is for and the course that builds it. Two small things come first, in this course: env dot sh, which sets the Region and says where commands go, and a Python environment with boto three. Then infra, the A W S C L I scripts that build the shop's resources one command at a time, from this course to Course six. Policies holds every permission as J S O N, from Course four. App is the order A P I itself, and later its container image. Templates holds the same resources again, but declared rather than scripted, from Course seven, and pipeline builds the app once and deploys it to two accounts. Catalog and d b hold the product data and the orders schema. Functions and workflow are the asynchronous checkout in Course ten. Jobs exports and reports on sales in Course eleven. Ops holds the runbooks for incidents and restores in Course twelve. Tools holds the course's calculations, from costs to capacity. And docs holds the decision record that closes the course. On the right is how to read every lesson. The left panel is the project, and a file marked new is one this lesson adds. The centre shows the open file with this lesson's lines highlighted, and beneath it the terminal, exactly as it ran. A terminal marked emulated ran against a local emulator rather than A W S, which this course explains in a moment. And three dots with a line count folds away what the lesson does not need. Next, the account itself, and the one identity in it that can do anything.",
+}

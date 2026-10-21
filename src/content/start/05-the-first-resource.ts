@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const theFirstResource: Section = {
+  id: 'the-first-resource',
+  title: 'The first resource',
+  scene: 'first-bucket',
+  narration:
+    "The shop's first resource is the catalog bucket, and on the map the buckets are now lit. The script on the right, infra slash zero one bucket, builds it. Line three makes the script stop at the first error, which matters in a moment. Line five asks who am I and keeps only the account number, and line six builds the bucket's name from it: shop catalog, then the account, because bucket names are global and an account number makes one unlikely to be taken. Lines eight and nine create the bucket in E U west two. Lines eleven and twelve tag it: app shop, environment dev, owner alex. Tags cost nothing and answer the question every bill eventually asks, which is whose is this. Line thirteen uploads the first product file, and prints its E tag. In the terminal, the first run creates shop catalog four four four four, five five five five, six six six six, and prints the E tag. Listing the bucket shows one object: products slash p dash one thousand and one dot json, one thousand eight hundred and thirty four bytes, the file Course two asked about. Then the script runs a second time, and fails. The bucket already exists and belongs to this account, and outside the U S east one Region, S three answers create bucket on such a bucket with an error, BucketAlreadyOwnedByYou. Because of line three, the script stops right there instead of carrying on half done. The list draws the lesson. A script records what to do, not what should exist, so running it twice is a different request from running it once. Every C L I script in this course has this property, and Course seven replaces them with templates that describe the result instead. Next, what the account costs, and how to remove what we made.",
+}

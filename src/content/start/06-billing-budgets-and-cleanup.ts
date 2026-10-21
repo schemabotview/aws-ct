@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const billingBudgetsAndCleanup: Section = {
+  id: 'billing-budgets-and-cleanup',
+  title: 'Billing, budgets and cleanup',
+  scene: 'cleanup',
+  narration:
+    "Every resource the shop creates is a cost from that moment, so this course ends with two new files: one that prices the account, and one that removes what infra built. The editor shows tools slash cost ledger. Lines two and three are the course's hypothetical rate card, the same invented rates as before. The ledger lists what the dev account will hold once it has a server: the server itself for seven hundred and thirty hours, its twenty gigabyte volume, a public address, a twenty gigabyte snapshot, and thirty three gigabytes of catalog in S three. Each entry says whether it is still billed when the server is stopped. Line sixteen adds an item to the stopped total only when it is. The terminal shows the result. Running all month costs thirty six dollars twenty one. Stopped, it is still seven dollars and one cent, because only the server's own hours stop. Then the new teardown script runs, and the table on the right gives its steps, newest resource first. It removes every object, because a bucket must be empty before it can be deleted, then deletes the bucket, and the last command checks by listing buckets and finding none. The list below it is the habit this course keeps. A budget, in A W S Budgets, is an alarm, not a cap: it emails when actual or forecast cost crosses a line you set, and it stops nothing unless you configure an action to do so. Tags, like app, env and owner, are what let a bill say whose cost is whose. And cleanup is a script, kept beside the scripts that create things, and grown with them every time a new resource appears. That completes the start: a project, a profile, an emulator, a first resource, a price, and a way back to nothing. Next course, who is allowed to do any of this.",
+}
