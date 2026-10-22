@@ -1,0 +1,1 @@
+{"venv": true, "env": true, "setup": ["aws secretsmanager create-secret --name 'rds!db-shop-orders' --secret-string \"{\\\"username\\\":\\\"shop\\\",\\\"password\\\":\\\"$(aws secretsmanager get-random-password --password-length 32 --exclude-punctuation --query RandomPassword --output text)\\\"}\""]}

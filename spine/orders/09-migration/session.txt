@@ -1,0 +1,8 @@
+$ export RDS_HOST=shop-orders.aaaaaaaaaa.eu-west-2.rds.amazonaws.com
+$ bash infra/09-migration.sh
+orders-to-rds	full-load-and-cdc	creating
+$ aws dms start-replication-task --replication-task-arn "$(aws dms \
+> describe-replication-tasks --query 'ReplicationTasks[0].ReplicationTaskArn' \
+> --output text)" --start-replication-task-type start-replication \
+> --query 'ReplicationTask.Status' --output text
+running

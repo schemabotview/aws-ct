@@ -1,0 +1,4 @@
+$ python tools/cache_aside.py
+                t=0         t=20        t=40        t=61
+TTL only        12.0 miss   12.0 stale  12.0 stale  10.0 miss
+delete-on-write 12.0 miss   10.0 miss   10.0 hit    10.0 hit

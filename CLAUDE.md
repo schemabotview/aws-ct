@@ -41,7 +41,7 @@ so the plan is the only list of them.
 | 6 | `run` | Run the app | 9 | authored, awaiting owner review (no narration audio yet) |
 | 7 | `automate` | Make it repeatable | 8 | authored, awaiting owner review (no narration audio yet) |
 | 8 | `files` | Store its files | 7 | authored, awaiting owner review (no narration audio yet) |
-| 9 | `orders` | Keep its orders | 9 | planned |
+| 9 | `orders` | Keep its orders | 9 | authored, awaiting owner review (no narration audio yet) |
 | 10 | `decouple` | Decouple the checkout | 9 | planned |
 | 11 | `report` | Report on sales | 7 | planned |
 | 12 | `operate` | Operate it | 10 | planned |
@@ -107,6 +107,14 @@ What makes a replay deterministic, all of it about the machine:
   CloudFormation KMS key's policy breaks `kms describe-key` (500). Course 8 therefore declares the
   buckets and key in `templates/storage.yaml` and applies each setting with its `s3api` call, from a
   JSON file under `infra/s3/`. Its version listing also mislabels "latest" after a delete.
+- moto's RDS keeps what a template asks for (engine, class, Multi-AZ, encryption, subnet group,
+  backups) but not deletion protection, the managed master secret, the port or the subnet group's
+  AZs, and maps `VPCSecurityGroups` to the wrong group; it rejects `!GetAtt …Endpoint.Address` and
+  `MasterUserSecret`. Course 9 shows only the faithful fields, and its step setup stores the
+  `rds!db-shop-orders` secret RDS would create. Secrets Manager `VersionId`s are not seeded — never
+  print one. DMS records endpoints and tasks and moves no data.
+- **`orders/03` runs real PostgreSQL 16**, not the emulator: start the local cluster first
+  (`pg_ctlcluster 16 main start`, and once `su postgres -c 'createuser -s root'`).
 - **Run one replay at a time** — every step takes port 5000.
 
 ## Verification levels — read before trusting a code card
@@ -178,11 +186,11 @@ the pages directly.
 | S3 race | p-1001.json `{price 12.0, stock 40}`; price job → 10.0, stock job → 39; plain PUT ends `{12.0, 39}`, If-Match ends `{10.0, 39}` (moto) |
 | block / file | invoice service: 30 GiB gp3 in eu-west-2a → snapshot → restored in eu-west-2b (moto); EFS `shop-invoices-1` mounted at /mnt/invoices in all three AZs |
 | orders DB | RDS PostgreSQL 16.9 `shop-orders`, db.r7g.large (cfn-lint: 16.4 deprecated, db.m7g.large not offered here), 100 GiB gp3, Multi-AZ (instance), encrypted, 7-day backups, deletion protection, password managed in Secrets Manager, subnet group `shop-data`, sg-db; max_connections 200 (assumed), 10 reserved, pool 20/server → 12 servers = 50 refused |
-| order 501 | 2 × p-1001 (10.00, stock 40) + 2 × p-1002 (4.50, stock 1), total 29.00 → CHECK fails, rolled back (PostgreSQL 16) |
+| order 501 | customer c-17; 2 × p-1001 (10.00, stock 40) + 2 × p-1002 (4.50, stock 1), total 29.00 → CHECK fails, rolled back (PostgreSQL 16) |
 | access mix | product by id ~450 reads/s, place order ~6 writes/s, a customer's orders ~40 reads/s (evening peak, assumed) |
-| DynamoDB | table `Orders` (PK customer, SK `<time>#<order>`), GSI `by-status` (2 values → hot key); `Stock`/`Orders` transaction: o-601 placed, o-602 ConditionalCheckFailed (moto) |
+| DynamoDB | table `Orders` (PK customer, SK `<time>#<order>`, on demand; c-17 has o-501, o-511, o-514), GSI `by-status` (2 values → hot key); `Stock`/`Orders` transaction: o-601 placed, o-602 ConditionalCheckFailed (moto) |
 | cache | p-1001 12.0 → 10.0 at t=10 s, TTL 60 s: stale 10–60 s; delete-on-write: fresh at 20 s |
-| migration | DMS task `orders-to-rds`, full-load-and-cdc, schema `shop` |
+| migration | DMS task `orders-to-rds`, full-load-and-cdc, schema `shop`; source `orders.dc.example.com`, replication instance `shop-dms` dms.t3.medium |
 | API | REST API, model `Order` + validator `body-only`, Cognito authorizer `shoppers`, stage `prod` throttle 600 rps |
 | functions | `place-order` (python3.13, arm64, 512 MB, timeout 10 s, role PlaceOrderFn, reserved concurrency 50; 0.12 s assumed → 67 needed at 560 req/s, 143/s throttled); also reserve-stock, charge-payment, ship-order, release-stock |
 | lake | `s3://shop-lake-111122223333/order_history/`, Glue db `shop_lake`, table `order_history` (Parquet, partition dt); September 2026 history: 60,000 rows (2,000/day, seed 12); one day opens 629 KiB flat vs 24 KiB partitioned vs 220 KiB as 200 tiny files; 11–13 Sep sales 202,224.52 / 205,617.39 / 202,876.5 (DuckDB, labelled) |
@@ -296,6 +304,15 @@ frame already quotes.
 | `version-timeline` | IDE: versioning + lifecycle, tools/versions.py (delete marker, restore) | `files-versions-and-lifecycle` |
 | `ebs-snapshot` | map frame: 30 GiB gp3 in 2a → snapshot → volume in 2b; EFS; FSx table | `files-volumes-and-shared-files` |
 | `data-protection` | IDE: storage.yaml's KMS key; SSE-KMS with a bucket key; threat × protection | `files-encryption-replication-and-backup` |
+| `access-patterns` | access-pattern table → relational / key-value / in-memory lists → five questions | `orders-what-the-orders-need` |
+| `rds-instance` | map frame: orders-db.yaml (+ sg-db), the stack, describe-db-instances; what "managed" covers | `orders-the-orders-database` |
+| `order-transaction` | IDE: sql/place_order.sql in real PostgreSQL 16 (not emulated): CHECK fails → ROLLBACK | `orders-placing-an-order` |
+| `db-connections` | IDE: tools/connections.py: secret from Secrets Manager, 12 servers × 20 → 50 refused | `orders-connections-and-credentials` |
+| `rds-availability` | Multi-AZ instance / cluster / Aurora / replica / PITR table above three bad evenings | `orders-availability-read-scaling-and-restore` |
+| `dynamodb-keys` | IDE: tools/orders_table.py: customer + time#order, by-status hot key | `orders-a-key-value-table` |
+| `dynamodb-conditions` | IDE: tools/last_unit.py: TransactWriteItems, o-601 placed, o-602 cancelled; read consistency | `orders-the-last-unit-in-stock` |
+| `cache-aside` | IDE: tools/cache_aside.py (plain Python): TTL-only stale 10–60 s vs delete-on-write | `orders-caching-the-product-page` |
+| `migration-and-specialists` | IDE: infra/09-migration.sh (DMS full-load-and-cdc, recorded not run); specialist engines | `orders-migration-and-specialist-databases` |
 
 ## Engine notes (written against flow 1.3.0 / shell 0.10 — recheck on 2.2.0 / 0.14)
 

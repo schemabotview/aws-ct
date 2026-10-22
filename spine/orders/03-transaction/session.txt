@@ -1,0 +1,15 @@
+$ psql -X -q -d shop -f sql/schema.sql
+$ psql -X -d shop -f sql/place_order.sql
+BEGIN
+INSERT 0 1
+INSERT 0 2
+UPDATE 1
+psql:sql/place_order.sql:6: ERROR:  new row for relation "products" violates check c
+onstraint "products_stock_check"
+DETAIL:  Failing row contains (p-1002, 4.50, -1).
+ROLLBACK
+$ psql -X -At -F ' ' -d shop -c 'SELECT id, stock FROM products ORDER BY id'
+p-1001 40
+p-1002 1
+$ psql -X -At -d shop -c 'SELECT count(*) FROM orders'
+0

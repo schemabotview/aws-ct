@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: The security-group chain, ALB to app to DB, declared.
+Parameters:
+  AppPort:
+    Type: Number
+    Default: 8080
+    Description: the port the app listens on
+Resources:
+  AlbGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: load balancer
+      VpcId: !ImportValue shop-vpc-id
+      SecurityGroupIngress:
+        - {IpProtocol: tcp, FromPort: 443, ToPort: 443, CidrIp: 0.0.0.0/0}
+  AppGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: app servers
+      VpcId: !ImportValue shop-vpc-id
+      SecurityGroupIngress:
+        - {IpProtocol: tcp, FromPort: !Ref AppPort, ToPort: !Ref AppPort,
+           SourceSecurityGroupId: !GetAtt AlbGroup.GroupId}
+  DbGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: orders database
+      VpcId: !ImportValue shop-vpc-id
+      SecurityGroupIngress:
+        - {IpProtocol: tcp, FromPort: 5432, ToPort: 5432,
+           SourceSecurityGroupId: !GetAtt AppGroup.GroupId}
+Outputs:
+  AppGroupId:
+    Value: !GetAtt AppGroup.GroupId
+    Export: {Name: shop-sg-app}
+  DbGroupId:
+    Value: !GetAtt DbGroup.GroupId
+    Export: {Name: shop-sg-db}

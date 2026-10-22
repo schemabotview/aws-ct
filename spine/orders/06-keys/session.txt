@@ -1,0 +1,5 @@
+$ python tools/orders_table.py
+c-17, newest first: ['o-514', 'o-511', 'o-501']
+c-17, 11-12 Oct:    ['o-511', 'o-514']
+by-status placed:   ['o-511', 'o-514', 'o-516', 'o-519']
+index keys: {'shipped': 2, 'placed': 4} - every write lands on one of 2

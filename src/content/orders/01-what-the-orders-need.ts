@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const whatTheOrdersNeed: Section = {
+  id: 'what-the-orders-need',
+  title: 'What the orders need',
+  scene: 'access-patterns',
+  narration:
+    "Before the shop picks a database, it writes down what it will ask of its data, because the engine follows from the questions, not the other way round. The table at the top is the shop's evening peak, and the rates are assumptions. Showing a product page is about four hundred and fifty reads a second, always by product id, and it must be fast, though a price a minute old is acceptable. Placing an order is only about six writes a second, but it must be all or nothing, and it must never sell stock the shop does not have. A customer's own order list is about forty reads a second, by customer, newest first, and it must be up to date. Sales by day is a few queries a day that scan everything in a date range, and that belongs to Course eleven. The middle row is three ways to model data. Relational, in R D S, keeps rows in tables linked by keys, changes many rows in one transaction, and answers any question you can write in S Q L: the shop's orders, order lines and stock. Key value, in Dynamo D B, reads and writes each item by its key, with steady latency however large the table grows, but it only answers the questions its keys were designed for: a customer's orders. In memory, in ElastiCache, is a copy held close to the app, answered in microseconds, which expires or is deleted when the data changes, and is never the only copy: the product pages. The list at the bottom is five questions to answer before choosing an engine. Which keys does every read and write name? What must change together, or not at all? How stale may a read be: never, or a minute? How fast does the data grow, and how long is it kept? And who runs it: patching, backups and failover? Next, the orders database itself, as a managed R D S instance.",
+}

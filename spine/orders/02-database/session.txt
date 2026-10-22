@@ -1,0 +1,14 @@
+$ aws cloudformation create-stack --stack-name shop-orders-db \
+> --template-body file://templates/orders-db.yaml --query StackId --output text
+arn:aws:cloudformation:eu-west-2:111122223333:stack/shop-orders-db/cf8d570c-d086-4b3a-bbcc-3786d4e9d
+73d
+$ aws cloudformation wait stack-create-complete --stack-name shop-orders-db
+$ aws rds describe-db-instances --db-instance-identifier shop-orders --output text \
+> --query 'DBInstances[0].[Engine,EngineVersion,DBInstanceClass,MultiAZ,StorageEncrypted]'
+postgres	16.9	db.r7g.large	True	True
+$ aws rds describe-db-instances --db-instance-identifier shop-orders --output text \
+> --query 'DBInstances[0].[DBSubnetGroup.DBSubnetGroupName,BackupRetentionPeriod]'
+shop-data	7
+$ aws rds describe-db-instances --db-instance-identifier shop-orders --output text \
+> --query 'DBInstances[0].Endpoint.Address'
+shop-orders.aaaaaaaaaa.eu-west-2.rds.amazonaws.com

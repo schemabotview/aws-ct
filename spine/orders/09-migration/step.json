@@ -1,0 +1,1 @@
+{"venv": true, "env": true, "setup": ["aws secretsmanager create-secret --name 'dc-orders-dms' --secret-string '{\"username\":\"dms\",\"password\":\"example-only-not-real\"}' > /dev/null", "aws secretsmanager create-secret --name 'rds!db-shop-orders' --secret-string '{\"username\":\"dms\",\"password\":\"example-only-not-real\"}' > /dev/null"]}

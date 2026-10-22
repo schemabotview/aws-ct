@@ -1,0 +1,9 @@
+$ aws secretsmanager list-secrets --query 'SecretList[].ARN' --output text
+arn:aws:secretsmanager:eu-west-2:111122223333:secret:rds!db-shop-orders-ogyrDO
+$ export ORDERS_SECRET='rds!db-shop-orders'
+$ python tools/connections.py
+user shop, password 32 chars, from rds!db-shop-orders
+ 3 servers want  60 of 190: 0 refused
+ 6 servers want 120 of 190: 0 refused
+ 9 servers want 180 of 190: 0 refused
+12 servers want 240 of 190: 50 refused

@@ -1,0 +1,4 @@
+$ python tools/last_unit.py
+o-601: placed
+o-602: cancelled ['ConditionalCheckFailed', 'None']
+stock 0, orders 1

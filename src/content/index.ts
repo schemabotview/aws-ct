@@ -6,6 +6,7 @@ import { network } from './network'
 import { run } from './run'
 import { automate } from './automate'
 import { files } from './files'
+import { orders } from './orders'
 import type { Course, Section } from './types'
 
 // Course registry, in plan order (AWS-COURSE-PLAN.md). A course is registered here only once
@@ -19,6 +20,7 @@ export const COURSES: Record<string, Course> = {
   [run.id]: run,
   [automate.id]: automate,
   [files.id]: files,
+  [orders.id]: orders,
 }
 
 export type { Course, Section }
