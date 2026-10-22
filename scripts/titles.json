@@ -8,5 +8,6 @@
   "run": "Run Apps on AWS: EC2 Launch Templates, Instance Types and Spot, Systems Manager, Auto Scaling, ECS Fargate and EKS",
   "automate": "AWS CloudFormation Explained: Templates, Stacks, Exports, Change Sets, Rollback and Blue/Green Deployments",
   "files": "Amazon S3, EBS and EFS Explained: Buckets, Presigned URLs, Conditional Writes, Versioning, Snapshots and KMS",
-  "orders": "AWS Databases Explained: RDS PostgreSQL, Transactions, Secrets Manager, Multi-AZ, DynamoDB Keys, Conditional Writes, Caching and DMS"
+  "orders": "AWS Databases Explained: RDS PostgreSQL, Transactions, Secrets Manager, Multi-AZ, DynamoDB Keys, Conditional Writes, Caching and DMS",
+  "decouple": "AWS Serverless Integration Explained: API Gateway, Lambda, Reserved Concurrency, SQS, SNS Fan-out, EventBridge, Step Functions and Idempotency"
 }

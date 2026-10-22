@@ -1,0 +1,6 @@
+$ python tools/consumer.py
+o-501 shipped, deleted
+o-502 shipped, deleted
+o-503 received, worker crashes before deleting it
+receive now: [] - o-503 is invisible
+o-503 back after the timeout, receive #2, deleted

@@ -1,0 +1,11 @@
+$ bash infra/10-api.sh
+shop-api 2wmqzcudih, stage prod
+$ export API=$(aws apigateway get-rest-apis --query 'items[0].id' --output text)
+$ aws apigateway get-method --rest-api-id $API --http-method POST --output text \
+> --resource-id $(aws apigateway get-resources --rest-api-id $API \
+> --query 'items[?path==`/orders`].id' --output text) \
+> --query '[authorizationType,requestValidatorId != null,requestModels."application/json"]'
+COGNITO_USER_POOLS	True	Order
+$ aws apigateway get-stage --rest-api-id $API --stage-name prod --output text \
+> --query 'methodSettings."*/*".[throttlingRateLimit,throttlingBurstLimit]'
+600.0	1200

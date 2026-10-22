@@ -119,6 +119,11 @@ def xform(name: str) -> str:
     return xform_name(name).replace("_", "-")
 
 
+# The CLI renames a few parameters that would collide with its global options (awscli's
+# customizations/argrename.py): the typed name on the left is the model member on the right.
+RENAMED = {("sns", "subscribe", "notification-endpoint"): "endpoint"}
+
+
 def check_cli(where: str, text: str) -> None:
     # Join backslash continuations, drop comments and prompts, keep the `aws …` lines.
     # An `aws` call may also sit inside $( … ), and a quoted argument (a JSON document) may span
@@ -164,6 +169,7 @@ def check_cli(where: str, text: str) -> None:
                 continue
             p = w[2:].split("=", 1)[0]
             p = p.removeprefix("no-") if p.removeprefix("no-") in members else p
+            p = RENAMED.get((cli_service, op, p), p)
             if p not in members and p not in GLOBAL_OPTS:
                 problems.append(f"{where}: `aws {cli_service} {op}` has no parameter --{p}")
 

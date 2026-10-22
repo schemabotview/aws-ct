@@ -1,0 +1,8 @@
+$ bash infra/10-events.sh
+$ aws events list-rules --event-bus-name shop --query 'Rules[].Name' --output text
+uk-vat	refunds
+$ aws events put-events --entries file://infra/events/sample.json --query FailedEntryCount
+0
+$ python tools/drain.py vat-ledger refunds
+vat-ledger:  o-501
+refunds:     o-488

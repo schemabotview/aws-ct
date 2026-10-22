@@ -1,0 +1,15 @@
+$ bash infra/10-workflow.sh
+arn:aws:states:eu-west-2:111122223333:stateMachine:place-order
+$ python tools/run_workflow.py o-501 o-507
+o-501
+     0s ReserveStock: ok
+     0s ChargePayment: ok
+     0s ShipOrder: ok
+     0s SUCCEEDED
+o-507
+     0s ReserveStock: ok
+     0s ChargePayment: Payment.Timeout, retry in 2s
+     2s ChargePayment: Payment.Timeout, retry in 4s
+     6s ChargePayment: Payment.Declined, caught -> ReleaseStock
+     6s ReleaseStock: ok
+     6s OrderFailed: FAILED OrderFailed

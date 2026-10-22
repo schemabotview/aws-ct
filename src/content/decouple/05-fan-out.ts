@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const fanOut: Section = {
+  id: 'fan-out',
+  title: 'Fan-out',
+  scene: 'sns-fanout',
+  narration:
+    "When an order is placed, fulfilment is not the only service that cares. Loyalty points must be added, and large orders must be checked for fraud. Rather than the order code sending three messages, it publishes one, to an S N S topic, and the topic delivers a copy to every subscriber. The script on the right, infra slash ten dash fan out dot s h, creates the topic order dash events, then three queues: fulfilment, loyalty and fraud check. For each queue, a small tool sets a queue policy that lets the S N S service send to it, but only on behalf of this topic, by its A R N. Then the queue subscribes to the topic, with raw message delivery, so the queue receives the message itself rather than wrapped in S N S's envelope. The fraud check subscription also gets a filter policy, from infra slash S N S: only messages whose total attribute is five hundred or more. In the terminal, against the emulator, two orders are published, each with its total as a number attribute: o five oh one at twenty nine pounds, and o five oh five at six hundred and forty. Each publish returns a message id. Then tools slash drain dot p y reads every queue. Fulfilment has both orders. Loyalty has both. Fraud check has only o five oh five, because the filter dropped the small order for that subscription alone. The table at the bottom is that result. The publisher never needed to know that loyalty or fraud check exist: adding a fourth consumer is a new subscription, with no change to the order code. And because each consumer has its own queue, a slow fraud check never holds up fulfilment, and each one can fail and retry on its own. Next, a different way to route the same kind of message: by what happened, on an event bus.",
+}

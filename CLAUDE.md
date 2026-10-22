@@ -42,7 +42,7 @@ so the plan is the only list of them.
 | 7 | `automate` | Make it repeatable | 8 | authored, awaiting owner review (no narration audio yet) |
 | 8 | `files` | Store its files | 7 | authored, awaiting owner review (no narration audio yet) |
 | 9 | `orders` | Keep its orders | 9 | authored, awaiting owner review (no narration audio yet) |
-| 10 | `decouple` | Decouple the checkout | 9 | planned |
+| 10 | `decouple` | Decouple the checkout | 9 | authored, awaiting owner review (no narration audio yet) |
 | 11 | `report` | Report on sales | 7 | planned |
 | 12 | `operate` | Operate it | 10 | planned |
 | 13 | `evolve` | Measure, tune and evolve it | 11 | planned |
@@ -113,6 +113,14 @@ What makes a replay deterministic, all of it about the machine:
   `MasterUserSecret`. Course 9 shows only the faithful fields, and its step setup stores the
   `rds!db-shop-orders` secret RDS would create. Secrets Manager `VersionId`s are not seeded — never
   print one. DMS records endpoints and tasks and moves no data.
+- moto creates Lambda functions and Step Functions state machines but runs neither without Docker:
+  `tools/invoke_local.py` imports and calls the handler as the runtime would, and
+  `tools/run_workflow.py` walks the ASL with stand-in task results — both say so on screen. AWS
+  managed policies exist only with `"moto": {"MOTO_IAM_LOAD_MANAGED_POLICIES": "true"}`.
+  API Gateway and Cognito are recorded, not enforced (401/400/429 are doc-cited).
+- **A step whose `time` starts with `@` has a TICKING clock** (libfaketime starts there and runs).
+  SQS shows a message again only when `now > visible_at`, so under the frozen clock a visibility
+  timeout never ends; `decouple/04` and `/08` tick, and must print no timestamps.
 - **`orders/03` runs real PostgreSQL 16**, not the emulator: start the local cluster first
   (`pg_ctlcluster 16 main start`, and once `su postgres -c 'createuser -s root'`).
 - **Run one replay at a time** — every step takes port 5000.
@@ -199,7 +207,7 @@ the pages directly.
 | IaC | stack `shop-prod` v14 → v15 (v15 fails at 18:41, rolled back; its migration had already run); order-events template: waves topic+DLQ → queue → policy+subscription; replacement from schemas: RDS StorageEncrypted, SQS QueueName |
 | release | order-api 1.5.0 fails 2%: failed requests before a 2-min alarm at 560 req/s — all at once 1,344, linear 10%/min 202, canary 10% 134; CodeDeploy `CodeDeployDefault.ECSLinear10PercentEvery1Minutes` |
 | promotion | commit 9f3c2e1 → one image digest → dev, then prod; pipeline role `ShopPipeline` (dev 444455556666) is the only principal prod's `ShopDeploy` trusts |
-| messaging | SQS `fulfilment`; SNS `order-events` → fulfilment, loyalty, fraud-check (total ≥ 500); EventBridge rules `uk-vat` (OrderPlaced, GB), `refunds`; DynamoDB `idempotency` (keys `ship#o-501`, `key#k-91`) |
+| messaging | SQS `fulfilment` (visibility 30 s; o-503 crash → receive #2), DLQ `fulfilment-dlq` after 3 (o-999); SNS `order-events` → fulfilment, loyalty, fraud-check (total ≥ 500: o-505 640.00 yes, o-501 29.00 no); EventBridge bus `shop`, rules `uk-vat` (OrderPlaced, GB) → vat-ledger, `refunds` → refunds (o-501 GB, o-506 FR, o-488 refund); DynamoDB `idempotency` (key `ship#o-501`); workflow `place-order` (ChargePayment retry Payment.Timeout 2 s × 2.0 ×2, catch → ReleaseStock → OrderFailed; o-507 declined at 6 s) |
 | telemetry | 18:04 → 18:06: p50 112 → 114 ms, p99 132 → 1020 ms; 20 slow traces, 90% waiting for a DB connection |
 | objective | checkout 99.9% over 30 days, ~6/s → budget 15,552; 2% errors burn 20× (1.5 days); alarm `checkout-5xx-fast-burn` (5xx > 50/min, 5 of 5) → SNS `ops-pager` |
 | audit | PutBucketPolicy on shop-reports at 18:12:44 by sam (AWSReservedSSO_ShopOperator) from 203.0.113.24; event history 90 days, data events off |
@@ -313,6 +321,15 @@ frame already quotes.
 | `dynamodb-conditions` | IDE: tools/last_unit.py: TransactWriteItems, o-601 placed, o-602 cancelled; read consistency | `orders-the-last-unit-in-stock` |
 | `cache-aside` | IDE: tools/cache_aside.py (plain Python): TTL-only stale 10–60 s vs delete-on-write | `orders-caching-the-product-page` |
 | `migration-and-specialists` | IDE: infra/09-migration.sh (DMS full-load-and-cdc, recorded not run); specialist engines | `orders-migration-and-specialist-databases` |
+| `api-contract` | map frame: infra/10-api.sh (Cognito authorizer, body-only validator, Order model, prod 600/1200); 401/400/429 | `decouple-an-api-in-front` |
+| `lambda-handler` | IDE: functions/place_order/handler.py, created in moto, invoked locally twice (201, 409; one init) | `decouple-a-function-to-place-the-order` |
+| `concurrency-limits` | IDE: policies/place-order-fn.json, reserved concurrency 50, tools/concurrency.py (67 / 417 / 143) | `decouple-concurrency-and-what-is-behind-it` |
+| `queue-consumer` | IDE: tools/consumer.py: crash before delete, o-503 back on receive #2; standard vs FIFO | `decouple-a-queue-for-fulfilment` |
+| `sns-fanout` | map frame: infra/10-fanout.sh, two publishes, fraud-check filter (total ≥ 500) | `decouple-fan-out` |
+| `event-routing` | map frame: infra/10-events.sh, bus shop, uk-vat / refunds rules, three sample events | `decouple-event-routing` |
+| `order-workflow` | IDE: workflows/place-order.asl.json; tools/run_workflow.py walks it with stand-in task results | `decouple-the-order-workflow` |
+| `idempotency` | IDE: workers/ship_once.py: ship#o-501 once, o-999 to the DLQ after 3, jittered waits | `decouple-doing-it-once` |
+| `integration-choices` | map frame: one order end to end, which mechanism, what asynchronous costs | `decouple-choosing-the-mechanism` |
 
 ## Engine notes (written against flow 1.3.0 / shell 0.10 — recheck on 2.2.0 / 0.14)
 

@@ -1,0 +1,12 @@
+$ aws iam put-role-policy --role-name PlaceOrderFn --policy-name PlaceOrderAccess \
+> --policy-document file://policies/place-order-fn.json
+$ aws iam attach-role-policy --role-name PlaceOrderFn --policy-arn \
+> arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+$ aws lambda put-function-concurrency --function-name place-order \
+> --reserved-concurrent-executions 50 --output text
+50
+$ python tools/concurrency.py
+needed at peak:  67 concurrent
+ceiling with 50: 417 req/s
+throttled:       143 req/s (429 to the API)
+downstream:      never more than 50 writers at once

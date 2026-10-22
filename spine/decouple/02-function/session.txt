@@ -1,0 +1,6 @@
+$ bash infra/10-function.sh
+place-order	python3.13	arm64	512	10
+$ python tools/invoke_local.py
+init: client and table names ready
+o-601 201 {"call": 1}
+o-602 409 {"call": 2}

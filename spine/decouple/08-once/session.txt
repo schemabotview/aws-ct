@@ -1,0 +1,9 @@
+$ python workers/ship_once.py
+o-501 delivery 1: shipped
+o-501 delivery 2: already shipped, skipped
+attempt 1: o-999 fails, not deleted
+attempt 2: o-999 fails, not deleted
+attempt 3: o-999 fails, not deleted
+attempt 4: empty
+fulfilment-dlq: ['o-999']
+retry waits: [0.02, 0.07, 0.55, 0.26]

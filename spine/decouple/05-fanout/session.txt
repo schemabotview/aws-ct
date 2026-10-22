@@ -1,0 +1,12 @@
+$ bash infra/10-fanout.sh
+$ export TOPIC=arn:aws:sns:eu-west-2:111122223333:order-events
+$ aws sns publish --topic-arn $TOPIC --message o-501 --query MessageId --output text \
+> --message-attributes 'total={DataType=Number,StringValue=29.00}'
+14a0bccb-8a47-4a87-a49d-681d51d87c64
+$ aws sns publish --topic-arn $TOPIC --message o-505 --query MessageId --output text \
+> --message-attributes 'total={DataType=Number,StringValue=640.00}'
+b963f37f-6781-4c1f-8c53-0e36addc3e13
+$ python tools/drain.py fulfilment loyalty fraud-check
+fulfilment:  o-501 o-505
+loyalty:     o-501 o-505
+fraud-check: o-505
