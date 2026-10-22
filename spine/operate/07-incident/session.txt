@@ -1,0 +1,10 @@
+$ grep '^[0-9]' runbooks/leaked-keys.md
+1. Detect: GuardDuty finding, or a CloudTrail call from an unknown address.
+2. Lead: one person runs the incident; one writes the timeline.
+3. Contain: put policies/revoke-sessions.json on the role, with the time
+4. Preserve: copy the CloudTrail logs and snapshot affected volumes.
+5. Eradicate: find how the credentials leaked, fix it, rotate what they reached.
+$ aws iam put-role-policy --role-name OrderApi --policy-name RevokeOlderSessions \
+> --policy-document file://policies/revoke-sessions.json
+$ aws iam list-role-policies --role-name OrderApi --output text
+POLICYNAMES	RevokeOlderSessions

@@ -1,0 +1,11 @@
+$ python ops/error_budget.py
+15,552,000 requests in 30 days, 15,552 may fail
+ 0.1% failing: burn   1x, budget gone in 720.0 h
+ 2.0% failing: burn  20x, budget gone in  36.0 h
+10.0% failing: burn 100x, budget gone in   7.2 h
+page when 5xx > 5 a minute, 5 minutes running
+$ bash infra/12-alarm.sh
+$ aws cloudwatch describe-alarms --alarm-names checkout-5xx-fast-burn \
+> --query 'MetricAlarms[0].[MetricName,Threshold,DatapointsToAlarm,StateValue]' \
+> --output text
+5XXError	5.0	5	OK

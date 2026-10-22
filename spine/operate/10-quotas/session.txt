@@ -1,0 +1,14 @@
+$ aws service-quotas list-aws-default-service-quotas --service-code vpc --query \
+> 'Quotas[?Value==`5.0` || !Adjustable].[QuotaName,Value,Adjustable]' --output text
+Characters per VPC endpoint policy	20480.0	False
+Egress-only internet gateways per Region	5.0	True
+IPv4 CIDR blocks per VPC	5.0	True
+IPv6 CIDR blocks per VPC	5.0	True
+Internet gateways per Region	5.0	True
+NAT gateways per Availability Zone	5.0	True
+Security groups per network interface	5.0	True
+VPC peering connection request expiry hours	168.0	False
+VPCs per Region	5.0	True
+$ python ops/backoff_jitter.py
+no jitter    done in 865.3 s, 2550 calls, worst retry slot 98
+full jitter  done in 1.6 s, 295 calls, worst retry slot 13

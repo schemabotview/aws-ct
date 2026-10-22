@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const layeredExposureAndDetection: Section = {
+  id: 'layered-exposure-and-detection',
+  title: 'Layered exposure and detection',
+  scene: 'edge-and-detection',
+  narration:
+    "The map now lights W A F at the edge. The first table is every layer between the internet and an order, and the column that matters is the last: prevents or detects. Network floods are absorbed by Shield Standard, which protects every A W S account automatically; Shield Advanced adds response support and cost protection for a fee. Bad H T T P requests are blocked by a W A F web A C L. Who may reach what is decided by security groups, from Course five. Who may call what is decided by I A M and service control policies, from Course four. Those four prevent. The last two detect. GuardDuty reads CloudTrail, V P C flow logs and D N S logs, and reports credentials used in odd ways or instances talking to known bad addresses. Security Hub gathers findings from GuardDuty and other services into one place, and checks the accounts against security standards. The second table is the web A C L the shop puts on its load balancer, named shop dash web. The A W S managed common rule set blocks well known exploit patterns. A rate based rule blocks any single address sending more than a thousand requests in five minutes, so one address cannot flood checkout. Anything else is allowed. The list is the reason detection matters. Every preventing layer can be misconfigured or bypassed, and when prevention fails, it fails quietly: a wrong security group just lets traffic in. A detector is only useful if its finding reaches a person, so GuardDuty's findings are routed to the same ops pager as the checkout alarm. And in the next section, it is GuardDuty that notices the order A P I's credentials being used from somewhere they should never be. Next, that incident, minute by minute.",
+}

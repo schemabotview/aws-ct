@@ -1,0 +1,14 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "TakeStockRecordOrder",
+      "Effect": "Allow",
+      "Action": ["dynamodb:UpdateItem", "dynamodb:PutItem"],
+      "Resource": [
+        "arn:aws:dynamodb:eu-west-2:111122223333:table/Stock",
+        "arn:aws:dynamodb:eu-west-2:111122223333:table/Orders"
+      ]
+    }
+  ]
+}

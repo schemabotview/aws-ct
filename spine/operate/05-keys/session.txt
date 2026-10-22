@@ -1,0 +1,17 @@
+$ bash infra/12-keys.sh
+$ aws kms encrypt --key-id alias/shop-reports --plaintext 'order 501: c-17' \
+> --cli-binary-format raw-in-base64-out --encryption-context report=daily \
+> --query CiphertextBlob --output text | base64 -d > report.enc
+$ aws kms decrypt --ciphertext-blob fileb://report.enc --output text \
+> --encryption-context report=daily --query Plaintext | base64 -d; echo
+order 501: c-17
+$ aws kms decrypt --ciphertext-blob fileb://report.enc --output text \
+> --encryption-context report=monthly --query Plaintext
+
+aws: [ERROR]: An error occurred (InvalidCiphertextException) when calling the Decryp
+t operation:
+$ python ops/rotation.py
+09:00  connect with pw-v1: ok
+09:30  rotated; AWSCURRENT is now pw-v2
+09:30  connect with pw-v1: auth failed
+09:31  connect with pw-v2: ok

@@ -1,0 +1,75 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: The shop's network, declared - what 05-network.sh did by hand.
+Resources:
+  Vpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.20.0.0/16
+      Tags: [{Key: Name, Value: shop-prod}]
+  PublicA:
+    Type: AWS::EC2::Subnet
+    Properties: {VpcId: !Ref Vpc, CidrBlock: 10.20.0.0/24,
+                 AvailabilityZone: !Select [0, !GetAZs ""],
+                 Tags: [{Key: Name, Value: public-a}]}
+  PublicB:
+    Type: AWS::EC2::Subnet
+    Properties: {VpcId: !Ref Vpc, CidrBlock: 10.20.1.0/24,
+                 AvailabilityZone: !Select [1, !GetAZs ""],
+                 Tags: [{Key: Name, Value: public-b}]}
+  PublicC:
+    Type: AWS::EC2::Subnet
+    Properties: {VpcId: !Ref Vpc, CidrBlock: 10.20.2.0/24,
+                 AvailabilityZone: !Select [2, !GetAZs ""],
+                 Tags: [{Key: Name, Value: public-c}]}
+  AppA:
+    Type: AWS::EC2::Subnet
+    Properties: {VpcId: !Ref Vpc, CidrBlock: 10.20.10.0/24,
+                 AvailabilityZone: !Select [0, !GetAZs ""],
+                 Tags: [{Key: Name, Value: app-a}]}
+  AppB:
+    Type: AWS::EC2::Subnet
+    Properties: {VpcId: !Ref Vpc, CidrBlock: 10.20.11.0/24,
+                 AvailabilityZone: !Select [1, !GetAZs ""],
+                 Tags: [{Key: Name, Value: app-b}]}
+  AppC:
+    Type: AWS::EC2::Subnet
+    Properties: {VpcId: !Ref Vpc, CidrBlock: 10.20.12.0/24,
+                 AvailabilityZone: !Select [2, !GetAZs ""],
+                 Tags: [{Key: Name, Value: app-c}]}
+  DataA:
+    Type: AWS::EC2::Subnet
+    Properties: {VpcId: !Ref Vpc, CidrBlock: 10.20.20.0/24,
+                 AvailabilityZone: !Select [0, !GetAZs ""],
+                 Tags: [{Key: Name, Value: data-a}]}
+  DataB:
+    Type: AWS::EC2::Subnet
+    Properties: {VpcId: !Ref Vpc, CidrBlock: 10.20.21.0/24,
+                 AvailabilityZone: !Select [1, !GetAZs ""],
+                 Tags: [{Key: Name, Value: data-b}]}
+  DataC:
+    Type: AWS::EC2::Subnet
+    Properties: {VpcId: !Ref Vpc, CidrBlock: 10.20.22.0/24,
+                 AvailabilityZone: !Select [2, !GetAZs ""],
+                 Tags: [{Key: Name, Value: data-c}]}
+Outputs:
+  VpcId:
+    Value: !Ref Vpc
+    Export: {Name: shop-vpc-id}
+  AppAId:
+    Value: !Ref AppA
+    Export: {Name: shop-app-a-id}
+  AppBId:
+    Value: !Ref AppB
+    Export: {Name: shop-app-b-id}
+  AppCId:
+    Value: !Ref AppC
+    Export: {Name: shop-app-c-id}
+  DataAId:
+    Value: !Ref DataA
+    Export: {Name: shop-data-a-id}
+  DataBId:
+    Value: !Ref DataB
+    Export: {Name: shop-data-b-id}
+  DataCId:
+    Value: !Ref DataC
+    Export: {Name: shop-data-c-id}

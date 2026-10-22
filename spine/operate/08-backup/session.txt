@@ -1,0 +1,13 @@
+$ bash infra/12-backup.sh
+5be6128e-18c2-4797-a142-ea7d17be3111
+$ aws backup get-backup-plan --backup-plan-id $(aws backup list-backup-plans \
+> --query 'BackupPlansList[0].BackupPlanId' --output text) --output text \
+> --query 'BackupPlan.Rules[0].CopyActions[0].DestinationBackupVaultArn'
+arn:aws:backup:eu-west-1:777788889999:backup-vault:shop-isolated
+$ python ops/restore_drill.py
+02:00  start: restore shop-orders from the 01:52 point
+02:41  new instance available
+02:52  app pointed at it, smoke tests pass
+03:06  order counts match the last export: done
+RTO: 66 min against 90: met
+RPO: 8 min against 15: met

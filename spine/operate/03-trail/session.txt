@@ -1,0 +1,10 @@
+$ bash infra/12-trail.sh
+$ aws cloudtrail get-trail-status --name shop-trail --query IsLogging
+true
+$ aws cloudtrail get-event-selectors --trail-name shop-trail --output text \
+> --query 'EventSelectors[0].DataResources[0].Values[0]'
+arn:aws:s3:::shop-reports-111122223333/
+$ python ops/who_changed.py ops/evidence/2026-10-12-trail.json shop-reports
+2026-10-12T18:12:44Z  PutBucketPolicy  by sam
+  as AWSReservedSSO_ShopOperator, from 203.0.113.24
+1 other record(s): reads or other resources

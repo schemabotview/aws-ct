@@ -1,0 +1,7 @@
+$ bash infra/12-ops.sh
+$ aws ssm describe-patch-baselines --output text --query \
+> 'BaselineIdentities[?BaselineName==`order-api-linux`].[BaselineName,OperatingSystem]'
+order-api-linux	AMAZON_LINUX_2023
+$ aws configservice describe-config-rules --output text \
+> --query 'ConfigRules[].[ConfigRuleName,Source.SourceIdentifier,ConfigRuleState]'
+s3-no-public-read	S3_BUCKET_PUBLIC_READ_PROHIBITED	ACTIVE

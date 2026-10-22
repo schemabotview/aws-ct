@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Order",
+  "type": "object",
+  "required": ["customer", "lines"],
+  "properties": {
+    "customer": {"type": "string", "pattern": "^c-[0-9]+$"},
+    "lines": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["product", "qty"],
+        "properties": {
+          "product": {"type": "string"},
+          "qty": {"type": "integer", "minimum": 1}
+        }
+      }
+    }
+  }
+}

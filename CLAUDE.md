@@ -44,7 +44,7 @@ so the plan is the only list of them.
 | 9 | `orders` | Keep its orders | 9 | authored, awaiting owner review (no narration audio yet) |
 | 10 | `decouple` | Decouple the checkout | 9 | authored, awaiting owner review (no narration audio yet) |
 | 11 | `report` | Report on sales | 7 | authored, awaiting owner review (no narration audio yet) |
-| 12 | `operate` | Operate it | 10 | planned |
+| 12 | `operate` | Operate it | 10 | authored, awaiting owner review (no narration audio yet) |
 | 13 | `evolve` | Measure, tune and evolve it | 11 | planned |
 
 ## Frames
@@ -122,6 +122,10 @@ What makes a replay deterministic, all of it about the machine:
   `tools/run_workflow.py` walks the ASL with stand-in task results — both say so on screen. AWS
   managed policies exist only with `"moto": {"MOTO_IAM_LOAD_MANAGED_POLICIES": "true"}`.
   API Gateway and Cognito are recorded, not enforced (401/400/429 are doc-cited).
+- moto's SSM cannot read a patch group back (`describe-patch-groups` and
+  `get-patch-baseline-for-patch-group` return 500), Backup has no selections and takes no backups,
+  Service Quotas knows only VPC's defaults, and IAM conditions (`aws:TokenIssueTime`) are stored, not
+  evaluated. Course 12's frames show what it does store and say what it skipped.
 - **A step whose `time` starts with `@` has a TICKING clock** (libfaketime starts there and runs).
   SQS shows a message again only when `now > visible_at`, so under the frozen clock a visibility
   timeout never ends; `decouple/04` and `/08` tick, and must print no timestamps.
@@ -213,7 +217,7 @@ the pages directly.
 | promotion | commit 9f3c2e1 → one image digest → dev, then prod; pipeline role `ShopPipeline` (dev 444455556666) is the only principal prod's `ShopDeploy` trusts |
 | messaging | SQS `fulfilment` (visibility 30 s; o-503 crash → receive #2), DLQ `fulfilment-dlq` after 3 (o-999); SNS `order-events` → fulfilment, loyalty, fraud-check (total ≥ 500: o-505 640.00 yes, o-501 29.00 no); EventBridge bus `shop`, rules `uk-vat` (OrderPlaced, GB) → vat-ledger, `refunds` → refunds (o-501 GB, o-506 FR, o-488 refund); DynamoDB `idempotency` (key `ship#o-501`); workflow `place-order` (ChargePayment retry Payment.Timeout 2 s × 2.0 ×2, catch → ReleaseStock → OrderFailed; o-507 declined at 6 s) |
 | telemetry | 18:04 → 18:06: p50 112 → 114 ms, p99 132 → 1020 ms; 20 slow traces, 90% waiting for a DB connection |
-| objective | checkout 99.9% over 30 days, ~6/s → budget 15,552; 2% errors burn 20× (1.5 days); alarm `checkout-5xx-fast-burn` (5xx > 50/min, 5 of 5) → SNS `ops-pager` |
+| objective | checkout 99.9% over 30 days, ~6/s → 15,552,000 requests, budget 15,552; 2% errors burn 20× (36 h), 10% 100× (7.2 h); alarm `checkout-5xx-fast-burn` (API Gateway 5XXError > 5/min ≈ 14× burn, 5 of 5) → SNS `ops-pager` |
 | audit | PutBucketPolicy on shop-reports at 18:12:44 by sam (AWSReservedSSO_ShopOperator) from 203.0.113.24; event history 90 days, data events off |
 | ops | Config rule `s3-no-public-read`; SSM patch group `order-api`; KMS key policy on the reports key (account admin, Auditor Decrypt); rotation 09:30 breaks cached password, re-read fixes at 09:31 |
 | edge / incident | web ACL `shop-web` (rate 1,000/IP, AWSManagedRulesCommonRuleSet); OrderApi keys used from 198.51.100.66: detect 18:19, lead 18:21, revoke sessions before 18:20 at 18:24, preserve 18:30, eradicate 19:10 |
@@ -341,6 +345,16 @@ frame already quotes.
 | `athena-query` | IDE: sql/daily_sales.sql run by DuckDB locally (labelled) and submitted to Athena in moto | `report-querying-with-athena` |
 | `stream-lag` | IDE: analytics/consumer_lag.py (model) + shop-clickstream's 2 shards and key → shard | `report-a-stream-of-clicks` |
 | `warehouse-or-cluster` | Athena / Redshift / EMR lists above the which-engine table and a caution list | `report-warehouse-or-cluster` |
+| `telemetry-correlation` | map frame: one slow evening as metric / log / trace, joining them up, what it teaches | `operate-metrics-logs-and-traces` |
+| `slos-and-alarms` | IDE: ops/error_budget.py (15,552; 20× → 36 h) + checkout-5xx-fast-burn alarm (> 5/min, 5 of 5) | `operate-objectives-and-alarms` |
+| `cloudtrail-evidence` | IDE: infra/12-trail.sh (data events on reports) + ops/who_changed.py on an EXAMPLE record file | `operate-cloudwatch-against-cloudtrail` |
+| `ops-access` | map frame: infra/12-ops.sh (patch baseline + group, Config rule s3-no-public-read) | `operate-operational-access-and-inventory` |
+| `keys-and-rotation` | IDE: policies/reports-key.json; encryption context; ops/rotation.py (stand-in DB) | `operate-keys-secrets-and-rotation` |
+| `edge-and-detection` | map frame: layers prevents/detects, web ACL shop-web, detection list | `operate-layered-exposure-and-detection` |
+| `incident-containment` | IDE: policies/revoke-sessions.json put on OrderApi; runbooks/leaked-keys.md; timeline | `operate-an-incident` |
+| `backup-and-restore` | IDE: infra/12-backup.sh (plan shop-daily, isolated copy) + ops/restore_drill.py (66 / 8 min) | `operate-backups-that-restore` |
+| `disaster-recovery` | four DR strategies table above dependency order / objectives / failback lists | `operate-rto-rpo-and-disaster-recovery` |
+| `quotas-and-resilience` | IDE: VPC default quotas (moto's only set) + ops/backoff_jitter.py (865 s vs 1.6 s) | `operate-quotas-throttling-and-resilience` |
 
 ## Engine notes (written against flow 1.3.0 / shell 0.10 — recheck on 2.2.0 / 0.14)
 
