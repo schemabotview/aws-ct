@@ -1,0 +1,13 @@
+$ export VOL=$(aws ec2 create-volume --availability-zone eu-west-2a --size 30 \
+> --volume-type gp3 --query VolumeId --output text); echo $VOL
+vol-c8f25df7da1f67380
+$ export SNAP=$(aws ec2 create-snapshot --volume-id $VOL --description invoices \
+> --query SnapshotId --output text); echo $SNAP
+snap-cb61482daf47d9060
+$ aws ec2 wait snapshot-completed --snapshot-ids $SNAP
+$ aws ec2 create-volume --snapshot-id $SNAP --availability-zone eu-west-2b \
+> --volume-type gp3 --query '[VolumeId,AvailabilityZone,Size]' --output text
+vol-0ab9625b586105935	eu-west-2b	30
+$ aws efs create-file-system --creation-token shop-invoices-1 --encrypted \
+> --query '[FileSystemId,LifeCycleState,Encrypted]' --output text
+fs-db635bb5	available	True

@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const twoWritersOneKey: Section = {
+  id: 'two-writers-one-key',
+  title: 'Two writers, one key',
+  scene: 'concurrent-writers',
+  narration:
+    "Two background jobs update the same product file. One lowers the price from twelve pounds to ten; the other decrements the stock when an item sells. The code in the editor stages that race. Line twenty four has both jobs read the file first, before either writes, which is exactly what happens when they run at the same moment. The price job writes its change on line twenty six. The stock job writes on line twenty nine, based on what it read, which no longer reflects the price change. In the terminal, the plain race ends with price twelve and stock thirty nine: the price change is lost, silently, because the last writer won. The table on the right is that sequence. S three is not wrong here: it is strongly consistent, so any read after a write sees that write, but two separate requests are not a transaction, and nothing stopped the second write from overwriting the first. The fix is a conditional write. Each job remembers the E tag it read, and writes with If Match that E tag: only if the object is still the one it read. Run again with conditions, the price job writes first and succeeds. The stock job's write is refused, with precondition failed, because the E tag has changed. It re-reads, applies its change to the new version, and writes again. The run ends with price ten and stock thirty nine, both changes kept. The list sums it up. A read after a write sees that write. Two writes to one key: the last one wins. If Match makes a write conditional on nothing having changed. And when several objects must change together, all or nothing, the right tool is a database with transactions, which is Course nine. Next, keeping every version of an object, and choosing how long to keep them.",
+}

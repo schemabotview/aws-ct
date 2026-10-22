@@ -40,7 +40,7 @@ so the plan is the only list of them.
 | 5 | `network` | Give it a network | 9 | authored, awaiting owner review (no narration audio yet) |
 | 6 | `run` | Run the app | 9 | authored, awaiting owner review (no narration audio yet) |
 | 7 | `automate` | Make it repeatable | 8 | authored, awaiting owner review (no narration audio yet) |
-| 8 | `files` | Store its files | 7 | planned |
+| 8 | `files` | Store its files | 7 | authored, awaiting owner review (no narration audio yet) |
 | 9 | `orders` | Keep its orders | 9 | planned |
 | 10 | `decouple` | Decouple the checkout | 9 | planned |
 | 11 | `report` | Report on sales | 7 | planned |
@@ -103,6 +103,10 @@ What makes a replay deterministic, all of it about the machine:
   replay's own shell. A typed line exactly the pane's width is refused as ambiguous.
 - moto's `cloudformation deploy` (a change set) records no outputs or exports; `create-stack` does —
   use it where a later stack imports a value.
+- moto ignores a CloudFormation bucket's versioning, lifecycle and bucket-key settings, and a
+  CloudFormation KMS key's policy breaks `kms describe-key` (500). Course 8 therefore declares the
+  buckets and key in `templates/storage.yaml` and applies each setting with its `s3api` call, from a
+  JSON file under `infra/s3/`. Its version listing also mislabels "latest" after a delete.
 - **Run one replay at a time** — every step takes port 5000.
 
 ## Verification levels — read before trusting a code card
@@ -285,6 +289,13 @@ frame already quotes.
 | `rollback-and-protection` | IDE: templates/orders-db.yaml; cfn-lint W3011 on a half-protected copy; illustrative events | `automate-rollback-and-stateful-resources` |
 | `deployment-strategies` | map frame: tools/traffic_shift.py (model): 1344 / 202 / 134 failed | `automate-releasing-the-app` |
 | `promotion-and-tools` | map frame: build → dev → prod, ShopDeploy trust policy, CFN / CDK / Terraform | `automate-one-artefact-two-accounts` |
+| `storage-kinds` | object / block / file lists above the choice table and what survives what | `files-object-block-and-file` |
+| `catalog-bucket` | map frame: storage.yaml's HttpsOnly policy, the stack, put / get / list | `files-the-catalog-bucket` |
+| `presigned-upload` | IDE: tools/presign_upload.py (real SigV4 URL, PUT with no credentials) | `files-uploads-without-credentials` |
+| `concurrent-writers` | IDE: tools/two_writers.py: plain PUT {12.0, 39}, If-Match {10.0, 39} | `files-two-writers-one-key` |
+| `version-timeline` | IDE: versioning + lifecycle, tools/versions.py (delete marker, restore) | `files-versions-and-lifecycle` |
+| `ebs-snapshot` | map frame: 30 GiB gp3 in 2a → snapshot → volume in 2b; EFS; FSx table | `files-volumes-and-shared-files` |
+| `data-protection` | IDE: storage.yaml's KMS key; SSE-KMS with a bucket key; threat × protection | `files-encryption-replication-and-backup` |
 
 ## Engine notes (written against flow 1.3.0 / shell 0.10 — recheck on 2.2.0 / 0.14)
 

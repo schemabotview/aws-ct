@@ -1,0 +1,1 @@
+{"venv": true, "env": true, "endpoint": "s3", "setup": ["aws cloudformation create-stack --stack-name shop-storage --template-body file://templates/storage.yaml", "aws cloudformation wait stack-create-complete --stack-name shop-storage"]}

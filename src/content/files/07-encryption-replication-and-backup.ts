@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const encryptionReplicationAndBackup: Section = {
+  id: 'encryption-replication-and-backup',
+  title: 'Encryption, replication and backup',
+  scene: 'data-protection',
+  narration:
+    "The sales reports are the shop's most sensitive files, and the editor shows the part of the storage template that protects them: a K M S key and its alias. Line thirty one makes it a K M S key, and line thirty four turns on automatic rotation, so the key material changes every year without anyone re-encrypting anything. Lines thirty eight to forty one are its key policy, the resource policy of a key: it lets the account administer the key, and any use of the key must also be allowed by I A M. Course twelve adds the auditor's permission to decrypt. On the map, K M S keys now light up. In the terminal, the reports bucket gets default encryption from a new file, using the shop reports key, with a bucket key enabled. A bucket key means S three asks K M S for a short-lived key for the bucket, rather than calling K M S for every object, which cuts K M S requests and their cost. Reading the setting back shows the bucket key is on, and putting a report shows it was encrypted with K M S, with the bucket key. The table on the right is the point of this section, because each protection answers a different threat. A stolen disk: encryption at rest. The wrong reader: the key policy and the bucket policy, since reading requires permission to decrypt. A mistaken delete: versioning. A lost Region: replication to another Region. A deleted or compromised account: a backup kept elsewhere, in another account, which is Course twelve's job. And deliberate wiping by someone with permission: Object Lock, which makes versions undeletable for a set time. Encryption alone protects against none of the last four. That completes the shop's files. Next course, its orders, in databases.",
+}

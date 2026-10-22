@@ -1,0 +1,4 @@
+$ python tools/two_writers.py
+plain PUT ends {'price': 12.0, 'stock': 39}
+  stock job: PreconditionFailed - re-read, retry
+If-Match ends  {'price': 10.0, 'stock': 39}

@@ -175,6 +175,8 @@ def commands(session: str, columns: int) -> list[tuple[str, list[str]]]:
             i += 1
             continue
         typed = [lines[i]]
+        if len(lines[i]) == columns and i + 1 < len(lines) and lines[i + 1].startswith('> '):
+            raise SystemExit(f'a typed line exactly {columns} wide reads as wrapped — reword it:\n{lines[i]}')
         while len(lines[i]) == columns and i + 1 < len(lines):
             i += 1
             typed[-1] += lines[i]
@@ -252,10 +254,12 @@ def replay(step: Path) -> tuple[str, dict[str, str]]:
                 cmd = '\n'.join([first, *more])
                 script = f'cd {cwd!s}\n{{ {cmd}\n}} 2>&1\necho "{MARK}$PWD"\n'
                 if state.exists():
-                    script = state.read_text() + '\n' + script
+                    script = state.read_text() + '\nunset FAKETIME_SHARED\n' + script
                 r = subprocess.run(['bash', '-c', script + f'unset FAKETIME_SHARED; export -p > {state}'], env={**env, **faketime_env(venv, config.get('time', CLOCK))},
                                    capture_output=True, text=True)
                 output, _, after = r.stdout.partition(MARK)
+                # libfaketime's own semaphore warning is the replay's clock, never the command's output
+                output = re.sub(r'^libfaketime: .*\n(?:tory\n)?', '', output, flags=re.M)
                 if after:
                     cwd = Path(after.split('\n')[0])
                 output = real_endpoints(output.rstrip('\n'), cmd, config)

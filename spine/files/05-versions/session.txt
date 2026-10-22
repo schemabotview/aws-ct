@@ -1,0 +1,9 @@
+$ aws s3api put-bucket-versioning --bucket shop-catalog-111122223333 \
+> --versioning-configuration Status=Enabled
+$ aws s3api put-bucket-lifecycle-configuration --bucket shop-catalog-111122223333 \
+> --lifecycle-configuration file://infra/s3/catalog-lifecycle.json
+$ python tools/versions.py
+the delete made a marker: True
+read the key           NoSuchKey
+read version 1         {"price": 12.0}
+marker removed, read   {"price": 10.0}

@@ -1,0 +1,7 @@
+$ python tools/presign_upload.py
+endpoint  https://s3.eu-west-2.amazonaws.com
+path      /shop-uploads-111122223333/reviews/p-1001/photo-77.jpg
+expires   300 seconds
+signed by AKIAIOSFODNN7EXAMPLE
+PUT       200
+stored    10 bytes

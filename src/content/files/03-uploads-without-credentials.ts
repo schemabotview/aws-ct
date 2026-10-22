@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const uploadsWithoutCredentials: Section = {
+  id: 'uploads-without-credentials',
+  title: 'Uploads without credentials',
+  scene: 'presigned-upload',
+  narration:
+    "Shoppers can attach a photo to a review. The photo should go straight to S three, not through the app servers, and a shopper's browser must never hold an A W S key. A presigned U R L does both. In the editor, lines eleven to thirteen are the app's side: boto three signs, but does not send, a put object request for one key in the uploads bucket, reviews slash p dash one thousand and one slash photo seventy seven dot j p g, with content type j p e g, valid for three hundred seconds. The signing is the same signature version four from Course two, carried in the U R L's query string instead of a header. The next lines take the U R L apart. In the terminal: the endpoint is S three in E U west two; the path is the bucket and the key; it expires in three hundred seconds; and it was signed by the app's access key. Lines twenty one to twenty three are the browser's side: a plain H T T P put of the photo's bytes to that U R L, with the same content type, and no credentials at all. S three answers two hundred, and the object is stored. The table is the whole flow in four steps: the browser asks the app for an upload U R L, the app signs one, the browser puts to S three directly, and S three checks the signature before accepting it. The list is what the U R L carries, and therefore what it risks. It allows one method, on one key, with one content type. It borrows the signer's permission, so the app's role must be allowed to put that object. It expires, here after five minutes, and never later than the credentials that signed it. And it contains a signature, not the key itself. Anyone who gets the U R L in that time can use it, so keep the expiry short. Next, two jobs writing the same object at once.",
+}

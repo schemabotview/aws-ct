@@ -1,0 +1,9 @@
+$ aws s3api put-bucket-encryption --bucket shop-reports-111122223333 \
+> --server-side-encryption-configuration file://infra/s3/reports-encryption.json
+$ aws s3api get-bucket-encryption --bucket shop-reports-111122223333 \
+> --query 'ServerSideEncryptionConfiguration.Rules[0].BucketKeyEnabled'
+true
+$ aws s3api put-object --bucket shop-reports-111122223333 \
+> --key daily/2026-10-11.csv --body catalog/p-1001.json \
+> --query '[ServerSideEncryption,BucketKeyEnabled]' --output text
+aws:kms	True

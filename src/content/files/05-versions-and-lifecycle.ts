@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const versionsAndLifecycle: Section = {
+  id: 'versions-and-lifecycle',
+  title: 'Versions and lifecycle',
+  scene: 'version-timeline',
+  narration:
+    "Versioning changes what a write and a delete mean. In the terminal, versioning is turned on for the catalog bucket, and a lifecycle configuration is applied from a new file, catalog lifecycle dot json. Then versions dot p y runs. In the editor, lines sixteen and seventeen put the product twice, at twelve pounds and then ten, and each put creates a version with its own I D. Line eighteen deletes the product. With versioning on, a delete does not remove anything; it adds a delete marker on top, and the terminal confirms the delete made a marker. Reading the key now returns no such key, because the marker is the current version. But reading version one by its I D still returns twelve pounds: nothing was lost. Line twenty two removes the delete marker itself, by its version I D, and reading the key again returns the latest real version, ten pounds. The product is restored. One emulator note: its listing of versions mislabels which one is latest after a delete, so the script follows the version I Ds each call returns instead. The table on the right is the lifecycle file. Old versions expire thirty days after they stop being current, so versioning does not grow the bill forever. Objects under exports slash move to standard infrequent access after thirty days, and to Glacier after ninety. The list is the catch. Infrequent access is cheaper to keep but charges for every gigabyte read, with a thirty day minimum. Glacier is cheaper still, but a restore takes minutes to hours. Old versions cost the same as any other data while they exist. And versioning undoes a delete in this bucket; it is not a backup, because whoever can delete the bucket can delete its versions too. Next, disks and shared folders.",
+}

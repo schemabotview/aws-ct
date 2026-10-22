@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: The orders database - state that must outlive every stack update.
+Resources:
+  SubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupName: shop-data
+      DBSubnetGroupDescription: the data subnets, one per AZ
+      SubnetIds: [!ImportValue shop-data-a-id, !ImportValue shop-data-b-id,
+                  !ImportValue shop-data-c-id]
+  OrdersDb:
+    Type: AWS::RDS::DBInstance
+    DeletionPolicy: Snapshot        # deleting the stack keeps a snapshot
+    UpdateReplacePolicy: Snapshot   # so does an update that replaces it
+    Properties:
+      DBInstanceIdentifier: shop-orders
+      Engine: postgres
+      EngineVersion: "16.9"
+      DBInstanceClass: db.r7g.large
+      AllocatedStorage: "100"
+      StorageType: gp3
+      StorageEncrypted: true
+      MultiAZ: true
+      DeletionProtection: true
+      MasterUsername: shop
+      ManageMasterUserPassword: true  # the password lives in Secrets Manager
+      BackupRetentionPeriod: 7
+      DBSubnetGroupName: !Ref SubnetGroup

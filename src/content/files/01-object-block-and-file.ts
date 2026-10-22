@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const objectBlockAndFile: Section = {
+  id: 'object-block-and-file',
+  title: 'Object, block and file',
+  scene: 'storage-kinds',
+  narration:
+    "Storage on A W S comes in three shapes, and choosing well starts with how the bytes are read and written. On the left is object storage, S three. You store and fetch whole objects by key, over H T T P S, and you cannot edit part of one in place: you replace it. Any number of readers can fetch it, from anywhere, and the data is Regional, kept in three or more zones. The shop uses it for products, photos and reports. In the middle is block storage, E B S. It is a disk: any byte can be read or written, as with a local drive, but it is attached to one instance, in one zone. It survives a reboot, and a snapshot of it survives the loss of that zone. The shop uses it for each server's own disk, and for a volume the invoice service writes to. On the right is file storage, E F S. It is a shared folder, mounted over N F S by many servers at once, in every zone, and it grows and shrinks with what is stored. The shop uses it for invoices that several app servers write. The table matches needs to kinds. Files served to browsers, at any scale: S three. A database's or an operating system's own disk: E B S. One folder written by many servers: E F S. And for Windows file shares, high performance computing, NetApp or Z F S, the matching kind of F S x. The list is what each survives, which is what Course six's stateless servers rely on. When a server is replaced, S three and E F S are untouched, while its E B S disk is deleted by default. When a zone is lost, S three and E F S keep serving, while that zone's E B S volumes go with it. And a mistaken delete is undone only by versioning or a backup, the subject of the last sections. Next, the catalog bucket, declared.",
+}

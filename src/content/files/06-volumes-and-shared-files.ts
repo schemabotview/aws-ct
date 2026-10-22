@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const volumesAndSharedFiles: Section = {
+  id: 'volumes-and-shared-files',
+  title: 'Volumes and shared files',
+  scene: 'ebs-snapshot',
+  narration:
+    "The invoice service keeps its working files on an E B S volume, and it needs to move from zone a to zone b. In the terminal, the first command creates a thirty gibibyte g p three volume in E U west two a and prints its I D. A volume is zonal: it can only be attached to an instance in that zone. The second command takes a snapshot of it. A snapshot is stored by A W S at the Region's level, out of sight, in S three, so it is no longer tied to zone a. The waiter returns when the snapshot is complete. The fourth command creates a new volume from the snapshot, in E U west two b, and it comes back thirty gibibytes, in zone b. That is the only way to move a disk between zones, and also how a disk survives the loss of its zone: by having been snapshotted before. The table on the right sums up the move: the volume lives in zone a only, its snapshot lives in the Region, and the new volume lives in zone b. The last command creates an E F S file system for the invoices, shop invoices one, encrypted, and it is available. An E F S file system is Regional, and each zone gets a mount target, so servers in all three zones mount the same folder at slash m n t slash invoices and see the same files. That makes it the shared-folder answer that E B S cannot be. The second table is the wider choice for shared files. Linux servers sharing a folder: E F S. Windows file shares: F S x for Windows File Server. Fast scratch space for big compute jobs: F S x for Lustre. NetApp or Z F S features: F S x for NetApp ONTAP or OpenZFS. Next, encrypting data, and what each kind of protection actually protects against.",
+}
