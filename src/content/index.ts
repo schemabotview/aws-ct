@@ -10,6 +10,7 @@ import { orders } from './orders'
 import { decouple } from './decouple'
 import { report } from './report'
 import { operate } from './operate'
+import { evolve } from './evolve'
 import type { Course, Section } from './types'
 
 // Course registry, in plan order (AWS-COURSE-PLAN.md). A course is registered here only once
@@ -27,6 +28,7 @@ export const COURSES: Record<string, Course> = {
   [decouple.id]: decouple,
   [report.id]: report,
   [operate.id]: operate,
+  [evolve.id]: evolve,
 }
 
 export type { Course, Section }

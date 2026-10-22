@@ -1,0 +1,1 @@
+{"venv": true, "env": true, "setup": ["aws logs create-log-group --log-group-name /shop/order-api"]}

@@ -11,5 +11,6 @@
   "orders": "AWS Databases Explained: RDS PostgreSQL, Transactions, Secrets Manager, Multi-AZ, DynamoDB Keys, Conditional Writes, Caching and DMS",
   "decouple": "AWS Serverless Integration Explained: API Gateway, Lambda, Reserved Concurrency, SQS, SNS Fan-out, EventBridge, Step Functions and Idempotency",
   "report": "AWS Analytics Explained: CDC Reconciliation, a Parquet Data Lake, Glue Catalog, Lake Formation, Athena Costs and Kinesis Streams",
-  "operate": "Operating on AWS Explained: SLOs and Alarms, CloudTrail, Systems Manager, KMS Keys, WAF and GuardDuty, Incident Response, Backups and DR"
+  "operate": "Operating on AWS Explained: SLOs and Alarms, CloudTrail, Systems Manager, KMS Keys, WAF and GuardDuty, Incident Response, Backups and DR",
+  "evolve": "Evolving on AWS Explained: Saturation, CloudFront Caching, Rightsizing, Cost Allocation, ADRs, Multi-Region Trade-offs, Cutover and Well-Architected"
 }

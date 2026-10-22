@@ -1,0 +1,5 @@
+{
+  "source": ["shop.orders"],
+  "detail-type": ["OrderPlaced"],
+  "detail": {"country": ["GB"]}
+}

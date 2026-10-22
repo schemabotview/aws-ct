@@ -7,7 +7,7 @@
 
 The GraphL concept app for **AWS — from an empty account to a running shop**, authored from
 **`AWS-COURSE-PLAN.md`** (re-planned 2026-10-21: 13 courses, 104 sections, one project `shop-on-aws`
-built step by step; awaiting owner review). A **section** is `(scene, narration)` — one full-screen
+built step by step; all 13 courses authored, awaiting owner review). A **section** is `(scene, narration)` — one full-screen
 frame, no slide — and one segment of the course video. The previous 12-chapter plan is in git history.
 
 Engine `@graphlearning/flow@^2.2.0` (own renderer, react-flow removed); shell
@@ -45,7 +45,7 @@ so the plan is the only list of them.
 | 10 | `decouple` | Decouple the checkout | 9 | authored, awaiting owner review (no narration audio yet) |
 | 11 | `report` | Report on sales | 7 | authored, awaiting owner review (no narration audio yet) |
 | 12 | `operate` | Operate it | 10 | authored, awaiting owner review (no narration audio yet) |
-| 13 | `evolve` | Measure, tune and evolve it | 11 | planned |
+| 13 | `evolve` | Measure, tune and evolve it | 11 | authored, awaiting owner review (no narration audio yet) |
 
 ## Frames
 
@@ -222,16 +222,16 @@ the pages directly.
 | ops | Config rule `s3-no-public-read`; SSM patch group `order-api`; KMS key policy on the reports key (account admin, Auditor Decrypt); rotation 09:30 breaks cached password, re-read fixes at 09:31 |
 | edge / incident | web ACL `shop-web` (rate 1,000/IP, AWSManagedRulesCommonRuleSet); OrderApi keys used from 198.51.100.66: detect 18:19, lead 18:21, revoke sessions before 18:20 at 18:24, preserve 18:30, eradicate 19:10 |
 | recovery | backup plan `shop-daily` 02:00 UTC, 35 d in `shop-prod-vault`, copy 90 d to `shop-isolated` (audit 777788889999, eu-west-1); drill 02:00 → 03:06 = 66 min (RTO 90), PITR to 01:52 = 8 min (RPO 15) |
-| saturation | one server modelled as 15 workers × ~100 ms: 60 req/s p99 171 ms, 120 → 187, 140 → 299, 147 → 873 (simulation, not AWS) |
+| saturation | one server modelled as 15 workers × ~100 ms (gamma, seed 12): p50/p99 at 60 req/s 92/251 ms, 120 → 99/262, 140 → 128/342, 147 → 206/614 (simulation, not AWS) |
 | edge | Sydney shopper, assumed RTT 280 ms to London / 12 ms to edge: direct 952, hit 38, miss 428 ms; 90% hits → 77 ms; cache policy `product-pages` (path + lang, TTL 60 s, max 300) |
 | capacity plans | large-h/day: fixed 96 (43% busy), elastic no reserve 52 (80%), AZ-safe large 90 (46%, = ASG 3 → 6), AZ-safe medium 78 (53%; medium = half a large at half price, assumed) |
-| cost week | env=prod 93%, dev 5%, untagged 2%; NAT anomaly 10-09 42.20 vs median 3.80 (768 GB through NAT); budget `shop-prod-monthly` 400 USD, forecast 80% → email |
+| cost week | cost/week.csv 6–12 Oct: env=prod 149.35 (93%), dev 8.05 (5%), untagged 3.22 (2%); NAT anomaly 10-09 42.20 vs median 3.80 (768 GB through NAT); budget `shop-prod-monthly` 400 USD, env=prod, forecast 80% → email ops@shop.example.com |
 | rate card ext. | **hypothetical**: NAT $0.05/h + $0.05/GB, internet egress $0.09/GB, cross-AZ $0.02/GB, logs ingest $0.50/GB; committed instance $0.028/h (Ch. 4) |
 | prod month | NAT gateways 109.50, app servers 108.00, egress 81.00, logs 30.00, backups 15.00, cross-AZ 8.00, NAT processing 6.00, S3 4.60 = 362.10; servers with commitment 82.08; break-even 70% |
 | footprint | 90 → 78 large-h/day; logs 730 → 60 GB after a year (2 GB/day, 30-day retention); origin 900 → 90 GB/month at 90% hits |
-| ADR-007 | order API on ECS Fargate + RDS PostgreSQL Multi-AZ; rejected EC2 (OS patching), Lambda + DynamoDB (PostgreSQL), EKS (skills); revisit at 5× peak |
+| ADR-007 | order API on ECS Fargate + RDS PostgreSQL Multi-AZ (owner alex, 2026-10-20); rejected Lambda + DynamoDB (PostgreSQL), EKS (skills); scores Fargate 29 / EC2 19 of 35; revisit at 5× peak |
 | region case | assumed 2 s lag × 6 orders/s → ~12 orders lost at failover; health check 3 × 30 s + TTL 60 s → 150 s; active/active sells the last p-1002 twice |
-| cutover | ALB weights EC2 `shop-app` / ECS `shop-ecs` 90/10 → 50/50 → 0/100; gate at 100%: 1,210 acked vs 1,207 stored → roll back, replay 3 |
+| cutover | ALB weights EC2 `shop-app` / ECS `shop-ecs` 90/10 (121/121) → 50/50 (604/604) → 0/100; gate at 100%: 1,210 acked vs 1,207 stored → back to 50/50, replay 3 |
 | review | ranked: rotation 4.0, runbook link 4.0, cross-Region restore 3.0, NAT 3.0, untagged 3.0, log retention 3.0, p99 2.0, multi-Region active/active 1.0 |
 
 Public IPs in examples come from `203.0.113.0/24` / `198.51.100.0/24` (documentation ranges). Extend this table — never change a value a
@@ -355,6 +355,17 @@ frame already quotes.
 | `backup-and-restore` | IDE: infra/12-backup.sh (plan shop-daily, isolated copy) + ops/restore_drill.py (66 / 8 min) | `operate-backups-that-restore` |
 | `disaster-recovery` | four DR strategies table above dependency order / objectives / failback lists | `operate-rto-rpo-and-disaster-recovery` |
 | `quotas-and-resilience` | IDE: VPC default quotas (moto's only set) + ops/backoff_jitter.py (865 s vs 1.6 s) | `operate-quotas-throttling-and-resilience` |
+| `saturation-curve` | IDE: evolve/saturation.py (simulation): p50/p99 at 40–98% busy, the knee | `evolve-measuring-before-tuning` |
+| `edge-caching` | map frame: CloudFront distribution (TTL 0/60/300, key lang) + evolve/edge_latency.py (model) | `evolve-cloudfront-and-caching` |
+| `capacity-plans` | IDE: evolve/capacity_plans.py: 96 / 52 / 90 / 78 large-h/day | `evolve-rightsizing-and-idle-capacity` |
+| `cost-allocation` | IDE: evolve/cost_lines.py on cost/week.csv (93/5/2%, NAT anomaly) + budget shop-prod-monthly | `evolve-cost-allocation-and-budgets` |
+| `monthly-cost` | IDE: evolve/monthly_cost.py (hypothetical rates): 362.10, commitment 82.08 | `evolve-the-months-bill` |
+| `sustainability-levers` | IDE: log retention 30 d + evolve/footprint.py (proxies, not carbon) | `evolve-sustainability-trade-offs` |
+| `decision-record` | IDE: decisions/ADR-007.md + evolve/score_options.py (musts reject, wants rank: 29 vs 19) | `evolve-requirements-and-a-decision-record` |
+| `platform-alternatives` | map frame: the order API on EC2 / Fargate / Lambda, what moves, the shop's answer | `evolve-three-ways-to-run-the-shop` |
+| `region-choices` | IDE: Route 53 health check + evolve/region_failure.py (12 orders, 150 s, sold twice) | `evolve-one-region-or-more` |
+| `staged-cutover` | map frame: infra/13-cutover.sh weights 90/10 → 50/50 → 0/100 → back; gates; rollback boundaries | `evolve-migration-and-cutover` |
+| `well-architected-review` | IDE: evolve/priorities.py (value / effort) beside the six pillars' evidence | `evolve-a-well-architected-review` |
 
 ## Engine notes (written against flow 1.3.0 / shell 0.10 — recheck on 2.2.0 / 0.14)
 

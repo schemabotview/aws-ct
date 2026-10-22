@@ -1,0 +1,13 @@
+$ bash infra/13-cutover.sh 90 10
+90	10
+$ bash infra/13-cutover.sh 50 50
+50	50
+$ bash infra/13-cutover.sh 0 100
+0	100
+$ python evolve/cutover_gates.py
+90/10  acked   121, stored   121: pass
+50/50  acked   604, stored   604: pass
+0/100  acked  1210, stored  1207: 3 missing -> roll back to 50/50
+       replay the 3 from the queue, then retry
+$ bash infra/13-cutover.sh 50 50
+50	50

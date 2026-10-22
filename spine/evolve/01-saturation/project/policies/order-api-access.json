@@ -1,0 +1,14 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {"Sid": "ReadProducts", "Effect": "Allow", "Action": "s3:GetObject",
+     "Resource": "arn:aws:s3:::shop-catalog-111122223333/products/*"},
+    {"Sid": "ListProducts", "Effect": "Allow", "Action": "s3:ListBucket",
+     "Resource": "arn:aws:s3:::shop-catalog-111122223333",
+     "Condition": {"StringLike": {"s3:prefix": "products/*"}}},
+    {"Sid": "SendOrderEvents", "Effect": "Allow", "Action": "sqs:SendMessage",
+     "Resource": "arn:aws:sqs:eu-west-2:111122223333:order-events"},
+    {"Sid": "DenyDrafts", "Effect": "Deny", "Action": "s3:GetObject",
+     "Resource": "arn:aws:s3:::shop-catalog-111122223333/products/drafts/*"}
+  ]
+}

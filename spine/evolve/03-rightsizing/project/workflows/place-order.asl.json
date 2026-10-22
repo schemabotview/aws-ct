@@ -1,0 +1,36 @@
+{
+  "Comment": "Reserve, charge, ship; if the charge fails, give the stock back.",
+  "StartAt": "ReserveStock",
+  "States": {
+    "ReserveStock": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {"FunctionName": "reserve-stock", "Payload.$": "$"},
+      "Next": "ChargePayment"
+    },
+    "ChargePayment": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {"FunctionName": "charge-payment", "Payload.$": "$"},
+      "Retry": [{"ErrorEquals": ["Payment.Timeout"], "IntervalSeconds": 2,
+                 "MaxAttempts": 2, "BackoffRate": 2.0}],
+      "Catch": [{"ErrorEquals": ["States.ALL"], "ResultPath": "$.error",
+                 "Next": "ReleaseStock"}],
+      "Next": "ShipOrder"
+    },
+    "ShipOrder": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {"FunctionName": "ship-order", "Payload.$": "$"},
+      "End": true
+    },
+    "ReleaseStock": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {"FunctionName": "release-stock", "Payload.$": "$"},
+      "Next": "OrderFailed"
+    },
+    "OrderFailed": {"Type": "Fail", "Error": "OrderFailed",
+                    "Cause": "the payment was not taken; stock released"}
+  }
+}

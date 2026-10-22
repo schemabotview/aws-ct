@@ -1,0 +1,5 @@
+$ python evolve/saturation.py
+ 60 req/s  busy  40%  p50   92 ms  p99   251 ms
+120 req/s  busy  80%  p50   99 ms  p99   262 ms
+140 req/s  busy  93%  p50  128 ms  p99   342 ms
+147 req/s  busy  98%  p50  206 ms  p99   614 ms

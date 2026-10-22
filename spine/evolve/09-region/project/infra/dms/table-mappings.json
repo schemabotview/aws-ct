@@ -1,0 +1,11 @@
+{
+  "rules": [
+    {
+      "rule-type": "selection",
+      "rule-id": "1",
+      "rule-name": "shop-schema",
+      "object-locator": {"schema-name": "shop", "table-name": "%"},
+      "rule-action": "include"
+    }
+  ]
+}

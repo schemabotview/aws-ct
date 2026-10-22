@@ -1,0 +1,16 @@
+{
+  "BackupPlanName": "shop-daily",
+  "Rules": [
+    {
+      "RuleName": "daily-0200",
+      "TargetBackupVaultName": "shop-prod-vault",
+      "ScheduleExpression": "cron(0 2 * * ? *)",
+      "Lifecycle": {"DeleteAfterDays": 35},
+      "CopyActions": [
+        {"DestinationBackupVaultArn":
+           "arn:aws:backup:eu-west-1:777788889999:backup-vault:shop-isolated",
+         "Lifecycle": {"DeleteAfterDays": 90}}
+      ]
+    }
+  ]
+}

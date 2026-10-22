@@ -1,0 +1,9 @@
+$ aws logs put-retention-policy --log-group-name /shop/order-api \
+> --retention-in-days 30
+$ aws logs describe-log-groups --output text \
+> --query 'logGroups[].[logGroupName,retentionInDays]'
+/shop/order-api	30
+$ python evolve/footprint.py
+servers: 90 -> 78 large-h/day, still surviving an AZ
+logs:    730 -> 60 GB stored after a year, 30 days kept for incidents
+origin:  900 -> 90 GB a month from London, pages at most 60 s old

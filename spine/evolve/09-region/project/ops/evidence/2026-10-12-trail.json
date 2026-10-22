@@ -1,0 +1,18 @@
+{"Records": [
+ {"eventVersion": "1.10", "eventTime": "2026-10-12T18:12:44Z",
+  "eventSource": "s3.amazonaws.com", "eventName": "PutBucketPolicy",
+  "awsRegion": "eu-west-2", "sourceIPAddress": "203.0.113.24",
+  "userIdentity": {"type": "AssumedRole",
+   "arn": "arn:aws:sts::111122223333:assumed-role/AWSReservedSSO_ShopOperator_7c1f2a9e3b5d4e60/sam",
+   "sessionContext": {"sessionIssuer": {"userName": "AWSReservedSSO_ShopOperator_7c1f2a9e3b5d4e60"}}},
+  "requestParameters": {"bucketName": "shop-reports-111122223333"},
+  "readOnly": false, "managementEvent": true},
+ {"eventVersion": "1.10", "eventTime": "2026-10-12T18:13:02Z",
+  "eventSource": "s3.amazonaws.com", "eventName": "GetBucketPolicy",
+  "awsRegion": "eu-west-2", "sourceIPAddress": "203.0.113.24",
+  "userIdentity": {"type": "AssumedRole",
+   "arn": "arn:aws:sts::111122223333:assumed-role/AWSReservedSSO_ShopOperator_7c1f2a9e3b5d4e60/sam",
+   "sessionContext": {"sessionIssuer": {"userName": "AWSReservedSSO_ShopOperator_7c1f2a9e3b5d4e60"}}},
+  "requestParameters": {"bucketName": "shop-reports-111122223333"},
+  "readOnly": true, "managementEvent": true}
+]}

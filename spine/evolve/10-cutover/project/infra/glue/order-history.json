@@ -1,0 +1,23 @@
+{
+  "Name": "order_history",
+  "TableType": "EXTERNAL_TABLE",
+  "Parameters": {"classification": "parquet"},
+  "PartitionKeys": [{"Name": "dt", "Type": "string"}],
+  "StorageDescriptor": {
+    "Location": "s3://shop-lake-111122223333/order_history/",
+    "InputFormat":
+      "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat",
+    "OutputFormat":
+      "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat",
+    "SerdeInfo": {"SerializationLibrary":
+      "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe"},
+    "Columns": [
+      {"Name": "order", "Type": "string"},
+      {"Name": "customer", "Type": "string"},
+      {"Name": "product", "Type": "string"},
+      {"Name": "qty", "Type": "bigint"},
+      {"Name": "total", "Type": "double"},
+      {"Name": "country", "Type": "string"}
+    ]
+  }
+}

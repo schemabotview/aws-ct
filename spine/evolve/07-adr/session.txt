@@ -1,0 +1,5 @@
+$ python evolve/score_options.py
+Lambda + DynamoDB  rejected, fails: PostgreSQL transactions
+EKS + RDS          rejected, fails: the team can run it
+ECS Fargate + RDS  29 of 35
+EC2 + RDS          19 of 35

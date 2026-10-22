@@ -1,0 +1,22 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AccountAdministers",
+      "Effect": "Allow",
+      "Principal": {"AWS": "arn:aws:iam::111122223333:root"},
+      "Action": "kms:*",
+      "Resource": "*"
+    },
+    {
+      "Sid": "AuditorDecryptsThroughS3",
+      "Effect": "Allow",
+      "Principal": {"AWS": "arn:aws:iam::777788889999:role/Auditor"},
+      "Action": "kms:Decrypt",
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {"kms:ViaService": "s3.eu-west-2.amazonaws.com"}
+      }
+    }
+  ]
+}

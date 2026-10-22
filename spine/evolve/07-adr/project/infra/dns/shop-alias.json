@@ -1,0 +1,17 @@
+{
+  "Comment": "shop.example.com points at the load balancer",
+  "Changes": [
+    {
+      "Action": "UPSERT",
+      "ResourceRecordSet": {
+        "Name": "shop.example.com",
+        "Type": "A",
+        "AliasTarget": {
+          "HostedZoneId": "ZHURV8PSTC4K8",
+          "DNSName": "shop-alb-123.eu-west-2.elb.amazonaws.com",
+          "EvaluateTargetHealth": true
+        }
+      }
+    }
+  ]
+}

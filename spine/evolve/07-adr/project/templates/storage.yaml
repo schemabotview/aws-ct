@@ -1,0 +1,49 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: The shop's buckets, and the key that encrypts its reports.
+Resources:
+  CatalogBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub shop-catalog-${AWS::AccountId}
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+  CatalogPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref CatalogBucket
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: HttpsOnly
+            Effect: Deny
+            Principal: "*"
+            Action: "s3:*"
+            Resource: [!GetAtt CatalogBucket.Arn, !Sub "${CatalogBucket.Arn}/*"]
+            Condition: {Bool: {"aws:SecureTransport": "false"}}
+  UploadsBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub shop-uploads-${AWS::AccountId}
+  ReportsKey:
+    Type: AWS::KMS::Key
+    Properties:
+      Description: encrypts the shop's sales reports
+      EnableKeyRotation: true
+      KeyPolicy:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: AccountAdministers
+            Effect: Allow
+            Principal: {AWS: !Sub "arn:aws:iam::${AWS::AccountId}:root"}
+            Action: "kms:*"
+            Resource: "*"
+  ReportsKeyAlias:
+    Type: AWS::KMS::Alias
+    Properties: {AliasName: alias/shop-reports, TargetKeyId: !Ref ReportsKey}
+  ReportsBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub shop-reports-${AWS::AccountId}

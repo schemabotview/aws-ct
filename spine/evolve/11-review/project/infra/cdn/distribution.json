@@ -1,0 +1,19 @@
+{
+  "CallerReference": "shop-2026-10-12",
+  "Comment": "shop.example.com product pages",
+  "Enabled": true,
+  "Aliases": {"Quantity": 0},
+  "Origins": {"Quantity": 1, "Items": [{
+    "Id": "shop-alb",
+    "DomainName": "shop-alb-123.eu-west-2.elb.amazonaws.com",
+    "CustomOriginConfig": {"HTTPPort": 80, "HTTPSPort": 443,
+                           "OriginProtocolPolicy": "https-only"}}]},
+  "DefaultCacheBehavior": {
+    "TargetOriginId": "shop-alb",
+    "ViewerProtocolPolicy": "redirect-to-https",
+    "ForwardedValues": {
+      "QueryString": true, "Cookies": {"Forward": "none"},
+      "QueryStringCacheKeys": {"Quantity": 1, "Items": ["lang"]}},
+    "MinTTL": 0, "DefaultTTL": 60, "MaxTTL": 300
+  }
+}

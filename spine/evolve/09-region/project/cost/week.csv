@@ -1,0 +1,64 @@
+date,service,usage,env,usd
+2026-10-06,AmazonEC2,app servers,prod,3.60
+2026-10-06,AmazonRDS,orders db,prod,6.40
+2026-10-06,AmazonVPC,NAT gateway,prod,3.80
+2026-10-06,AWSLambda,place-order,prod,0.90
+2026-10-06,AmazonS3,buckets,prod,0.15
+2026-10-06,AmazonCloudWatch,logs,prod,1.00
+2026-10-06,AmazonEC2,dev instance,dev,1.12
+2026-10-06,AmazonS3,dev bucket,dev,0.03
+2026-10-06,AmazonEC2,EBS volume,,0.46
+2026-10-07,AmazonEC2,app servers,prod,3.60
+2026-10-07,AmazonRDS,orders db,prod,6.40
+2026-10-07,AmazonVPC,NAT gateway,prod,3.80
+2026-10-07,AWSLambda,place-order,prod,0.90
+2026-10-07,AmazonS3,buckets,prod,0.15
+2026-10-07,AmazonCloudWatch,logs,prod,1.00
+2026-10-07,AmazonEC2,dev instance,dev,1.12
+2026-10-07,AmazonS3,dev bucket,dev,0.03
+2026-10-07,AmazonEC2,EBS volume,,0.46
+2026-10-08,AmazonEC2,app servers,prod,3.60
+2026-10-08,AmazonRDS,orders db,prod,6.40
+2026-10-08,AmazonVPC,NAT gateway,prod,3.80
+2026-10-08,AWSLambda,place-order,prod,0.90
+2026-10-08,AmazonS3,buckets,prod,0.15
+2026-10-08,AmazonCloudWatch,logs,prod,1.00
+2026-10-08,AmazonEC2,dev instance,dev,1.12
+2026-10-08,AmazonS3,dev bucket,dev,0.03
+2026-10-08,AmazonEC2,EBS volume,,0.46
+2026-10-09,AmazonEC2,app servers,prod,3.60
+2026-10-09,AmazonRDS,orders db,prod,6.40
+2026-10-09,AmazonVPC,NAT gateway,prod,42.20
+2026-10-09,AWSLambda,place-order,prod,0.90
+2026-10-09,AmazonS3,buckets,prod,0.15
+2026-10-09,AmazonCloudWatch,logs,prod,1.00
+2026-10-09,AmazonEC2,dev instance,dev,1.12
+2026-10-09,AmazonS3,dev bucket,dev,0.03
+2026-10-09,AmazonEC2,EBS volume,,0.46
+2026-10-10,AmazonEC2,app servers,prod,3.60
+2026-10-10,AmazonRDS,orders db,prod,6.40
+2026-10-10,AmazonVPC,NAT gateway,prod,3.80
+2026-10-10,AWSLambda,place-order,prod,0.90
+2026-10-10,AmazonS3,buckets,prod,0.15
+2026-10-10,AmazonCloudWatch,logs,prod,1.00
+2026-10-10,AmazonEC2,dev instance,dev,1.12
+2026-10-10,AmazonS3,dev bucket,dev,0.03
+2026-10-10,AmazonEC2,EBS volume,,0.46
+2026-10-11,AmazonEC2,app servers,prod,3.60
+2026-10-11,AmazonRDS,orders db,prod,6.40
+2026-10-11,AmazonVPC,NAT gateway,prod,3.80
+2026-10-11,AWSLambda,place-order,prod,0.90
+2026-10-11,AmazonS3,buckets,prod,0.15
+2026-10-11,AmazonCloudWatch,logs,prod,1.00
+2026-10-11,AmazonEC2,dev instance,dev,1.12
+2026-10-11,AmazonS3,dev bucket,dev,0.03
+2026-10-11,AmazonEC2,EBS volume,,0.46
+2026-10-12,AmazonEC2,app servers,prod,3.60
+2026-10-12,AmazonRDS,orders db,prod,6.40
+2026-10-12,AmazonVPC,NAT gateway,prod,3.80
+2026-10-12,AWSLambda,place-order,prod,0.90
+2026-10-12,AmazonS3,buckets,prod,0.15
+2026-10-12,AmazonCloudWatch,logs,prod,1.00
+2026-10-12,AmazonEC2,dev instance,dev,1.12
+2026-10-12,AmazonS3,dev bucket,dev,0.03
+2026-10-12,AmazonEC2,EBS volume,,0.46

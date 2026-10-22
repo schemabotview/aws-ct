@@ -1,0 +1,7 @@
+{
+  "BudgetName": "shop-prod-monthly",
+  "BudgetType": "COST",
+  "TimeUnit": "MONTHLY",
+  "BudgetLimit": {"Amount": "400", "Unit": "USD"},
+  "CostFilters": {"TagKeyValue": ["user:env$prod"]}
+}

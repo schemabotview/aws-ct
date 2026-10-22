@@ -1,0 +1,15 @@
+$ bash infra/13-cdn.sh
+U71HFE86Y5R21	cdew1zcyqesh0.cloudfront.net	InProgress
+$ export DIST=$(aws cloudfront list-distributions --output text \
+> --query 'DistributionList.Items[0].Id')
+$ aws cloudfront get-distribution-config --id $DIST --output text --query \
+> 'DistributionConfig.DefaultCacheBehavior.[MinTTL,DefaultTTL,MaxTTL]'
+0	60	300
+$ aws cloudfront get-distribution-config --id $DIST --output text --query \
+> 'DistributionConfig.DefaultCacheBehavior.ForwardedValues.QueryStringCacheKeys.Items'
+lang
+$ python evolve/edge_latency.py
+direct to London    952 ms
+edge, cache hit      38 ms
+edge, cache miss    428 ms
+90% hits, average    77 ms

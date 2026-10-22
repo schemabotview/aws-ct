@@ -1,0 +1,9 @@
+$ aws route53 create-health-check --caller-reference shop-london \
+> --health-check-config Type=HTTPS,FullyQualifiedDomainName=shop.example.com,\
+> ResourcePath=/health,RequestInterval=30,FailureThreshold=3 --output text \
+> --query 'HealthCheck.HealthCheckConfig.[RequestInterval,FailureThreshold]'
+30	3
+$ python evolve/region_failure.py
+async copy:    ~12 orders lost at failover (RPO)
+DNS failover:  90 s to detect + 60 s TTL = 150 s before shoppers move
+active/active: last p-1002 sold in London and Ireland -- one unit, two orders

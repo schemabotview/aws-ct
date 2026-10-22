@@ -1,0 +1,7 @@
+{
+  "ConfigRuleName": "s3-no-public-read",
+  "Description": "No bucket may allow public reads.",
+  "Scope": {"ComplianceResourceTypes": ["AWS::S3::Bucket"]},
+  "Source": {"Owner": "AWS",
+             "SourceIdentifier": "S3_BUCKET_PUBLIC_READ_PROHIBITED"}
+}

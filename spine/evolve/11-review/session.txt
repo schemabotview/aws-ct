@@ -1,0 +1,9 @@
+$ python evolve/priorities.py
+1. 4.0  security       every service re-reads secrets on rotation
+2. 4.0  operational    link the runbook from each alarm
+3. 3.0  reliability    test a restore in the second Region
+4. 3.0  cost           S3 gateway endpoint: stop paying NAT for S3
+5. 3.0  cost           tag the untagged 2%
+6. 3.0  sustainability 30-day retention on every log group
+7. 2.0  performance    pool sizes per server: fix the p99 tail
+8. 1.0  reliability    multi-Region active/active

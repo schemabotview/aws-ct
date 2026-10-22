@@ -1,0 +1,17 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "StayInLondon",
+      "Effect": "Deny",
+      "NotAction": [
+        "iam:*", "organizations:*", "sts:*", "route53:*",
+        "cloudfront:*", "budgets:*", "support:*"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringNotEquals": {"aws:RequestedRegion": "eu-west-2"}
+      }
+    }
+  ]
+}

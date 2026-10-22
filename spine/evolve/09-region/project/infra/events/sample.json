@@ -1,0 +1,9 @@
+[
+  {"EventBusName": "shop", "Source": "shop.orders", "DetailType": "OrderPlaced",
+   "Detail": "{\"order\": \"o-501\", \"country\": \"GB\", \"total\": 29.00}"},
+  {"EventBusName": "shop", "Source": "shop.orders", "DetailType": "OrderPlaced",
+   "Detail": "{\"order\": \"o-506\", \"country\": \"FR\", \"total\": 54.00}"},
+  {"EventBusName": "shop", "Source": "shop.orders",
+   "DetailType": "OrderRefunded",
+   "Detail": "{\"order\": \"o-488\", \"country\": \"GB\", \"total\": 12.00}"}
+]

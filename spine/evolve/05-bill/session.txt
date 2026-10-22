@@ -1,0 +1,11 @@
+$ python evolve/monthly_cost.py
+NAT gateways (3)                109.50
+app servers (90 large-h/day)    108.00
+internet egress (900 GB)         81.00
+logs ingested (60 GB)            30.00
+backups (300 GB)                 15.00
+cross-AZ traffic (400 GB)         8.00
+NAT processing (120 GB)           6.00
+S3 storage (200 GB)               4.60
+total                           362.10
+servers, 3 committed + rest on demand: 82.08 (commit pays off above 70% use)

@@ -1,0 +1,5 @@
+$ python evolve/capacity_plans.py
+fixed, 4 large all day      96 large-h/day  busy  43%
+elastic, no reserve         52 large-h/day  busy  80%
+AZ-safe, large              90 large-h/day  busy  46%
+AZ-safe, medium             78 large-h/day  busy  53%

@@ -1,0 +1,9 @@
+import type { Section } from '../types'
+
+export const costAllocationAndBudgets: Section = {
+  id: 'cost-allocation-and-budgets',
+  title: 'Cost allocation and budgets',
+  scene: 'cost-allocation',
+  narration:
+    "A bill is only useful if each line has an owner. The shop tags every resource with env, prod or dev, and activates env as a cost allocation tag, so the billing data carries it. The editor shows evolve slash cost lines dot p y, which reads a week of cost lines from cost slash week dot c s v, an example file in the shape of a cost report. Line ten adds up the cost by env tag, calling lines with no tag untagged. In the terminal, prod spent a hundred and forty nine dollars thirty five, ninety three per cent; dev eight dollars five, five per cent; and untagged three dollars twenty two, two per cent, which nobody owns yet. Then from line seventeen, each line's daily costs are compared with that line's median day, and any day more than three times the median is flagged. One is: the N A T gateway on the ninth of October cost forty two dollars twenty, against a median of three eighty. The table on the right is the investigation: seven hundred and sixty eight extra gigabytes went through the N A T gateway that day, because a job copied files to S three through it, and the fix is an S three gateway endpoint, from Course five, which carries that traffic privately and without the per gigabyte charge. Cost Explorer and anomaly detection do this on A W S; the script shows the idea on a file. Then infra slash thirteen dash budget dot s h creates a budget, shop prod monthly: four hundred dollars a month, for env equals prod only, with an email when the forecast passes eighty per cent. Reading back the notification shows forecasted, at eighty. The list is the caution: a budget warns, it never stops spending, and the untagged two per cent has no owner until someone tags it. Next, the whole month's bill, line by line.",
+}
