@@ -1,0 +1,10 @@
+$ cat lake/cdc/2026-10-12.jsonl lake/cdc/2026-10-13.jsonl
+{"lsn":101,"op":"I","order":"o-501","at":"2026-10-12T09:12:04","total":29.00}
+{"lsn":102,"op":"I","order":"o-502","at":"2026-10-12T11:40:31","total":120.00}
+{"lsn":102,"op":"I","order":"o-502","at":"2026-10-12T11:40:31","total":120.00}
+{"lsn":103,"op":"I","order":"o-503","at":"2026-10-12T18:05:12","total":340.00}
+{"lsn":104,"op":"U","order":"o-503","at":"2026-10-12T18:07:45","total":352.50}
+{"lsn":105,"op":"I","order":"o-504","at":"2026-10-12T23:58:20","total":255.00}
+$ python analytics/reconcile.py
+naive:      5 records, sum 961.50
+reconciled: 4 orders,  sum 756.50 - source 756.50: match

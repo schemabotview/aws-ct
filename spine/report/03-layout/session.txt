@@ -1,0 +1,11 @@
+$ python analytics/layout.py
+rows: 60,000, days: 30
+one day, flat:           546 KiB in   1 file(s)
+one day, by dt:           27 KiB in   1 file(s)
+one day, tiny files:     433 KiB in 200 file(s)
+$ ls lake/order_history | head -3
+dt=2026-09-01
+dt=2026-09-02
+dt=2026-09-03
+$ ls lake/order_history/dt=2026-09-12
+part-0.parquet

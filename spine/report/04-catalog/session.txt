@@ -1,0 +1,17 @@
+$ bash infra/11-catalog.sh
+$ aws glue get-partitions --database-name shop_lake --table-name order_history \
+> --query 'Partitions[].Values[0]' --output text
+2026-09-11	2026-09-12	2026-09-13
+$ python analytics/add_column.py channel string
+version 1: 6 columns, last country
+version 2: 7 columns, last channel
+$ aws lakeformation list-permissions --output yaml \
+> --query 'PrincipalResourcePermissions[].[Principal, Permissions, Resource]'
+- - DataLakePrincipalIdentifier: arn:aws:iam::111122223333:role/Analyst
+  - - SELECT
+  - TableWithColumns:
+      ColumnWildcard:
+        ExcludedColumnNames:
+        - customer
+      DatabaseName: shop_lake
+      Name: order_history

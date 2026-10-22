@@ -43,7 +43,7 @@ so the plan is the only list of them.
 | 8 | `files` | Store its files | 7 | authored, awaiting owner review (no narration audio yet) |
 | 9 | `orders` | Keep its orders | 9 | authored, awaiting owner review (no narration audio yet) |
 | 10 | `decouple` | Decouple the checkout | 9 | authored, awaiting owner review (no narration audio yet) |
-| 11 | `report` | Report on sales | 7 | planned |
+| 11 | `report` | Report on sales | 7 | authored, awaiting owner review (no narration audio yet) |
 | 12 | `operate` | Operate it | 10 | planned |
 | 13 | `evolve` | Measure, tune and evolve it | 11 | planned |
 
@@ -65,6 +65,10 @@ section in the plan:
   table cell widens the pane — both move every panel, and `check-render.mjs` fails it. A file longer
   than 18 rows is folded with `show` or rewritten shorter; code lines stay within 80 columns.
 - **Concept frame** — any scene; author wide, not tall (the frame is 16:9).
+- **The explorer must fit its pane.** `projectTree(files, active, fresh, collapse, trim)`: folders in
+  `collapse` show closed with a count unless the open or a new file is inside; folders in `trim` show
+  only sub-folders and active/new files plus a muted `… N more files` (Course 11 on, for `infra`).
+  `tools/` is full: later code goes in `analytics/`, `workers/` and other folders by role.
 - **Ids:** `ideFrame` and `mapFrame` name their wrappers `<id>-explorer`, `<id>-centre`, `<id>-side`,
   `<id>-map`; a side pane's own root must not reuse one (use `<id>-pane`).
 
@@ -201,9 +205,9 @@ the pages directly.
 | migration | DMS task `orders-to-rds`, full-load-and-cdc, schema `shop`; source `orders.dc.example.com`, replication instance `shop-dms` dms.t3.medium |
 | API | REST API, model `Order` + validator `body-only`, Cognito authorizer `shoppers`, stage `prod` throttle 600 rps |
 | functions | `place-order` (python3.13, arm64, 512 MB, timeout 10 s, role PlaceOrderFn, reserved concurrency 50; 0.12 s assumed → 67 needed at 560 req/s, 143/s throttled); also reserve-stock, charge-payment, ship-order, release-stock |
-| lake | `s3://shop-lake-111122223333/order_history/`, Glue db `shop_lake`, table `order_history` (Parquet, partition dt); September 2026 history: 60,000 rows (2,000/day, seed 12); one day opens 629 KiB flat vs 24 KiB partitioned vs 220 KiB as 200 tiny files; 11–13 Sep sales 202,224.52 / 205,617.39 / 202,876.5 (DuckDB, labelled) |
-| CDC 12 Oct | 6 records → 4 orders (o-502 replayed; o-504 at 23:58 arrived 00:04), 756.50 = source → reconciled |
-| stream | Kinesis Data Streams `shop-clickstream`, provisioned, 2 shards; 1,800 rec/s vs consumer 1,600/s → ~11 min iterator age by 19:30, drains after 20:00 |
+| lake | `s3://shop-lake-111122223333/order_history/`, Glue db `shop_lake`, table `order_history` (Parquet, partition dt; v2 adds `channel`; Analyst SELECT excluding `customer`); September 2026 history: 60,000 rows (2,000/day, seed 12, analytics/history.py); one day opens 546 KiB flat vs 27 KiB partitioned vs 433 KiB as 200 tiny files; 11–13 Sep sales 124,325.0 / 130,393.0 / 119,001.5, 3 days scan 81 KiB (DuckDB, labelled) |
+| CDC 12 Oct | 6 records → 4 orders (o-502 replayed; o-503 insert 340.00 then update 352.50; o-504 at 23:58 arrived 00:04), naive 961.50, reconciled 756.50 = source |
+| stream | Kinesis Data Streams `shop-clickstream`, provisioned, 2 shards, 24 h; 1,800 rec/s vs consumer 1,600/s (model) → iterator age 4 / 7 / 10 / 14 min at 18:30 / 19:00 / 19:30 / 20:00, 600/s after 20:00, caught up 20:24 |
 | IaC | stack `shop-prod` v14 → v15 (v15 fails at 18:41, rolled back; its migration had already run); order-events template: waves topic+DLQ → queue → policy+subscription; replacement from schemas: RDS StorageEncrypted, SQS QueueName |
 | release | order-api 1.5.0 fails 2%: failed requests before a 2-min alarm at 560 req/s — all at once 1,344, linear 10%/min 202, canary 10% 134; CodeDeploy `CodeDeployDefault.ECSLinear10PercentEvery1Minutes` |
 | promotion | commit 9f3c2e1 → one image digest → dev, then prod; pipeline role `ShopPipeline` (dev 444455556666) is the only principal prod's `ShopDeploy` trusts |
@@ -330,6 +334,13 @@ frame already quotes.
 | `order-workflow` | IDE: workflows/place-order.asl.json; tools/run_workflow.py walks it with stand-in task results | `decouple-the-order-workflow` |
 | `idempotency` | IDE: workers/ship_once.py: ship#o-501 once, o-999 to the DLQ after 3, jittered waits | `decouple-doing-it-once` |
 | `integration-choices` | map frame: one order end to end, which mechanism, what asynchronous costs | `decouple-choosing-the-mechanism` |
+| `state-vs-history` | DB → export/CDC → S3 lake → Glue → Athena row above state-vs-history table and why-not list | `report-state-against-history` |
+| `cdc-reconcile` | IDE: lake/cdc/*.jsonl + analytics/reconcile.py: naive 961.50 vs reconciled 756.50 = source | `report-getting-the-data-out` |
+| `lake-layout` | IDE: analytics/layout.py (real Parquet): one day opens 546 / 27 / 433 KiB | `report-the-lakes-layout` |
+| `glue-catalog` | IDE: infra/11-catalog.sh, partitions, add_column.py (2 versions), Lake Formation grant without customer | `report-the-catalog-and-its-governance` |
+| `athena-query` | IDE: sql/daily_sales.sql run by DuckDB locally (labelled) and submitted to Athena in moto | `report-querying-with-athena` |
+| `stream-lag` | IDE: analytics/consumer_lag.py (model) + shop-clickstream's 2 shards and key → shard | `report-a-stream-of-clicks` |
+| `warehouse-or-cluster` | Athena / Redshift / EMR lists above the which-engine table and a caution list | `report-warehouse-or-cluster` |
 
 ## Engine notes (written against flow 1.3.0 / shell 0.10 — recheck on 2.2.0 / 0.14)
 

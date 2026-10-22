@@ -1,0 +1,12 @@
+$ python analytics/daily_sales_duckdb.py
+dt orders sales
+2026-09-11 2000 124325.0
+2026-09-12 2000 130393.0
+2026-09-13 2000 119001.5
+by dt  scans   81 KiB (billed as 10 MB); at 1,000x: $0.0004 a query
+flat   scans  546 KiB (billed as 10 MB); at 1,000x: $0.0025 a query
+$ aws athena start-query-execution --query-string file://sql/daily_sales.sql \
+> --query-execution-context Database=shop_lake --work-group primary \
+> --result-configuration OutputLocation=s3://shop-lake-111122223333/results/ \
+> --query QueryExecutionId --output text
+bdd640fb-0667-4ad1-9c80-317fa3b1799d

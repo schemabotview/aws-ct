@@ -1,0 +1,15 @@
+$ bash infra/11-stream.sh
+2	24
+$ for s in s-17 s-22 s-17 s-41; do aws kinesis put-record --stream-name \
+> shop-clickstream --partition-key $s --data '{"view": "p-1001"}' \
+> --cli-binary-format raw-in-base64-out --query ShardId --output text; done
+shardId-000000000001
+shardId-000000000000
+shardId-000000000001
+shardId-000000000000
+$ python analytics/consumer_lag.py
+18:30  backlog   360,000  iterator age  4 min
+19:00  backlog   720,000  iterator age  7 min
+19:30  backlog 1,080,000  iterator age 10 min
+20:00  backlog 1,440,000  iterator age 14 min
+20:24  backlog         0  iterator age  0 min

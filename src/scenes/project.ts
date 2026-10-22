@@ -5,7 +5,9 @@ import type { TreeEntry } from '@graphlearning/flow'
 // them; a path ending in `/` is a folder shown closed (with an optional note after a space:
 // 'catalog/ product JSON'). Folders named in `collapse` are shown closed with a count, unless the open
 // file is inside — the explorer must fit its pane, and a tree taller than the frame moves every panel.
-export function projectTree(paths: string[], active: string, fresh: string[] = [], collapse: string[] = []): TreeEntry[] {
+// Folders named in `trim` that are open show only their sub-folders and the active and new files;
+// the rest become one muted '… N more files' line (infra/ outgrew the pane in Course 11).
+export function projectTree(paths: string[], active: string, fresh: string[] = [], collapse: string[] = [], trim: string[] = []): TreeEntry[] {
   const root: TreeEntry[] = [{ name: '.venv', folder: true, state: 'muted', note: 'boto3' }]
   const state = (path: string): TreeEntry['state'] => (path === active ? 'active' : fresh.some((f) => path === f || path.startsWith(f.replace(/\/?$/, '/'))) ? 'new' : undefined)
   for (const raw of paths) {
@@ -34,7 +36,12 @@ export function projectTree(paths: string[], active: string, fresh: string[] = [
         const here = at ? `${at}/${e.name}` : e.name
         if (e.children && collapse.includes(here) && !active.startsWith(`${here}/`) && e.state !== 'new')
           return { name: e.name, folder: true, note: `${count(e)} file${count(e) === 1 ? '' : 's'}` }
-        return e.children ? { ...e, children: sort(e.children, here) } : e
+        if (!e.children) return e
+        const children = sort(e.children, here)
+        if (!trim.includes(here)) return { ...e, children }
+        const kept = children.filter((c) => c.children || c.folder || c.state)
+        const rest = children.length - kept.length
+        return { ...e, children: rest ? [...kept, { name: `… ${rest} more files`, state: 'muted' as const }] : kept }
       })
       .sort((a, b) => Number(!(a.folder || a.children)) - Number(!(b.folder || b.children)) || (a.name < b.name ? -1 : a.name > b.name ? 1 : 0))
   return sort(root, '')
