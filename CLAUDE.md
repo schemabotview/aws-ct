@@ -417,6 +417,28 @@ node scripts/snap.mjs <outDir> [slug-prefix …]   # 1920×1080 captures to look
 3840×2160: text leaving its node, clipped content, IDE panes and the map that move). All of these are
 a **floor, not proof** — look at the rendered route.
 
+## Recording the 4K videos
+
+`npm run record:all` (added 2026-10-24) is `caffeinate -ims graphl-record-all` — the batch is hours
+long and an idle Mac mid-run kills it; `caffeinate` lives in the npm script because it is macOS-only
+and the shell's packaged batch stays portable. Per course, `npm run record -- <course>` (add
+`--only <id>` for one section, `--force` to ignore the segment cache).
+
+- **3840×2160 at 30 fps**, libx264 crf 18 / preset slow, AAC 192k; each segment is a 2.8 s bell
+  sting + the section's wav + a 0.5 s tail, concatenated into `scripts/out/<course>.mp4`
+  (gitignored, with `scripts/segments/` and `scripts/.tmp/`).
+- **Capture is not realtime.** A section is screencast for ONE 2.4 s window and `-stream_loop`ed over
+  the narration: the edge pulse (`FlowEdge`, `animateMotion dur="2.4s"` — verified in the pinned
+  flow 2.2.0 bundle) is the only motion in a frame, so the composition is periodic with that period
+  and the window joins back onto itself. The window must stay a whole multiple of `PULSE_S`, and
+  `PULSE_S` must stay equal to the engine's `dur` or every recorded video gets a jump at each join.
+  Measured on `why-cloud/one-shop-one-server`: frame-to-frame difference at the loop joins 0.0010 and
+  0.0009 against a 0.0064 maximum over the segment — the joins are ordinary frame steps.
+- **The batch is gated on narration.** `record-all` counts each course's wavs under `public/audio/`
+  against `scripts/audio-manifest.json` (104 entries, 13 courses), pulls the branch while it waits,
+  and skips a course rather than recording `record`'s 3 s-silence fallback over a whole chapter.
+  **No wav exists yet**, so a batch today would skip all 13 courses.
+
 ## Working agreement
 
 - **Author the whole unit, then hand over the route.** Scenes, spine steps and narration together.
